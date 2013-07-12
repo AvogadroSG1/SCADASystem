@@ -13,12 +13,14 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Properties;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,8 +28,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import util.AlertListener;
 import util.LogListener;
+import util.PageAndVoiceProperties;
 import util.UpdateListener;
-import static util.Utilities.getMainDirPath;
 
 
 /**
@@ -36,8 +38,6 @@ import static util.Utilities.getMainDirPath;
  */
 public final class PagingSystem implements AlertListener, UpdateListener {
     
-    private static final File configFile = new File(getMainDirPath() + "/modemprops.cfg"); 
-    private static final String IP_PROPERTY = "pagingServIP", PORT_PROPERTY = "pagingServPort";
 
     private JPanel parent;
     private AlertMonitoringSystem ams;
@@ -45,21 +45,18 @@ public final class PagingSystem implements AlertListener, UpdateListener {
     private Socket socket;
     private OutputStream os;
     private InputStream is;
-    private Properties props;
+    private PageAndVoiceProperties props;
     
     private Stack<UpdateListener> updateListeners = new Stack();
     private Stack<LogListener> logListeners = new Stack();
     
-    public PagingSystem(String ip, int port) throws IOException {
+    public PagingSystem(PageAndVoiceProperties props) throws IOException {
         super();
         
         eh = new EmployeeHandler();
         
         addUpdateListener(this);
-        
-        loadProperties();
-        checkProperties();
-        
+     
         updateSocket();
         
         ams = new AlertMonitoringSystem();
@@ -67,8 +64,6 @@ public final class PagingSystem implements AlertListener, UpdateListener {
         ams.addAlertListener(this);
         
         parent = new PagingSystemPanel(this);
-        props.setProperty(IP_PROPERTY, ip);
-        props.setProperty(PORT_PROPERTY, "" + port);
     }
     
     private synchronized void sendPage(Page page) {
@@ -116,108 +111,17 @@ public final class PagingSystem implements AlertListener, UpdateListener {
         PageThread thread = new PageThread(this, alert);
         thread.start();
     }
-
-    private void loadProperties() throws IOException {
-        if(props == null)
-            props = new Properties();
-        
-        if(!configFile.exists()) {
-            String makePath = configFile.getPath().replace("modemprops.cfg", "");
-            new File(makePath).mkdirs();
-            configFile.createNewFile();
-            loadProperties(); // if the config file doesnt exist, then create the config file and try to load the properties again
-        } else {
-            props.load(new FileInputStream(configFile)); 
-        }
-    }
-    
-    private void checkProperties() { // check if all the properties exist and have a valid entry
-        checkIPv4Address();
-        checkPort();
-    }
-    
-    private void saveProperties() throws IOException {
-        System.out.println("Saved");
-        props.store(new FileOutputStream(configFile), "PagingServerProperties");
-    }
-    
-    protected String getIPv4Address() {
-        return props.getProperty(IP_PROPERTY);
-    }
-    
-    protected String getPort() {
-        return props.getProperty(PORT_PROPERTY);
-    }
     
     protected void setIPAddress(String address) {
-        props.setProperty(IP_PROPERTY, address);
-        checkIPv4Address();
+        props.setPagerIP(address);
         
         alertAllUpdateListeners();
     }
     
     protected void setPort(String port) {
-        props.setProperty(PORT_PROPERTY, port);
-        checkPort();
+        props.setPagerPort(Integer.parseInt(port));
         
         alertAllUpdateListeners();
-    }
-    
-    /**
-     * Checks the ip address until a valid ip is entered
-     * Just because this method returns true, it doesn't mean that the client can connect to it
-     */
-    private void checkIPv4Address() { 
-        while(!isValidIPv4(props.getProperty(IP_PROPERTY))) {
-            String response = JOptionPane.showInputDialog(parent, "Enter the paging server's ip");
-            if(response != null) {
-                response = response.trim();
-                setIPAddress(response);
-            }
-        }
-    }
-    
-    /**
-     * Checks the port and until a valid port is entered.
-     * Just because this method returns true, it doesn't mean that the client can connect to it
-     */
-    private void checkPort() { 
-        while(!isValidPort(props.getProperty(PORT_PROPERTY))) {
-            String response = JOptionPane.showInputDialog(parent, "Enter the paging server's port");
-            if(response != null) {
-                response = response.trim();
-                setPort(response);
-            }
-        }
-    }
-    
-    private boolean isValidIPv4(String ip) {
-        if(ip == null || ip.equals(""))
-            return false;
-        
-        try {
-            final InetAddress inet = InetAddress.getByName(ip);
-            return inet.getHostAddress().equals(ip) && inet instanceof Inet4Address;
-        } catch (final UnknownHostException ex) {
-            JOptionPane.showMessageDialog(parent, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE); 
-            return false;
-        }
-    }
-    
-    private boolean isValidPort(String portString) {
-        if(portString == null || portString.equals(""))
-            return false;
-        
-        try {
-            int port = Integer.parseInt(portString);
-            if(port >= 0 && port <= 65535)
-                return true;
-            else throw new IllegalArgumentException("Port must be between 0 and 65535");
-        } catch(Exception ex) {
-            JOptionPane.showMessageDialog(parent, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE); 
-            return false;
-        }
- 
     }
     
     public void addUpdateListener(UpdateListener listener) {
@@ -250,11 +154,6 @@ public final class PagingSystem implements AlertListener, UpdateListener {
 
     @Override
     public void onUpdate() {
-        try {
-            saveProperties();
-        } catch (IOException ex) {
-            Logger.getLogger(PagingSystem.class.getName()).log(Level.SEVERE, null, ex);
-        }
         updateSocket();
     }
     
@@ -279,11 +178,8 @@ public final class PagingSystem implements AlertListener, UpdateListener {
                 Logger.getLogger(PagingSystem.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            if(props.getProperty(IP_PROPERTY) == null || props.getProperty(PORT_PROPERTY) == null)
-                return;
-            
-            String ip = props.getProperty(IP_PROPERTY);
-            int port = Integer.parseInt(props.getProperty(PORT_PROPERTY));
+            String ip = props.getPagerIP();
+            int port = props.getPagerPort();
             socket = new Socket();
             System.out.println(ip);
             System.out.println(port);
@@ -427,8 +323,7 @@ public final class PagingSystem implements AlertListener, UpdateListener {
             changeIPButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent ae) {
-                    ps.props.setProperty(IP_PROPERTY, "");
-                    ps.checkIPv4Address();
+                    props.setPagerIP("");
                     setIPLabelText();
                 }
             });
@@ -437,8 +332,7 @@ public final class PagingSystem implements AlertListener, UpdateListener {
             changePortButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent ae) {
-                    ps.props.setProperty(PORT_PROPERTY, "");
-                    ps.checkPort();
+                    props.setPagerPort(-1);
                     setPortLabelText();
                 }
             });
@@ -464,11 +358,11 @@ public final class PagingSystem implements AlertListener, UpdateListener {
         }
         
         private void setIPLabelText() {
-            ipLabel.setText("IP: " + ps.getIPv4Address());
+            ipLabel.setText("IP: " + ps.props.getPagerIP());
         }
         
         private void setPortLabelText() {
-            portLabel.setText("Port: " + ps.getPort());
+            portLabel.setText("Port: " + ps.props.getPagerPort());
         }
         
         @Override
