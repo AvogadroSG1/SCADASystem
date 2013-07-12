@@ -13,12 +13,13 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import pagingsystem.PagingSystem;
+import util.PageAndVoiceProperties;
 
 /**
  *
  * @author Shawn
  */
-public class PagingGUI extends JPanel {
+public class PagingGUI extends JTabbedPane {
     /*
     public static void main(String[] args) {
        
@@ -37,19 +38,16 @@ public class PagingGUI extends JPanel {
     
     private PagingSystem ps;
     
-    public PagingGUI(String ip, int port) throws IOException {
-        super(new BorderLayout());
+    public PagingGUI(PageAndVoiceProperties props) throws IOException {
+        super();
         
-        ps = new PagingSystem(ip, port);
+        ps = new PagingSystem(props);
         init();
     }
     
     private void init() {
-        JTabbedPane tabbed = new JTabbedPane();
-        tabbed.addTab("Paging System", ps.getPagingSystemPanel());
-        tabbed.addTab("Alert Monitor System", ps.getAlertMonitorPanel());
-        tabbed.addTab("Employees", ps.getEmployeePanel());
-        
-        this.add(tabbed, BorderLayout.CENTER);
+        this.addTab("Paging", ps.getPagingSystemPanel());
+        this.addTab("Alerts", ps.getAlertMonitorPanel());
+        this.addTab("Employees", ps.getEmployeePanel());
     }
 }

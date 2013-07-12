@@ -4,34 +4,39 @@
  */
 package alert;
 
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import util.AlertListener;
 import util.UpdateListener;
 import java.io.*;
 import java.net.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Properties;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import util.LogListener;
 
 /**
  * This class monitors the alert system
  * @author Shawn
  */
-public final class AlertMonitoringSystem /*implements UpdateListener*/{
+public final class AlertMonitoringSystem {
     
     private static final String IP_PROPERTY = "alertServerIP", PORT_PROPERTY = "alertServerPort";
 
     
     private JPanel parent; //incase the AMS becomes a GUI later, we can have a parent for JOptionPanes
-    private Properties props;
     
     private AlertMonitorThread amt;
     
     private Stack<AlertListener> alertListeners = new Stack();
-    private Stack<UpdateListener> updateListeners = new Stack();
     private Stack<LogListener> logListeners = new Stack();
     
     private ArrayList<Alert> activeAlerts = new ArrayList();
@@ -43,11 +48,7 @@ public final class AlertMonitoringSystem /*implements UpdateListener*/{
      */
     public AlertMonitoringSystem() throws IOException {
         super();
-        //addUpdateListener(this);
-        //loadProperties();
-        //checkProperties();
         
-        //parent = new AlertMonitoringPanel(this);
         amt = new AlertMonitorThread(this);
         amt.start();
     }
@@ -58,14 +59,6 @@ public final class AlertMonitoringSystem /*implements UpdateListener*/{
     
     public void removeAlertListner(AlertListener listener) {
         alertListeners.remove(listener);
-    }
-    
-    public void addUpdateListener(UpdateListener listener) {
-        updateListeners.add(listener);
-    }
-    
-    public void removeUpdateListner(UpdateListener listener) {
-        updateListeners.remove(listener);
     }
     
     public void addLogListener(LogListener listener) {
@@ -82,137 +75,11 @@ public final class AlertMonitoringSystem /*implements UpdateListener*/{
         }
     }
     
-    private void alertAllUpdateListeners() {
-        for(UpdateListener listener: updateListeners) {
-            listener.onUpdate();
-        }
-    }
-    
     private void alertAllAlertListeners(Alert alert) {
         for(AlertListener listener: alertListeners) {
             listener.alertReceived(alert); // go through all of the listners and tell them the alert
         }
     }
-    
-    
-    private void loadProperties() throws IOException {
-        
-        props = new Properties();
-        props.setProperty(IP_PROPERTY, "127.0.0.1");
-        props.setProperty(PORT_PROPERTY, "" + 7655);
-    }
-    /*
-    private void checkProperties() { // check if all the properties exist and have a valid entry
-        checkIPv4Address();
-        checkPort();
-    }*/
-    
-    /*
-    private void saveProperties() throws IOException {
-        System.out.println("Saved");
-        props.store(new FileOutputStream(configFile), "AlertMonitorSystemProperties");
-    }
-    */
-    
-    protected String getIPv4Address() {
-        return props.getProperty(IP_PROPERTY);
-    }
-    
-    protected String getPort() {
-        return props.getProperty(PORT_PROPERTY);
-    }
-    
-    /*
-    protected void setIPAddress(String address) {
-        props.setProperty(IP_PROPERTY, address);
-        checkIPv4Address();
-        alertAllUpdateListeners();
-        resetMonitoringThread();
-    }
-    
-    protected void setPort(String port) {
-        props.setProperty(PORT_PROPERTY, port);
-        checkPort();
-        alertAllUpdateListeners();
-        resetMonitoringThread();
-    }
-    */
-    /*
-    private void resetMonitoringThread() {
-        if(amt != null) {
-            Thread thread = amt;
-            amt = new AlertMonitorThread(this);
-            amt.start();
-            thread.interrupt();
-            
-        }
-    }*/
-    /**
-     * Checks the ip address until a valid ip is entered
-     * Just because this method returns true, it doesn't mean that the client can connect to it
-     */
-    /*
-    private void checkIPv4Address() { 
-        while(!isValidIPv4(props.getProperty(IP_PROPERTY))) {
-            String response = JOptionPane.showInputDialog(parent, "Enter the alert server's ip");
-            if(response != null) {
-                response = response.trim();
-                setIPAddress(response);
-            }
-        }
-    }*/
-    
-    /**
-     * Checks the port and until a valid port is entered.
-     * Just because this method returns true, it doesn't mean that the client can connect to it
-     *//*
-    private void checkPort() { 
-        while(!isValidPort(props.getProperty(PORT_PROPERTY))) {
-            String response = JOptionPane.showInputDialog(parent, "Enter the alert server's port");
-            if(response != null) {
-                response = response.trim();
-                setPort(response);
-            }
-        }
-    }*/
-    /*
-    private boolean isValidIPv4(String ip) {
-        if(ip == null || ip.equals(""))
-            return false;
-        
-        try {
-            final InetAddress inet = InetAddress.getByName(ip);
-            return inet.getHostAddress().equals(ip) && inet instanceof Inet4Address;
-        } catch (final UnknownHostException ex) {
-            JOptionPane.showMessageDialog(parent, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE); 
-            return false;
-        }
-    }
-    *//*
-    private boolean isValidPort(String portString) {
-        if(portString == null || portString.equals(""))
-            return false;
-        
-        try {
-            int port = Integer.parseInt(portString);
-            if(port >= 0 && port <= 65535)
-                return true;
-            else throw new IllegalArgumentException("Port must be between 0 and 65535");
-        } catch(Exception ex) {
-            JOptionPane.showMessageDialog(parent, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE); 
-            return false;
-        }
- 
-    }
-    *//*
-    @Override
-    public void onUpdate() {
-        try {
-            saveProperties();
-        } catch (IOException ex) {
-            Logger.getLogger(AlertMonitoringSystem.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }*/
     
     public JPanel getAlertMonitoringPanel() {
         return parent;
@@ -461,37 +328,6 @@ public final class AlertMonitoringSystem /*implements UpdateListener*/{
                 }
                     
                 Logger.getLogger(AlertMonitoringSystem.class.getName()).log(Level.SEVERE, null, ex);
-                /*
-                System.out.println(ex.getClass());
-                JOptionPane.showMessageDialog(parent, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE); 
-                */
-                    /*
-                    final String RETRY = "Retry";
-                    final String CHANGE_IP = "Change IP";
-                    final String CHANGE_PORT = "Change Port";
-                    final String QUIT = "Quit";
-                    
-                    String[] options = {QUIT, CHANGE_PORT, CHANGE_IP, RETRY};
-                    
-                    int choseInt = JOptionPane.CLOSED_OPTION;
-                    while(choseInt == JOptionPane.CLOSED_OPTION) {
-                        choseInt = JOptionPane.showOptionDialog(parent, "Alert Server Connection Error", "Error Recovery", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, options, RETRY);
-                    }
-                    
-                    String chose = options[choseInt];
-                    
-                    if(chose.equals(CHANGE_IP)) {
-                        props.setProperty(IP_PROPERTY, "");
-                        ams.checkIPv4Address();
-                    } else if(chose.equals(CHANGE_PORT)) {
-                        props.setProperty(PORT_PROPERTY, "");
-                        ams.checkPort();
-                    } else if(chose.equals(QUIT))
-                        System.exit(4);
-                    else if(chose.equals(RETRY)) {
-                        ams.amt = new AlertMonitorThread(ams);
-                        amt.start();
-                    }*/
                try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ex1) {
@@ -513,23 +349,11 @@ public final class AlertMonitoringSystem /*implements UpdateListener*/{
             os.flush();
         }
         
-        @Override
-        public void interrupt() {
-            try {
-                is.close();
-                os.close();
-                socket.close();
-            } catch (Exception ex) {
-                Logger.getLogger(AlertMonitoringSystem.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            super.interrupt();
-        }
-        
         
     }
     
-    /*
-    public class AlertMonitoringPanel extends JPanel implements UpdateListener, LogListener {
+    
+    public class AlertMonitoringPanel extends JPanel implements LogListener {
 
         private AlertMonitoringSystem ams;
         
@@ -544,70 +368,14 @@ public final class AlertMonitoringSystem /*implements UpdateListener*/{
         }
         
         private void init() {
-            
-            JPanel contentPanel = new JPanel();
-            contentPanel.setLayout(new BorderLayout());
-            
             this.setBorder(new EmptyBorder(10,10,10,10));
             this.setLayout(new BorderLayout());
             
-            ipLabel = new JLabel("lol");
-            portLabel = new JLabel("lol");
-            setIPLabelText();
-            setPortLabelText();
-            
-            changeIPButton = new JButton("Change IP");
-            changeIPButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent ae) {
-                    ams.props.setProperty(IP_PROPERTY, "");
-                    ams.checkIPv4Address();
-                    setIPLabelText();
-                }
-            });
-            
-            changePortButton = new JButton("Change Port");
-            changePortButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent ae) {
-                    ams.props.setProperty(PORT_PROPERTY, "");
-                    ams.checkPort();
-                    setPortLabelText();
-                }
-            });
-            
             logArea = new JTextArea();
             logArea.setEditable(false);
-            
-            JPanel alertPanel = new JPanel(new GridLayout(2,2));
-            
-            alertPanel.add(ipLabel);
-            alertPanel.add(changeIPButton);
-            alertPanel.add(portLabel);
-            alertPanel.add(changePortButton);
-            
-            contentPanel.add(alertPanel, BorderLayout.CENTER);
-            
-            this.add(contentPanel, BorderLayout.NORTH);
             this.add(logArea, BorderLayout.CENTER);
             
-            ams.addUpdateListener(this);
             ams.addLogListener(this);
-        }
-        
-        private void setIPLabelText() {
-            ipLabel.setText("IP: " + ams.getIPv4Address());
-        }
-        
-        private void setPortLabelText() {
-            portLabel.setText("Port: " + ams.getPort());
-        }
-        
-        @Override
-        public void onUpdate() {
-            setIPLabelText();
-            setPortLabelText();
-            log("Changed alert address to \"" + ams.getIPv4Address() + ":" + ams.getPort() + "\"");
         }
         
         private void log(String toLog) {
@@ -621,7 +389,7 @@ public final class AlertMonitoringSystem /*implements UpdateListener*/{
             log(logText);
         }
     }
-    */
+    
     
     
 }
