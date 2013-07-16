@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -66,6 +67,7 @@ public final class PagingSystem implements AlertListener, UpdateListener {
         parent = new PagingSystemPanel(this);
     }
     
+    /*
     private synchronized void sendPage(Page page) {
         try {
             // Send message
@@ -90,7 +92,7 @@ public final class PagingSystem implements AlertListener, UpdateListener {
             sendPage(page);
         }
         System.out.println("Finished Sending Page");
-    }
+    }*/
     
     private String readBuffer() throws IOException {
         String buffer= "";
@@ -275,8 +277,17 @@ public final class PagingSystem implements AlertListener, UpdateListener {
                 }
                 
                 for(Employee employee: cascade) {
-                    Page page = new Page(alert, employee);
-                    ps.sendPage(page);
+                    Page page = new Page(employee.getPager(), alert.getMessage(), props.getPagerIP(), props.getPagerPort());
+                    try {
+                        
+                        page.start();
+                        while(!page.finished()) {
+                            Thread.sleep(50);
+                        }
+                    } catch (Exception ex) {
+                        errorRecovery(ex);
+                    } 
+                    
                 }
                 hold(FIFTEEN);
                 }

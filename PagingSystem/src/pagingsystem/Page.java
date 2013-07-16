@@ -1,38 +1,185 @@
+package pagingsystem;
+
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package pagingsystem;
-
-import alert.Alert;
-import employee.Employee;
 
 /**
  *
- * @author Shawn
+ * @author Avogadro
  */
-class Page {
-
-    private static final char STX = 0x02;
-    private static final char ETX = 0x03;
-    private static final char CR = 0x0D;
+public class Page implements Runnable
+{
+    private InputStream is = null;
+    private OutputStream os = null;
+    private Socket socket = null;
+    private final char ESC = 0x1B;
+    private final char CR  = 0x0D;
+    private final char EOT = 0x04;
+    private final char STX = 0x02;
+    private final char ETX = 0x03;
+    private final char ACK = 0x06;
+    private boolean MxReady = false;
+    private String buffer = "";
+    private boolean sentMessage = false;
+    private boolean pageSent;
+    private String formedMsg;
+    private long startTime;
+    private int numTries;
+    private String ip;
+    private int port;
+    private long currentTime;
+    private Thread currentResponder;
+    private Thread oldThread;
+    private boolean sawp;
     
-    private final String message;
-    private final String checkSum;
-    private final String pagerNumber;
-    private final Employee employee;
-    
-    protected Page(Alert alert, Employee employee) {
-        super();
-        this.employee = employee;
-        this.message = alert.getMessage();
-        this.pagerNumber = employee.getPager();
-        this.checkSum = calculateChecksum();
+    public Page(String pagerID, String aMessage, String aIp, int aPort)
+    {
+        formedMsg = "" + STX + pagerID + CR + aMessage + CR + ETX;
+        ip = aIp;
+        port = aPort;
     }
     
-    private String calculateChecksum() {
-        String bob = STX + pagerNumber + CR + message + CR + ETX;
-        char[] bobints = bob.toCharArray();
+    public void start() throws UnknownHostException, IOException
+    {
+        numTries = 0;
+        connect();
+    }
+        
+    private void connect() throws UnknownHostException, IOException
+    {
+        socket = new Socket(ip, port);
+        is = socket.getInputStream();
+        os = socket.getOutputStream();
+        sendCR();
+        startTime = System.currentTimeMillis();
+        sawp = false;
+        if(currentResponder == null)
+        {
+            currentResponder = new Thread(this);
+            currentResponder.start();
+        }
+       
+    }  
+
+    private void sendCR() throws IOException
+    {
+        if(!socket.isClosed())
+            os.write(CR);
+    }
+    
+    private void sendLoginAndMessage() throws IOException
+    {
+        String everything = "" + ESC + (char)0x050 + (char)0x47 + (char)0x31 +CR;
+        os.write(everything.getBytes());
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Page.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        os.write((formedMsg + calculateChecksum(formedMsg)).getBytes());
+        sentMessage = true;
+    }
+  
+    private void logoff() throws IOException
+    {
+        if(!socket.isClosed())
+        {
+            os.write(("CR" + EOT + CR).getBytes());
+            os.flush();
+        }
+        disconnect();
+    }
+    
+    private void disconnect() throws IOException
+    {
+        socket.close();
+    }
+    
+    private void reconnect() throws IOException, InterruptedException
+    {
+        startTime = System.currentTimeMillis();
+        disconnect();
+        Thread.sleep(5000);
+        connect();
+    }
+    
+    private void respond(String recieved) throws IOException, InterruptedException
+    {
+        if(recieved.contains("ID="))
+            sendLoginAndMessage();
+        else if(recieved.contains("[p"))
+            sawp = true;
+        else 
+            sendCR();
+    }
+    
+    public void run()
+    {
+        boolean loggedOff = false;
+        
+        while(!loggedOff)
+        {
+            currentTime = System.currentTimeMillis();
+            if(currentTime - startTime > 5000)
+                try 
+                {
+                    numTries++;
+                    reconnect();
+                } catch (IOException ex) 
+                {
+                Logger.getLogger(Page.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) 
+                {
+                Logger.getLogger(Page.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            
+            try
+            {
+                if (is == null)
+                    continue;
+                char temp = (char)is.read();
+                buffer += temp;
+                //System.out.println(temp);
+                if(temp == CR || buffer.contains("ID="))
+                {
+                    respond(buffer);
+                    buffer = "";
+                }
+                
+                if(sentMessage  && temp == ACK)
+                {
+                    pageSent = true;
+                    logoff();
+                    loggedOff = true;
+                }
+                
+            }
+            catch(IOException e)
+            {
+                System.out.println(e.toString());
+                Logger.getGlobal().log(Level.SEVERE, e.toString());
+            } catch (InterruptedException ex) 
+            {
+                Logger.getLogger(Page.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        System.out.println("All should be well");
+    }
+    
+    private String calculateChecksum(String toSend) {
+        
+        char[] bobints = toSend.toCharArray();
         int total = 0;
         
         for(char c : bobints)
@@ -46,7 +193,7 @@ class Page {
         
         while(hexString.length() < 3)
             hexString = "0" + hexString;
-        
+
         int[] hexPlaces = new int[3];
         
         for(int i = 0; i < hexPlaces.length; i++)
@@ -64,22 +211,8 @@ class Page {
         return checkSum;
     }
     
-    public String getMessage() {
-        return message;
-    }
     
-    public String getCheckSum()
-    {
-        return checkSum;
-    }
-    @Override
-    public String toString() {
-        String string = STX + pagerNumber + "\r" + message + "\r" + ETX + checkSum + "\r";
-        //System.out.println(string);
-        return string;
-    }
-    
-    public Employee getEmployee() {
-        return employee;
+    public boolean finished() {
+        return pageSent;
     }
 }
