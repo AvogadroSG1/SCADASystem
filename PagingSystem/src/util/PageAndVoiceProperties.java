@@ -15,7 +15,7 @@ import java.util.Properties;
 import javax.swing.JOptionPane;
 
 /**
- *
+ *l
  * @author Shawn
  */
 public class PageAndVoiceProperties {
