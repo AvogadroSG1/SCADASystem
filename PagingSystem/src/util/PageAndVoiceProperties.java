@@ -131,7 +131,7 @@ public class PageAndVoiceProperties {
     }
     
     private void checkPagerPort() {
-        while(!isValidPort(Integer.parseInt(props.getProperty(PAGER_PORT)))) {
+        while(((String)props.getProperty(PAGER_PORT)).equals("") || !isValidPort(Integer.parseInt(props.getProperty(PAGER_PORT)))) {
             String port = JOptionPane.showInputDialog("Enter Paging Server Port").trim();
             props.setProperty(PAGER_PORT, port);
         }
@@ -145,7 +145,7 @@ public class PageAndVoiceProperties {
     }
     
     private void checkModemPort() {
-        while(!isValidPort(Integer.parseInt(props.getProperty(MODEM_PORT)))) {
+        while(((String)props.getProperty(MODEM_PORT)).equals("") || !isValidPort(Integer.parseInt(props.getProperty(MODEM_PORT)))) {
             String port = JOptionPane.showInputDialog("Enter Phone Modem Port".trim());
             props.setProperty(MODEM_PORT, port);
         }
