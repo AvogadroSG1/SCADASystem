@@ -45,11 +45,12 @@ public class PageAndVoiceProperties {
                 JOptionPane.showMessageDialog(null, "Couldn't create paging configuration file.\n"
                         + "Please check application permissions and try again\n" 
                         + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE); 
+                System.exit(5);
             }
             props.setProperty(MODEM_IP, "");
-            props.setProperty(MODEM_PORT, "");
+            props.setProperty(MODEM_PORT, "-1");
             props.setProperty(PAGER_IP, "");
-            props.setProperty(PAGER_PORT, "");
+            props.setProperty(PAGER_PORT, "-1");
             saveProps();
         } else {
             try {

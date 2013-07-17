@@ -16,9 +16,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,7 +35,7 @@ import util.UpdateListener;
  *
  * @author Shawn
  */
-public final class PagingSystem implements AlertListener, UpdateListener {
+public final class PagingSystem implements AlertListener {
     
 
     private JPanel parent;
@@ -48,18 +46,14 @@ public final class PagingSystem implements AlertListener, UpdateListener {
     private InputStream is;
     private PageAndVoiceProperties props;
     
-    private Stack<UpdateListener> updateListeners = new Stack();
     private Stack<LogListener> logListeners = new Stack();
+    
+    private boolean retry;
     
     public PagingSystem(PageAndVoiceProperties props) throws IOException {
         super();
         
         eh = new EmployeeHandler();
-        
-        addUpdateListener(this);
-     
-        updateSocket();
-        
         ams = new AlertMonitoringSystem();
         
         ams.addAlertListener(this);
@@ -116,28 +110,10 @@ public final class PagingSystem implements AlertListener, UpdateListener {
     
     protected void setIPAddress(String address) {
         props.setPagerIP(address);
-        
-        alertAllUpdateListeners();
     }
     
     protected void setPort(String port) {
         props.setPagerPort(Integer.parseInt(port));
-        
-        alertAllUpdateListeners();
-    }
-    
-    public void addUpdateListener(UpdateListener listener) {
-        updateListeners.add(listener);
-    }
-    
-    public void removeUpdateListner(UpdateListener listener) {
-        updateListeners.remove(listener);
-    }
-    
-    private void alertAllUpdateListeners() {
-        for(UpdateListener listener: updateListeners) {
-            listener.onUpdate();
-        }
     }
     
     public void addLogListener(LogListener listener) {
@@ -151,68 +127,6 @@ public final class PagingSystem implements AlertListener, UpdateListener {
     private void notifyAllLogListeners(String logText) {
         for(LogListener listener: logListeners) {
             listener.onLog(logText);
-        }
-    }
-
-    @Override
-    public void onUpdate() {
-        updateSocket();
-    }
-    
-    private void updateSocket() {
-        try {
-            if(socket != null)
-                try {
-                socket.close();
-            } catch (IOException ex) {
-                Logger.getLogger(PagingSystem.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            if(is != null)
-                try {
-                is.close();
-            } catch (IOException ex) {
-                Logger.getLogger(PagingSystem.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            if(os != null)
-                try {
-                os.close();
-            } catch (IOException ex) {
-                Logger.getLogger(PagingSystem.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            String ip = props.getPagerIP();
-            int port = props.getPagerPort();
-            socket = new Socket();
-            System.out.println(ip);
-            System.out.println(port);
-            socket.connect(new InetSocketAddress(ip, port), 1000);
-            is = socket.getInputStream();
-            os = socket.getOutputStream();
-            
-            //LOGON
-            //get attention
-            //os.write("\r\r\r\r\r".getBytes());
-            //os.flush();
-
-            os.write("\r".getBytes());
-            char ESC = 0x1B;
-            char CR  = 0x0D;
-            String everything = "" + CR + ESC + (char)0x050 + (char)0x47 + (char)0x31 +CR;
-            os.write(everything.getBytes());
-            os.flush();
-            String see = readBuffer();
-
-            
-            // lets just assume for now the logon is accepted
-            System.out.println(readBuffer());
-            System.out.println("If [p, ready for pages!");
-            
-        } catch (IOException ex) {
-            Logger.getLogger(AlertMonitoringSystem.class.getName()).log(Level.SEVERE, null, ex);
-                
-            JOptionPane.showMessageDialog(parent, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE); 
-
-            errorRecovery(ex);
         }
     }
     
@@ -231,7 +145,7 @@ public final class PagingSystem implements AlertListener, UpdateListener {
 
         String chose = options[choseInt];
         if(chose.equals(RETRY)) {
-            updateSocket();
+            retry = true;
         } else if(chose.equals(CHANGE_IP)) {
             setIPAddress("");
         } else if(chose.equals(CHANGE_PORT)) {
@@ -278,16 +192,17 @@ public final class PagingSystem implements AlertListener, UpdateListener {
                 
                 for(Employee employee: cascade) {
                     Page page = new Page(employee.getPager(), alert.getMessage(), props.getPagerIP(), props.getPagerPort());
-                    try {
-                        
-                        page.start();
-                        while(!page.finished()) {
-                            Thread.sleep(50);
-                        }
-                    } catch (Exception ex) {
-                        errorRecovery(ex);
-                    } 
-                    
+                    do {
+                        try {
+                            retry = false;
+                            page.start();
+                            while(!page.finished()) {
+                                Thread.sleep(50);
+                            }
+                        } catch (Exception ex) {
+                            errorRecovery(ex);
+                        } 
+                    } while(retry == true);
                 }
                 hold(FIFTEEN);
                 }
@@ -363,7 +278,6 @@ public final class PagingSystem implements AlertListener, UpdateListener {
             this.add(logArea, BorderLayout.CENTER);
             this.add(contentPanel, BorderLayout.NORTH);
             
-            ps.addUpdateListener(this);
             ps.addLogListener(this);
             
         }
