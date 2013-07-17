@@ -34,6 +34,7 @@ public class SCADARunner
     //static modem.PageWithModem pagerServer = new modem.PageWithModem();
     //static log.LoggingSystem logServer = new log.LoggingSystem();
     static PagingGUI pagingGUI;
+    static ControlPanel controls;
     
     public static void main(String[] args) 
     {
@@ -49,7 +50,7 @@ public class SCADARunner
         JLabel title = new JLabel("SCADA Server");
         JPanel main = new JPanel();
         JPanel titlePanel = new JPanel();
-        ControlPanel controls = new ControlPanel(server, frame);
+        controls = new ControlPanel(server, frame);
         frame.add(controls, BorderLayout.EAST);
         
         titlePanel.setPreferredSize(new Dimension(500,30));
@@ -68,12 +69,18 @@ public class SCADARunner
         main.add(scrollStatus);
         frame.add(main, BorderLayout.CENTER);
         
-        pagingHolder = new JPanel();
-        pagingHolder.setPreferredSize(new Dimension(700, 250));
-        JLabel labelTemp = new JLabel("Paging System Inactive.");
-        pagingHolder.add(labelTemp);
+        //pagingHolder = new JPanel();
+        //pagingHolder.setPreferredSize(new Dimension(700, 250));
+        /*JLabel labelTemp = new JLabel("Paging System Inactive.");
+        pagingHolder.add(labelTemp);*/
         
-        frame.add(pagingHolder, BorderLayout.SOUTH);
+       
+        //server.switchPaging();
+        //server.pageServ.getPagingGUI().setPreferredSize(new Dimension(700,250));
+        //pagingHolder.add(server.pageServ.getPagingGUI());
+        //frame.add(server.pageServ.getPagingGUI(), BorderLayout.SOUTH);
+        
+        //frame.add(pagingHolder, BorderLayout.SOUTH);
         
         title.setFont(Font.getFont("Calibri"));
         title.setForeground(Color.RED);
@@ -117,7 +124,7 @@ public class SCADARunner
         @Override
         public void actionPerformed(ActionEvent e)
         {
-            if(server.isChecking())
+            if(controls.isChecking())
             {
                 mainArea.setText("Status:\n");
                 mainArea.append(server.getInformation());

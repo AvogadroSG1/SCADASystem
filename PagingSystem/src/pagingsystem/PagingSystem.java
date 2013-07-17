@@ -52,7 +52,7 @@ public final class PagingSystem implements AlertListener {
     
     public PagingSystem(PageAndVoiceProperties props) throws IOException {
         super();
-        
+        this.props = props;
         eh = new EmployeeHandler();
         ams = new AlertMonitoringSystem();
         

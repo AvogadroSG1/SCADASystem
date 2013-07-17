@@ -10,6 +10,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,6 +25,8 @@ public class ControlPanel extends JPanel
     private JButton pageButton, modemButton, clearAllButton, startServButton;
     protected PagingGUI pagePanel;
     private JFrame scadaFrame;
+    private Thread checking;
+    private JFrame pageFrame;
     
     public ControlPanel(SCADAServer aServ, JFrame aFrame)
     {
@@ -47,11 +51,18 @@ public class ControlPanel extends JPanel
         pageButton.addActionListener(al);
         startServButton.addActionListener(al);
         
+        //pageButton.setForeground(Color.green.darker());
+        
         this.add(startServButton);
         this.add(pageButton);
         this.add(clearAllButton);
     }
-
+    
+    public boolean isChecking()
+    {
+        return checking != null;
+    }
+    
     private class ControlListener implements ActionListener {
 
         @Override
@@ -60,8 +71,8 @@ public class ControlPanel extends JPanel
             boolean result= false;
             if(e.getSource() == pageButton)
             {
-                if(server.isChecking())
-                {
+                //if(checking != null)
+                //{
                 result = server.switchPaging();
 
                 if (result)
@@ -69,10 +80,14 @@ public class ControlPanel extends JPanel
                     //BorderLayout bl = (BorderLayout) scadaFrame.getLayout();
                     //bl.getLayoutComponent(BorderLayout.SOUTH);
                     //scadaFrame.remove(((BorderLayout)scadaFrame.getLayout()).getLayoutComponent(BorderLayout.SOUTH));
-                    scadaFrame.remove(SCADARunner.pagingHolder);
+                    pageFrame = new JFrame("PagingSystem");
+                    //pageFrame.setSize(new Dimension(700,300));
+                    pageFrame.setSize(700, 300);
+                    //scadaFrame.remove(SCADARunner.pagingHolder);
                     server.pageServ.getPagingGUI().setPreferredSize(new Dimension(700,250));
-                    scadaFrame.add(server.pageServ.getPagingGUI(), BorderLayout.SOUTH);
-                    scadaFrame.revalidate();
+                    pageFrame.add(server.pageServ.getPagingGUI(), BorderLayout.SOUTH);
+                    pageFrame.setVisible(true);
+                    //scadaFrame.revalidate();
                     pageButton.setForeground(Color.green.darker());
                 }
                 else
@@ -83,20 +98,21 @@ public class ControlPanel extends JPanel
                     pagingHolder.add(labelTemp);
                     pageButton.setForeground(Color.red);
                 }
-                }
-                else
-                    JOptionPane.showMessageDialog(null, "Paging not started, server is not active.");
-            }
+           }
+                //else
+                  //  JOptionPane.showMessageDialog(null, "Paging not started, server is not active.");
+            //}
             else if (e.getSource() == startServButton)
             {
-                if(!server.isChecking())
+                if(checking == null)
                 {
-                    server.startChecking();
+                    checking = (Thread) new CheckAlarmTask();
+                    checking.start();
                     startServButton.setForeground(Color.green.darker());
                 }
                 else
                 {
-                    server.stopChecking();
+                    checking = null;
                     startServButton.setForeground(Color.red);
                     server.pagingOff();
                     pageButton.setForeground(Color.red);
@@ -107,7 +123,23 @@ public class ControlPanel extends JPanel
                 server.clearAllPages();
             }
         }
-
         
+    }
+ 
+    private final class CheckAlarmTask extends Thread
+    {
+        @Override
+        public void run() 
+        {
+            while(true)
+            {
+            server.checkForAlarms(); 
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(SCADAServer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            }
+        }
     }
 }

@@ -23,7 +23,7 @@ import modem.PageWithModem;
  * @author Peter O'Connor
  * 
  */
-public class SCADAServer implements Runnable
+public class SCADAServer
 {
     Logger log = Logger.getGlobal();
     ArrayList<SCADASite> sites = new ArrayList<SCADASite>();
@@ -61,16 +61,17 @@ public class SCADAServer implements Runnable
         
         log.info("Starting up sites.");
         this.startUpSites();
-        
-        
-        Thread cc = new Thread(new ClientConnector());
-        cc.start();
 
         log.log(Level.INFO, "Started Client Listening Thread.");
     }
     
-    private void startUpSites()
+    public void startClientCon()
     {
+        Thread cc = new Thread(new ClientConnector());
+        cc.start();
+    }
+    private void startUpSites()
+    { 
         boolean starting = true;
         String name = "";
         String lon = "";
@@ -265,10 +266,8 @@ public class SCADAServer implements Runnable
         }
     }
     
-    private synchronized void checkForAlarms()
+    public synchronized void checkForAlarms()
     {
-            
-        //System.out.println("Started Checking at: " + System.currentTimeMillis()/1000);
         long startSec = System.currentTimeMillis()/1000;
         log.log(Level.INFO, "Started Checking at: {0}", startSec);
         for(SCADASite ss: sites)
@@ -304,17 +303,6 @@ public class SCADAServer implements Runnable
                     totalStatus += ss.getStatus();
             }
         return totalStatus;
-    }
-    
-    public void startChecking()
-    {
-        if(scheduler == null || (scheduler != null && scheduler.isShutdown())) 
-            scheduler = Executors.newScheduledThreadPool(NUM_THREADS);
-        Thread checkAlarmTask = new CheckAlarmTask();
-        checkAlarmTask.start();
-        //scheduler.scheduleWithFixedDelay(checkAlarmTask, initDelay, delay, TimeUnit.SECONDS);
-        log.log(Level.INFO, "Started Alarm Listening Thread with initial delay of: {0} and continual delay of {1}", new Object[]{initDelay, delay});
-        
     }
     
     public void stopChecking()
@@ -374,27 +362,6 @@ public class SCADAServer implements Runnable
         if(pageServ != null && pageServ.isActive())
         {
             pageServ.stopAllRunningPages();
-        }
-    }
-
-    @Override
-    public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    private final class CheckAlarmTask extends Thread
-    {
-        @Override
-        public void run() 
-        {
-            while(true)
-            {
-            checkForAlarms(); 
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(SCADAServer.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            }
         }
     }
     

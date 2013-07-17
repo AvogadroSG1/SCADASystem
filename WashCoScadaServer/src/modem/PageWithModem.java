@@ -38,6 +38,8 @@ public class PageWithModem implements Runnable, ReadListener {
     private ServerSocket pagingModuleServer;
     private Socket pagingModuleSocket;
     
+    private Logger log = Logger.getGlobal();
+    
     public PageWithModem() {
         super();
         
@@ -61,11 +63,11 @@ public class PageWithModem implements Runnable, ReadListener {
             String ip = props.getModemIP();
             String port = ""+props.getModemPort();
             mc = new ModemConnector(ip, port);
-            System.out.println("New Modem Connector created");
+            log.log(Level.INFO, "New Modem Connector created");
             mc.addReadListener(this);
-            System.out.println("Made new Read Listener");
+            log.log(Level.INFO, "Made new Read Listener");
             mc.start();
-            System.out.println("Started MC");
+            log.log(Level.INFO, "Started MC");
         } catch (IOException ex) {
             Logger.getLogger(PageWithModem.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Voice Modem ip and port incorrect");
@@ -75,7 +77,7 @@ public class PageWithModem implements Runnable, ReadListener {
     public void startPage(int jobID, String message) {
         try {
             plug.startPage(jobID, message);
-            System.out.println("started page");
+            log.log(Level.INFO, "started page");
         } catch (IOException ex) {
             fix();
             startPage(jobID, message);
@@ -175,9 +177,9 @@ public class PageWithModem implements Runnable, ReadListener {
     }
     
     public void start() {
-        System.out.println("Preping the business for opening.");
+        log.log(Level.INFO, "Preping the business for opening.");
         startModemConnector();
-        System.out.println("Modem connector started");
+        log.log(Level.INFO, "Modem connector started");
         startPagingModule();
     }
     
@@ -196,9 +198,9 @@ public class PageWithModem implements Runnable, ReadListener {
         try{
             //pagingSystem = new PagingSystem();
             int port = 7655;
-            System.out.println("Starting ServerSocket");
+            log.log(Level.INFO, "Starting ServerSocket");
             pagingModuleServer = new ServerSocket(port);
-            System.out.println("We're open for business!");
+            log.log(Level.INFO, "We're open for business!");
         } catch(IOException ex) {
             JOptionPane.showMessageDialog(null, "Port 7655 is needed for this application to run.\n"
                     + "Stop the other process running on this port or contact developers.");
@@ -266,7 +268,7 @@ public class PageWithModem implements Runnable, ReadListener {
         
         protected void startPage(int jobID, String message) throws IOException {
             int ackCode = jacg.generateAckCode(jobID);
-            System.out.println("Generated Ack Code");
+            log.log(Level.INFO, "Generated Ack Code");
             String compose = "ST " + jobID + " " + message + " ACKCODE:" + ackCode;
             os.write(compose.getBytes());
             os.flush();
