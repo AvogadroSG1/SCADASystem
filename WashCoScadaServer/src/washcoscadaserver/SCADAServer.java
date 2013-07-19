@@ -48,7 +48,7 @@ public class SCADAServer
     private final int DEVICE_INFO_LINES = 4;
     private JTextArea textArea;
     
-    protected PageWithModem pageServ;
+    PageWithModem pageServ;
     private int currentJobID = 1;
     
     public SCADAServer()
@@ -63,6 +63,8 @@ public class SCADAServer
         this.startUpSites();
 
         log.log(Level.INFO, "Started Client Listening Thread.");
+        
+        pageServ = new PageWithModem();
     }
     
     public void startClientCon()
@@ -281,6 +283,7 @@ public class SCADAServer
                 pageServ.startPage(currentJobID, ss.getCritcialInfo());
                 currentJobID++;
                 System.out.println("Finished Paging");
+                SCADARunner.gui.updateTree(sites);
             }
             
         }
@@ -333,15 +336,8 @@ public class SCADAServer
     public synchronized boolean switchPaging()
     {
         log.log(Level.INFO, "--------Switching Paging--------");
-        if (pageServ == null)
-        {
-            log.log(Level.INFO, "Creating a new PageServer");
-            pageServ = new PageWithModem(); 
-            pageServ.start();
-            pageServ.makeGUI();
-            log.log(Level.INFO, "Returning Created Server");
-            return true;
-        }else if(!pageServ.isActive())
+        
+        if(!pageServ.isActive())
         {
             try
             {
@@ -403,5 +399,10 @@ public class SCADAServer
                 }
             }
         }
+    }
+    
+    
+    public PageWithModem getPageServ() {
+        return pageServ;
     }
 }

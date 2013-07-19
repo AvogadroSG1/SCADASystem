@@ -9,6 +9,7 @@ import alert.AlertMonitoringSystem;
 import employee.Employee;
 import employee.EmployeeHandler;
 import employee.gui.EmployeePanel;
+import gui.PagingProgressPanel;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -45,6 +46,7 @@ public final class PagingSystem implements AlertListener {
     private OutputStream os;
     private InputStream is;
     private PageAndVoiceProperties props;
+    private PagingProgressPanel ppp;
     
     private Stack<LogListener> logListeners = new Stack();
     
@@ -59,6 +61,7 @@ public final class PagingSystem implements AlertListener {
         ams.addAlertListener(this);
         
         parent = new PagingSystemPanel(this);
+        ppp = new PagingProgressPanel();
     }
     
     /*
@@ -310,5 +313,9 @@ public final class PagingSystem implements AlertListener {
     
     public EmployeePanel getEmployeePanel() {
         return eh.getEmployeePanel();
+    }
+    
+    public PagingProgressPanel getPagingProgressPanel() {
+        return ppp;
     }
 }

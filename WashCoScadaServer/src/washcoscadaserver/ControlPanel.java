@@ -26,7 +26,7 @@ public class ControlPanel extends JPanel
     protected PagingGUI pagePanel;
     private JFrame scadaFrame;
     private Thread checking;
-    private JFrame pageFrame;
+    //private JFrame pageFrame;
     
     public ControlPanel(SCADAServer aServ, JFrame aFrame)
     {
@@ -40,16 +40,16 @@ public class ControlPanel extends JPanel
     
     public void makeButtons()
     {
-        ActionListener al = new ControlListener();
+        //ActionListener al = new ControlListener();
         pageButton = new JButton("Turn Paging On/Off");
         pageButton.setForeground(Color.red);
         clearAllButton = new JButton("Clear all Notifications");
         startServButton = new JButton("Start/Stop SCADA Server");
         startServButton.setForeground(Color.red);
         
-        clearAllButton.addActionListener(al);
-        pageButton.addActionListener(new PageServListener());
-        startServButton.addActionListener(al);
+        //clearAllButton.addActionListener(al);
+        //pageButton.addActionListener(new PageServListener());
+        //startServButton.addActionListener(al);
         
         //pageButton.setForeground(Color.green.darker());
         
@@ -62,6 +62,8 @@ public class ControlPanel extends JPanel
     {
         return checking != null;
     }
+    
+    /*
     private class PageServListener implements ActionListener 
     {
         public void actionPerformed(ActionEvent e)
@@ -160,7 +162,8 @@ public class ControlPanel extends JPanel
                 //else
                   //  JOptionPane.showMessageDialog(null, "Paging not started, server is not active.");
             //}
-            else */if (e.getSource() == startServButton)
+            else */
+            /*if (e.getSource() == startServButton)
             {
                 if(checking == null)
                 {
@@ -199,5 +202,5 @@ public class ControlPanel extends JPanel
             }
             }
         }
-    }
+    }*/
 }

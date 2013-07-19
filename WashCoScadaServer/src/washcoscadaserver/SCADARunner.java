@@ -9,11 +9,11 @@
 package washcoscadaserver;
 
 import gui.PagingGUI;
+import gui.ServerGUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -28,13 +28,15 @@ public class SCADARunner
     static final Logger log = Logger.getGlobal();
     
     static JTextArea mainArea;
-    static JFrame frame;
+    //static JFrame frame;
     static SCADAServer server;
-    static JPanel pagingHolder;
+    //static JPanel pagingHolder;
     //static modem.PageWithModem pagerServer = new modem.PageWithModem();
     //static log.LoggingSystem logServer = new log.LoggingSystem();
     static PagingGUI pagingGUI;
-    static ControlPanel controls;
+    //static ControlPanel controls;
+    
+    static ServerGUI gui;
     
     public static void main(String[] args) 
     {
@@ -42,32 +44,32 @@ public class SCADARunner
         dispatch(verbose);
         
         server = new SCADAServer();
-        frame = new JFrame("SCADA Monitor GUI");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
-        frame.setSize(700,700);
+        //frame = new JFrame("SCADA Monitor GUI");
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setLayout(new BorderLayout());
+        //frame.setSize(700,700);
         
-        JLabel title = new JLabel("SCADA Server");
-        JPanel main = new JPanel();
-        JPanel titlePanel = new JPanel();
-        controls = new ControlPanel(server, frame);
-        frame.add(controls, BorderLayout.EAST);
+        //JLabel title = new JLabel("SCADA Server");
+        //JPanel main = new JPanel();
+        //JPanel titlePanel = new JPanel();
+        //controls = new ControlPanel(server, frame);
+        //frame.add(controls, BorderLayout.EAST);
         
-        titlePanel.setPreferredSize(new Dimension(500,30));
-        main.setPreferredSize(new Dimension(500,700));
+        //titlePanel.setPreferredSize(new Dimension(500,30));
+        //main.setPreferredSize(new Dimension(500,700));
         
         mainArea = new JTextArea(30,28);
         mainArea.setText("Initializing.");
         mainArea.setEditable(false);
-        
+        /*
         JScrollPane scrollStatus = new JScrollPane(mainArea);
         scrollStatus.setPreferredSize(new Dimension(500,700));
         scrollStatus.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollStatus.setAutoscrolls(true);
+        */
         
-        
-        main.add(scrollStatus);
-        frame.add(main, BorderLayout.CENTER);
+        //main.add(scrollStatus);
+        //frame.add(main, BorderLayout.CENTER);
         
         //pagingHolder = new JPanel();
         //pagingHolder.setPreferredSize(new Dimension(700, 250));
@@ -82,14 +84,17 @@ public class SCADARunner
         
         //frame.add(pagingHolder, BorderLayout.SOUTH);
         
-        title.setFont(Font.getFont("Calibri"));
-        title.setForeground(Color.RED);
+        //title.setFont(Font.getFont("Calibri"));
+        //title.setForeground(Color.RED);
 
-        titlePanel.add(title);
-        frame.add(titlePanel,BorderLayout.NORTH);
+        //titlePanel.add(title);
+        //frame.add(titlePanel,BorderLayout.NORTH);
+        gui = new ServerGUI(server.getPageServ().getPagingGUI().getPagingSystem());
+        
         Timer bob = new Timer(1000, new TimerListener());
         bob.start();
-        frame.setVisible(true);
+        //frame.setVisible(true);
+        gui.setVisible(true);
     }
     
     static void dispatch(String[] args)
@@ -124,11 +129,11 @@ public class SCADARunner
         @Override
         public void actionPerformed(ActionEvent e)
         {
-            if(controls.isChecking())
+            if(gui.isChecking())
             {
                 mainArea.setText("Status:\n");
                 mainArea.append(server.getInformation());
-                frame.repaint();
+                //frame.repaint();
             }
             else
             {
@@ -138,4 +143,11 @@ public class SCADARunner
 
     }
     
+    public static SCADAServer getServer() {
+        return server;
+    }
+    
+    public static JTextArea getLogArea() {
+        return mainArea;
+    }
 }

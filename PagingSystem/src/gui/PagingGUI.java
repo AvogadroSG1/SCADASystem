@@ -52,4 +52,8 @@ public class PagingGUI extends JTabbedPane {
         this.addTab("Alerts", ps.getAlertMonitorPanel());
         this.addTab("Employees", ps.getEmployeePanel());
     }
+    
+    public PagingSystem getPagingSystem() {
+        return ps;
+    }
 }

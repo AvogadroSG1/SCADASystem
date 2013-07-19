@@ -47,9 +47,10 @@ public class PageWithModem implements Runnable, ReadListener {
         log.log(Level.INFO, "-------Making New Page and Voice Properties-------");
         props = new PageAndVoiceProperties();
         log.log(Level.INFO, "-------Properties Made-------");
+        makeGUI();
     }
 
-    public synchronized void makeGUI()
+    private void makeGUI()
     {
         try {
             log.log(Level.INFO, "-------Making The GUI!-------");

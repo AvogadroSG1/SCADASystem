@@ -1,6 +1,7 @@
 package pagingsystem;
 
 
+import employee.Employee;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -42,10 +43,19 @@ public class Page implements Runnable
     private Thread currentResponder;
     private Thread oldThread;
     private boolean sawp;
+    private PagingSystem ps;
+    private Employee employee;
     
-    public Page(String pagerID, String aMessage, String aIp, int aPort)
-    {
+    public Page(String pagerID, String aMessage, String aIp, int aPort) {
         formedMsg = "" + STX + pagerID + CR + aMessage + CR + ETX;
+        ip = aIp;
+        port = aPort;
+    }
+    
+    public Page(PagingSystem ps, Employee employee, String aMessage, String aIp, int aPort)
+    {
+        this.ps = ps;
+        formedMsg = "" + STX + employee.getPager() + CR + aMessage + CR + ETX;
         ip = aIp;
         port = aPort;
     }
@@ -53,6 +63,8 @@ public class Page implements Runnable
     public void start() throws UnknownHostException, IOException
     {
         numTries = 0;
+        setPagingProgressText("Sending page to " + employee.getName());
+        setPagingProgress(0);
         connect();
     }
         
@@ -64,6 +76,9 @@ public class Page implements Runnable
         sendCR();
         startTime = System.currentTimeMillis();
         sawp = false;
+        
+        setPagingProgress(25);
+        
         if(currentResponder == null)
         {
             currentResponder = new Thread(this);
@@ -153,12 +168,17 @@ public class Page implements Runnable
                 //System.out.println(temp);
                 if(temp == CR || buffer.contains("ID="))
                 {
+                    
+                    setPagingProgress(50);
+                    
                     respond(buffer);
                     buffer = "";
                 }
                 
                 if(sentMessage  && temp == ACK)
                 {
+                    setPagingProgress(75);
+                    
                     pageSent = true;
                     logoff();
                     loggedOff = true;
@@ -174,6 +194,9 @@ public class Page implements Runnable
                 Logger.getLogger(Page.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
+        setPagingProgress(100);
+        setPagingProgressText("No running pages");
         System.out.println("All should be well");
     }
     
@@ -214,5 +237,15 @@ public class Page implements Runnable
     
     public boolean finished() {
         return pageSent;
+    }
+    
+    public void setPagingProgressText(String text) {
+        if(ps != null)
+            ps.getPagingProgressPanel().getLabel().setText(text);
+    }
+    
+    public void setPagingProgress(int progress) {
+        if(ps != null)
+            ps.getPagingProgressPanel().getProgressBar().setValue(progress);
     }
 }
