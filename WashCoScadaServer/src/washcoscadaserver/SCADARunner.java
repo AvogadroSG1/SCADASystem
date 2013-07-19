@@ -56,7 +56,7 @@ public class SCADARunner
         titlePanel.setPreferredSize(new Dimension(500,30));
         main.setPreferredSize(new Dimension(500,700));
         
-        mainArea = new JTextArea(30,30);
+        mainArea = new JTextArea(30,28);
         mainArea.setText("Initializing.");
         mainArea.setEditable(false);
         

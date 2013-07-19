@@ -40,9 +40,11 @@ public class PagingGUI extends JTabbedPane {
     
     public PagingGUI(PageAndVoiceProperties props) throws IOException {
         super();
-        
+        Logger.getGlobal().log(Level.INFO, "-------Making Paging System with props!-------");
         ps = new PagingSystem(props);
+        Logger.getGlobal().log(Level.INFO, "-------Paging System Created, starting init()-------");
         init();
+        Logger.getGlobal().log(Level.INFO, "-------initialized with init()-------");
     }
     
     private void init() {

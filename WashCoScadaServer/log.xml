@@ -2,8 +2,8 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742792</millis>
+  <date>2013-07-18T15:13:06</date>
+  <millis>1374174786890</millis>
   <sequence>0</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -13,8 +13,8 @@
   <message>Hai</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742832</millis>
+  <date>2013-07-18T15:13:06</date>
+  <millis>1374174786934</millis>
   <sequence>1</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -24,8 +24,8 @@
   <message>Starting up sites.</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742849</millis>
+  <date>2013-07-18T15:13:06</date>
+  <millis>1374174786954</millis>
   <sequence>2</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -35,8 +35,8 @@
   <message>Processing line: ###########################################################</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742852</millis>
+  <date>2013-07-18T15:13:06</date>
+  <millis>1374174786957</millis>
   <sequence>3</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -46,8 +46,8 @@
   <message>Processing line: #</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742854</millis>
+  <date>2013-07-18T15:13:06</date>
+  <millis>1374174786958</millis>
   <sequence>4</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -57,8 +57,8 @@
   <message>Processing line: #   SiteConfigs.dat</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742855</millis>
+  <date>2013-07-18T15:13:06</date>
+  <millis>1374174786960</millis>
   <sequence>5</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -68,8 +68,8 @@
   <message>Processing line: #   Author: Peter O'Connor</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742857</millis>
+  <date>2013-07-18T15:13:06</date>
+  <millis>1374174786961</millis>
   <sequence>6</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -79,8 +79,8 @@
   <message>Processing line: #   See Readme.txt for more information on formatting.</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742858</millis>
+  <date>2013-07-18T15:13:06</date>
+  <millis>1374174786963</millis>
   <sequence>7</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -90,8 +90,8 @@
   <message>Processing line: #   </message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742860</millis>
+  <date>2013-07-18T15:13:06</date>
+  <millis>1374174786965</millis>
   <sequence>8</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -101,8 +101,8 @@
   <message>Processing line: ############################################################</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742861</millis>
+  <date>2013-07-18T15:13:06</date>
+  <millis>1374174786967</millis>
   <sequence>9</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -112,8 +112,8 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742862</millis>
+  <date>2013-07-18T15:13:06</date>
+  <millis>1374174786968</millis>
   <sequence>10</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -123,8 +123,8 @@
   <message>Processing line: Site Name=Airport PS</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742864</millis>
+  <date>2013-07-18T15:13:06</date>
+  <millis>1374174786970</millis>
   <sequence>11</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -134,8 +134,8 @@
   <message>Processing line: Lat=39.708500</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742865</millis>
+  <date>2013-07-18T15:13:06</date>
+  <millis>1374174786972</millis>
   <sequence>12</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -145,8 +145,8 @@
   <message>Processing line: Long=-77.726500</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742866</millis>
+  <date>2013-07-18T15:13:06</date>
+  <millis>1374174786974</millis>
   <sequence>13</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -156,8 +156,8 @@
   <message>Processing line: Device Name=Radio</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742872</millis>
+  <date>2013-07-18T15:13:06</date>
+  <millis>1374174786982</millis>
   <sequence>14</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -167,8 +167,8 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742873</millis>
+  <date>2013-07-18T15:13:06</date>
+  <millis>1374174786984</millis>
   <sequence>15</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -178,8 +178,8 @@
   <message>Processing line: Device Name=Switch</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742875</millis>
+  <date>2013-07-18T15:13:06</date>
+  <millis>1374174786986</millis>
   <sequence>16</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -189,8 +189,8 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742876</millis>
+  <date>2013-07-18T15:13:06</date>
+  <millis>1374174786988</millis>
   <sequence>17</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -200,8 +200,8 @@
   <message>Processing line: Device Name=SCADA Controller</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742879</millis>
+  <date>2013-07-18T15:13:06</date>
+  <millis>1374174786992</millis>
   <sequence>18</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -211,8 +211,8 @@
   <message>Processing line: end</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742881</millis>
+  <date>2013-07-18T15:13:06</date>
+  <millis>1374174786994</millis>
   <sequence>19</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -222,8 +222,8 @@
   <message>Reached end of site!</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742886</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787002</millis>
   <sequence>20</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -233,8 +233,8 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742887</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787004</millis>
   <sequence>21</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -244,8 +244,8 @@
   <message>Processing line: Site Name=Farm Lane PS</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742888</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787006</millis>
   <sequence>22</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -255,8 +255,8 @@
   <message>Processing line: Lat=39.701215</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742890</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787009</millis>
   <sequence>23</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -266,8 +266,8 @@
   <message>Processing line: Long=-77.719136</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742891</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787010</millis>
   <sequence>24</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -277,8 +277,8 @@
   <message>Processing line: Device Name=Radio</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742893</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787012</millis>
   <sequence>25</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -288,8 +288,8 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742895</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787014</millis>
   <sequence>26</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -299,8 +299,8 @@
   <message>Processing line: Device Name=Switch</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742897</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787016</millis>
   <sequence>27</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -310,8 +310,8 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742899</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787021</millis>
   <sequence>28</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -321,8 +321,8 @@
   <message>Processing line: Device Name=SCADA Controller</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742902</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787024</millis>
   <sequence>29</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -332,8 +332,8 @@
   <message>Processing line: end</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742903</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787025</millis>
   <sequence>30</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -343,8 +343,8 @@
   <message>Reached end of site!</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742905</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787027</millis>
   <sequence>31</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -354,8 +354,8 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742907</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787029</millis>
   <sequence>32</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -365,8 +365,8 @@
   <message>Processing line: Site Name=CitiCorp PS</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742909</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787036</millis>
   <sequence>33</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -376,8 +376,8 @@
   <message>Processing line: Lat=39.718873</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742911</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787038</millis>
   <sequence>34</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -387,8 +387,8 @@
   <message>Processing line: Long=-77.731662</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742912</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787040</millis>
   <sequence>35</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -398,8 +398,8 @@
   <message>Processing line: Device Name=Radio</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742915</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787042</millis>
   <sequence>36</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -409,8 +409,8 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742916</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787044</millis>
   <sequence>37</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -420,8 +420,8 @@
   <message>Processing line: Device Name=Switch</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742918</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787045</millis>
   <sequence>38</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -431,8 +431,8 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742919</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787047</millis>
   <sequence>39</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -442,8 +442,8 @@
   <message>Processing line: Device Name=SCADA Controller</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742922</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787050</millis>
   <sequence>40</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -453,8 +453,8 @@
   <message>Processing line: end</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742924</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787052</millis>
   <sequence>41</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -464,8 +464,8 @@
   <message>Reached end of site!</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742926</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787054</millis>
   <sequence>42</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -475,8 +475,8 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742927</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787056</millis>
   <sequence>43</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -486,8 +486,8 @@
   <message>Processing line: Site Name=Carriage Hills PS</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742929</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787057</millis>
   <sequence>44</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -497,8 +497,8 @@
   <message>Processing line: Lat=39.598761</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742930</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787059</millis>
   <sequence>45</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -508,8 +508,8 @@
   <message>Processing line: Long=-77.723336</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742932</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787060</millis>
   <sequence>46</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -519,8 +519,8 @@
   <message>Processing line: Device Name=Radio</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742934</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787062</millis>
   <sequence>47</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -530,8 +530,8 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742935</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787064</millis>
   <sequence>48</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -541,8 +541,8 @@
   <message>Processing line: Device Name=Switch</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742937</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787065</millis>
   <sequence>49</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -552,8 +552,8 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742938</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787067</millis>
   <sequence>50</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -563,8 +563,8 @@
   <message>Processing line: Device Name=SCADA Controller</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742941</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787070</millis>
   <sequence>51</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -574,8 +574,8 @@
   <message>Processing line: end</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742942</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787071</millis>
   <sequence>52</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -585,8 +585,8 @@
   <message>Reached end of site!</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742944</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787072</millis>
   <sequence>53</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -596,8 +596,8 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742945</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787074</millis>
   <sequence>54</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -607,8 +607,8 @@
   <message>Processing line: Site Name=Country Side PS</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742946</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787075</millis>
   <sequence>55</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -618,8 +618,8 @@
   <message>Processing line: Lat=39.698322</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742947</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787076</millis>
   <sequence>56</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -629,8 +629,8 @@
   <message>Processing line: Long=-77.753106</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742949</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787078</millis>
   <sequence>57</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -640,8 +640,8 @@
   <message>Processing line: Device Name=Radio</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742950</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787079</millis>
   <sequence>58</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -651,8 +651,8 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742952</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787081</millis>
   <sequence>59</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -662,8 +662,8 @@
   <message>Processing line: Device Name=Switch</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742954</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787082</millis>
   <sequence>60</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -673,8 +673,8 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742955</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787083</millis>
   <sequence>61</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -684,8 +684,8 @@
   <message>Processing line: Device Name=SCADA Controller</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742959</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787088</millis>
   <sequence>62</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -695,8 +695,8 @@
   <message>Processing line: end</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742960</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787089</millis>
   <sequence>63</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -706,8 +706,8 @@
   <message>Reached end of site!</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742961</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787091</millis>
   <sequence>64</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -717,8 +717,8 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742963</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787092</millis>
   <sequence>65</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -728,8 +728,8 @@
   <message>Processing line: Site Name=Oak Ridge PS</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742964</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787094</millis>
   <sequence>66</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -739,8 +739,8 @@
   <message>Processing line: Lat=39.611379</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742965</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787095</millis>
   <sequence>67</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -750,8 +750,8 @@
   <message>Processing line: Long=-77.754402</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742966</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787097</millis>
   <sequence>68</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -761,8 +761,8 @@
   <message>Processing line: Device Name=Radio</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742968</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787099</millis>
   <sequence>69</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -772,8 +772,8 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742969</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787100</millis>
   <sequence>70</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -783,8 +783,8 @@
   <message>Processing line: Device Name=Switch</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742971</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787101</millis>
   <sequence>71</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -794,8 +794,8 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742972</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787103</millis>
   <sequence>72</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -805,8 +805,8 @@
   <message>Processing line: Device Name=SCADA Controller</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742975</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787105</millis>
   <sequence>73</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -816,8 +816,8 @@
   <message>Processing line: end</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742977</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787108</millis>
   <sequence>74</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -827,8 +827,8 @@
   <message>Reached end of site!</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742978</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787111</millis>
   <sequence>75</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -838,8 +838,8 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742979</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787113</millis>
   <sequence>76</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -849,8 +849,8 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742981</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787114</millis>
   <sequence>77</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -860,8 +860,8 @@
   <message>Processing line: #DeviceName=Touch Screen</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742982</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787116</millis>
   <sequence>78</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -871,8 +871,8 @@
   <message>Processing line: #TCPIP=192.168.10.11</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742984</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787117</millis>
   <sequence>79</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -882,8 +882,8 @@
   <message>Processing line: #Modbus=1</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742986</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787123</millis>
   <sequence>80</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -893,8 +893,8 @@
   <message>Processing line: #Discretes=Pump:10001w,Relay:10002w,Power:10003c</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742987</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787125</millis>
   <sequence>81</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -904,8 +904,8 @@
   <message>Processing line: #Registers=Level:30001c</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742989</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787126</millis>
   <sequence>82</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -915,8 +915,8 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742990</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787129</millis>
   <sequence>83</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -926,8 +926,8 @@
   <message>Processing line: #Site Name=OCTEst</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742992</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787131</millis>
   <sequence>84</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -937,8 +937,8 @@
   <message>Processing line: #Lat=39.720499</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742993</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787132</millis>
   <sequence>85</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -948,8 +948,8 @@
   <message>Processing line: #Long=-80.783203</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742994</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787134</millis>
   <sequence>86</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -959,8 +959,8 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742995</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787136</millis>
   <sequence>87</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -970,8 +970,8 @@
   <message>Processing line: #Device Name=Radio</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742996</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787137</millis>
   <sequence>88</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -981,8 +981,8 @@
   <message>Processing line: #TCPIP=192.168.10.21</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:02</date>
-  <millis>1374031742997</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787139</millis>
   <sequence>89</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -992,8 +992,8 @@
   <message>Processing line: #Modbus=0</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:03</date>
-  <millis>1374031743000</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787140</millis>
   <sequence>90</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -1003,8 +1003,8 @@
   <message>Processing line: #Discretes=</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:03</date>
-  <millis>1374031743006</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787142</millis>
   <sequence>91</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -1014,8 +1014,8 @@
   <message>Processing line: #Registers=</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:03</date>
-  <millis>1374031743007</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787143</millis>
   <sequence>92</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -1025,8 +1025,8 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-16T23:29:03</date>
-  <millis>1374031743009</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787147</millis>
   <sequence>93</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -1036,8 +1036,8 @@
   <message>Processing line: #Device Name=Touch Screen</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:03</date>
-  <millis>1374031743010</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787148</millis>
   <sequence>94</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -1047,8 +1047,8 @@
   <message>Processing line: #TCPIP=192.168.10.20</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:03</date>
-  <millis>1374031743011</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787153</millis>
   <sequence>95</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -1058,8 +1058,8 @@
   <message>Processing line: #Modbus=1</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:03</date>
-  <millis>1374031743013</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787155</millis>
   <sequence>96</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -1069,8 +1069,8 @@
   <message>Processing line: #Discretes=Pump:10001w,Relay:10002n,Power:10003c</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:03</date>
-  <millis>1374031743014</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787157</millis>
   <sequence>97</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -1080,8 +1080,8 @@
   <message>Processing line: #Registers=Level:30001c</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:03</date>
-  <millis>1374031743015</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787158</millis>
   <sequence>98</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -1091,8 +1091,8 @@
   <message>Processing line: #end</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:03</date>
-  <millis>1374031743016</millis>
+  <date>2013-07-18T15:13:07</date>
+  <millis>1374174787159</millis>
   <sequence>99</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -1102,9 +1102,53 @@
   <message>Started Client Listening Thread.</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:06</date>
-  <millis>1374031746569</millis>
+  <date>2013-07-18T15:13:12</date>
+  <millis>1374174792158</millis>
   <sequence>100</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>washcoscadaserver.SCADAServer</class>
+  <method>switchPaging</method>
+  <thread>13</thread>
+  <message>--------Switching Paging--------</message>
+</record>
+<record>
+  <date>2013-07-18T15:13:12</date>
+  <millis>1374174792160</millis>
+  <sequence>101</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>washcoscadaserver.SCADAServer</class>
+  <method>switchPaging</method>
+  <thread>13</thread>
+  <message>Creating a new PageServer</message>
+</record>
+<record>
+  <date>2013-07-18T15:13:12</date>
+  <millis>1374174792165</millis>
+  <sequence>102</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>modem.PageWithModem</class>
+  <method>&lt;init&gt;</method>
+  <thread>13</thread>
+  <message>-------Making New Page and Voice Properties-------</message>
+</record>
+<record>
+  <date>2013-07-18T15:13:12</date>
+  <millis>1374174792169</millis>
+  <sequence>103</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>modem.PageWithModem</class>
+  <method>&lt;init&gt;</method>
+  <thread>13</thread>
+  <message>-------Properties Made-------</message>
+</record>
+<record>
+  <date>2013-07-18T15:13:12</date>
+  <millis>1374174792170</millis>
+  <sequence>104</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>modem.PageWithModem</class>
@@ -1113,9 +1157,9 @@
   <message>Preping the business for opening.</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:06</date>
-  <millis>1374031746602</millis>
-  <sequence>101</sequence>
+  <date>2013-07-18T15:13:12</date>
+  <millis>1374174792196</millis>
+  <sequence>105</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>modem.PageWithModem</class>
@@ -1124,9 +1168,9 @@
   <message>New Modem Connector created</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:06</date>
-  <millis>1374031746603</millis>
-  <sequence>102</sequence>
+  <date>2013-07-18T15:13:12</date>
+  <millis>1374174792197</millis>
+  <sequence>106</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>modem.PageWithModem</class>
@@ -1135,9 +1179,9 @@
   <message>Made new Read Listener</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:10</date>
-  <millis>1374031750611</millis>
-  <sequence>103</sequence>
+  <date>2013-07-18T15:13:16</date>
+  <millis>1374174796204</millis>
+  <sequence>107</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>modem.PageWithModem</class>
@@ -1146,9 +1190,9 @@
   <message>Started MC</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:10</date>
-  <millis>1374031750612</millis>
-  <sequence>104</sequence>
+  <date>2013-07-18T15:13:16</date>
+  <millis>1374174796205</millis>
+  <sequence>108</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>modem.PageWithModem</class>
@@ -1157,9 +1201,20 @@
   <message>Modem connector started</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:10</date>
-  <millis>1374031750614</millis>
-  <sequence>105</sequence>
+  <date>2013-07-18T15:13:16</date>
+  <millis>1374174796206</millis>
+  <sequence>109</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>modem.PageWithModem</class>
+  <method>makeGUI</method>
+  <thread>13</thread>
+  <message>-------Making The GUI!-------</message>
+</record>
+<record>
+  <date>2013-07-18T15:13:16</date>
+  <millis>1374174796206</millis>
+  <sequence>110</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>modem.PageWithModem</class>
@@ -1168,14 +1223,190 @@
   <message>Starting ServerSocket</message>
 </record>
 <record>
-  <date>2013-07-16T23:29:10</date>
-  <millis>1374031750617</millis>
-  <sequence>106</sequence>
+  <date>2013-07-18T15:13:16</date>
+  <millis>1374174796209</millis>
+  <sequence>111</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>modem.PageWithModem</class>
   <method>run</method>
   <thread>17</thread>
   <message>We're open for business!</message>
+</record>
+<record>
+  <date>2013-07-18T15:13:16</date>
+  <millis>1374174796213</millis>
+  <sequence>112</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>gui.PagingGUI</class>
+  <method>&lt;init&gt;</method>
+  <thread>13</thread>
+  <message>-------Making Paging System with props!-------</message>
+</record>
+<record>
+  <date>2013-07-18T15:13:16</date>
+  <millis>1374174796291</millis>
+  <sequence>113</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>gui.PagingGUI</class>
+  <method>&lt;init&gt;</method>
+  <thread>13</thread>
+  <message>-------Paging System Created, starting init()-------</message>
+</record>
+<record>
+  <date>2013-07-18T15:13:16</date>
+  <millis>1374174796294</millis>
+  <sequence>114</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>gui.PagingGUI</class>
+  <method>&lt;init&gt;</method>
+  <thread>13</thread>
+  <message>-------initialized with init()-------</message>
+</record>
+<record>
+  <date>2013-07-18T15:13:16</date>
+  <millis>1374174796295</millis>
+  <sequence>115</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>modem.PageWithModem</class>
+  <method>makeGUI</method>
+  <thread>13</thread>
+  <message>-------GUi Created!-------</message>
+</record>
+<record>
+  <date>2013-07-18T15:13:16</date>
+  <millis>1374174796298</millis>
+  <sequence>116</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>washcoscadaserver.SCADAServer</class>
+  <method>switchPaging</method>
+  <thread>13</thread>
+  <message>Returning Created Server</message>
+</record>
+<record>
+  <date>2013-07-18T15:13:17</date>
+  <millis>1374174797978</millis>
+  <sequence>117</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>washcoscadaserver.ControlPanel$PageServListener</class>
+  <method>actionPerformed</method>
+  <thread>13</thread>
+  <message>Starting Page Server: result: true</message>
+</record>
+<record>
+  <date>2013-07-18T15:13:17</date>
+  <millis>1374174797979</millis>
+  <sequence>118</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>washcoscadaserver.ControlPanel$PageServListener</class>
+  <method>actionPerformed</method>
+  <thread>13</thread>
+  <message>--------PageServerStart--------</message>
+</record>
+<record>
+  <date>2013-07-18T15:13:17</date>
+  <millis>1374174797980</millis>
+  <sequence>119</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>washcoscadaserver.ControlPanel$PageServListener</class>
+  <method>actionPerformed</method>
+  <thread>13</thread>
+  <message>Setting Size of Pave Server.</message>
+</record>
+<record>
+  <date>2013-07-18T15:13:17</date>
+  <millis>1374174797981</millis>
+  <sequence>120</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>washcoscadaserver.ControlPanel$PageServListener</class>
+  <method>actionPerformed</method>
+  <thread>13</thread>
+  <message>JFrame Starting!</message>
+</record>
+<record>
+  <date>2013-07-18T15:13:17</date>
+  <millis>1374174797992</millis>
+  <sequence>121</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>washcoscadaserver.ControlPanel$PageServListener</class>
+  <method>actionPerformed</method>
+  <thread>13</thread>
+  <message>JFrame Started!</message>
+</record>
+<record>
+  <date>2013-07-18T15:13:17</date>
+  <millis>1374174797993</millis>
+  <sequence>122</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>washcoscadaserver.ControlPanel$PageServListener</class>
+  <method>actionPerformed</method>
+  <thread>13</thread>
+  <message>Setting Size of Pave Server.</message>
+</record>
+<record>
+  <date>2013-07-18T15:13:17</date>
+  <millis>1374174797994</millis>
+  <sequence>123</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>washcoscadaserver.ControlPanel$PageServListener</class>
+  <method>actionPerformed</method>
+  <thread>13</thread>
+  <message>Size Set!</message>
+</record>
+<record>
+  <date>2013-07-18T15:13:17</date>
+  <millis>1374174797997</millis>
+  <sequence>124</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>washcoscadaserver.ControlPanel$PageServListener</class>
+  <method>actionPerformed</method>
+  <thread>13</thread>
+  <message>Panel added to Frame!</message>
+</record>
+<record>
+  <date>2013-07-18T15:13:18</date>
+  <millis>1374174798106</millis>
+  <sequence>125</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>washcoscadaserver.ControlPanel$PageServListener</class>
+  <method>actionPerformed</method>
+  <thread>13</thread>
+  <message>Frame now visible.</message>
+</record>
+<record>
+  <date>2013-07-18T15:13:18</date>
+  <millis>1374174798107</millis>
+  <sequence>126</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>washcoscadaserver.ControlPanel$PageServListener</class>
+  <method>actionPerformed</method>
+  <thread>13</thread>
+  <message>Panel up and setting button green.</message>
+</record>
+<record>
+  <date>2013-07-18T15:13:18</date>
+  <millis>1374174798108</millis>
+  <sequence>127</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>washcoscadaserver.ControlPanel$PageServListener</class>
+  <method>actionPerformed</method>
+  <thread>13</thread>
+  <message>--------PageServerEnd--------</message>
 </record>
 </log>

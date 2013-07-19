@@ -330,17 +330,24 @@ public class SCADAServer
         return true;
     }
     
-    public boolean switchPaging()
+    public synchronized boolean switchPaging()
     {
+        log.log(Level.INFO, "--------Switching Paging--------");
         if (pageServ == null)
         {
+            log.log(Level.INFO, "Creating a new PageServer");
             pageServ = new PageWithModem(); 
+            pageServ.start();
+            pageServ.makeGUI();
+            log.log(Level.INFO, "Returning Created Server");
             return true;
         }else if(!pageServ.isActive())
         {
             try
             {
+                log.log(Level.INFO, "Starting Server Again.");
                 pageServ.start();
+                log.log(Level.INFO, "Returning with started server.");
                 return true;
             }
             catch(Exception ex)

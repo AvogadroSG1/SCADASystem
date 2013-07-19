@@ -40,21 +40,26 @@ public class PageWithModem implements Runnable, ReadListener {
     
     private Logger log = Logger.getGlobal();
     
+    private boolean started = false;
+    
     public PageWithModem() {
         super();
-        
+        log.log(Level.INFO, "-------Making New Page and Voice Properties-------");
         props = new PageAndVoiceProperties();
-        
-        start();
+        log.log(Level.INFO, "-------Properties Made-------");
+    }
+
+    public synchronized void makeGUI()
+    {
         try {
+            log.log(Level.INFO, "-------Making The GUI!-------");
             pagingGUI = new PagingGUI(props);
+            log.log(Level.INFO, "-------GUi Created!-------");
             pagingGUI.addTab("Phone", new PageAndModemPanel(this));
         } catch (IOException ex) {
             Logger.getLogger(PageWithModem.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    
     
    
     
@@ -127,7 +132,6 @@ public class PageWithModem implements Runnable, ReadListener {
             fix();
             stopAllRunningPages();
         }
-;
     }
     
     private void resetPagingModule() {
@@ -159,7 +163,7 @@ public class PageWithModem implements Runnable, ReadListener {
         }
     }
           
-    public PagingGUI getPagingGUI() {
+    public synchronized PagingGUI getPagingGUI() {
         return pagingGUI;
     }
     
@@ -176,11 +180,12 @@ public class PageWithModem implements Runnable, ReadListener {
         initModem();
     }
     
-    public void start() {
+    public synchronized void start() {
         log.log(Level.INFO, "Preping the business for opening.");
         startModemConnector();
         log.log(Level.INFO, "Modem connector started");
         startPagingModule();
+        started = true;
     }
     
     public void stop() {

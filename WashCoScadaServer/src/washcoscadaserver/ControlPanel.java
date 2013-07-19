@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 
 public class ControlPanel extends JPanel
 {
-    private SCADAServer server;
+    private static SCADAServer server;
     private JButton pageButton, modemButton, clearAllButton, startServButton;
     protected PagingGUI pagePanel;
     private JFrame scadaFrame;
@@ -48,7 +48,7 @@ public class ControlPanel extends JPanel
         startServButton.setForeground(Color.red);
         
         clearAllButton.addActionListener(al);
-        pageButton.addActionListener(al);
+        pageButton.addActionListener(new PageServListener());
         startServButton.addActionListener(al);
         
         //pageButton.setForeground(Color.green.darker());
@@ -62,6 +62,53 @@ public class ControlPanel extends JPanel
     {
         return checking != null;
     }
+    private class PageServListener implements ActionListener 
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            JOptionPane.showMessageDialog(null, "Starting Server");
+            boolean result = false;
+            //if(checking != null)
+                //{
+                result = server.switchPaging();
+                JOptionPane.showMessageDialog(null, "Result was " + result);
+                Logger.getGlobal().log(Level.INFO, "Starting Page Server: result: {0}", result);
+                if (result)
+                {
+                    
+                    Logger.getGlobal().log(Level.INFO, "--------PageServerStart--------");
+                    Logger.getGlobal().log(Level.INFO, "Setting Size of Pave Server.");
+                    //BorderLayout bl = (BorderLayout) scadaFrame.getLayout();
+                    //bl.getLayoutComponent(BorderLayout.SOUTH);
+                    //scadaFrame.remove(((BorderLayout)scadaFrame.getLayout()).getLayoutComponent(BorderLayout.SOUTH));
+                    Logger.getGlobal().log(Level.INFO, "JFrame Starting!");
+                    pageFrame = new JFrame("PagingSystem");
+                    Logger.getGlobal().log(Level.INFO, "JFrame Started!");
+                    //pageFrame.setSize(new Dimension(700,300));
+                    pageFrame.setSize(700, 300);
+                    //scadaFrame.remove(SCADARunner.pagingHolder);
+                    Logger.getGlobal().log(Level.INFO, "Setting Size of Pave Server.");
+                    server.pageServ.getPagingGUI().setPreferredSize(new Dimension(700,250));
+                    Logger.getGlobal().log(Level.INFO, "Size Set!");
+                    pageFrame.add(server.pageServ.getPagingGUI(), BorderLayout.SOUTH);
+                    Logger.getGlobal().log(Level.INFO, "Panel added to Frame!");
+                    pageFrame.setVisible(true);
+                    Logger.getGlobal().log(Level.INFO, "Frame now visible.");
+                    //scadaFrame.revalidate();
+                    Logger.getGlobal().log(Level.INFO, "Panel up and setting button green.");
+                    pageButton.setForeground(Color.green.darker());
+                    Logger.getGlobal().log(Level.INFO, "--------PageServerEnd--------");
+                }
+                else
+                {   
+                    JPanel pagingHolder = new JPanel();
+                    pagingHolder.setPreferredSize(new Dimension(700, 250));
+                    JLabel labelTemp = new JLabel("Paging System Inactive.");
+                    pagingHolder.add(labelTemp);
+                    pageButton.setForeground(Color.red);
+                }
+           }
+    }
     
     private class ControlListener implements ActionListener {
 
@@ -69,26 +116,37 @@ public class ControlPanel extends JPanel
         public void actionPerformed(ActionEvent e) 
         {
             boolean result= false;
-            if(e.getSource() == pageButton)
+            /*if(e.getSource() == pageButton)
             {
                 //if(checking != null)
                 //{
                 result = server.switchPaging();
-
+                Logger.getGlobal().log(Level.INFO, "Starting Page Server: result: {0}", result);
                 if (result)
                 {
+                    JOptionPane.showMessageDialog(null, "Starting Server");
+                    Logger.getGlobal().log(Level.INFO, "--------PageServerStart--------");
+                    Logger.getGlobal().log(Level.INFO, "Setting Size of Pave Server.");
                     //BorderLayout bl = (BorderLayout) scadaFrame.getLayout();
                     //bl.getLayoutComponent(BorderLayout.SOUTH);
                     //scadaFrame.remove(((BorderLayout)scadaFrame.getLayout()).getLayoutComponent(BorderLayout.SOUTH));
+                    Logger.getGlobal().log(Level.INFO, "JFrame Starting!");
                     pageFrame = new JFrame("PagingSystem");
+                    Logger.getGlobal().log(Level.INFO, "JFrame Started!");
                     //pageFrame.setSize(new Dimension(700,300));
                     pageFrame.setSize(700, 300);
                     //scadaFrame.remove(SCADARunner.pagingHolder);
+                    Logger.getGlobal().log(Level.INFO, "Setting Size of Pave Server.");
                     server.pageServ.getPagingGUI().setPreferredSize(new Dimension(700,250));
+                    Logger.getGlobal().log(Level.INFO, "Size Set!");
                     pageFrame.add(server.pageServ.getPagingGUI(), BorderLayout.SOUTH);
+                    Logger.getGlobal().log(Level.INFO, "Panel added to Frame!");
                     pageFrame.setVisible(true);
+                    Logger.getGlobal().log(Level.INFO, "Frame now visible.");
                     //scadaFrame.revalidate();
+                    Logger.getGlobal().log(Level.INFO, "Panel up and setting button green.");
                     pageButton.setForeground(Color.green.darker());
+                    Logger.getGlobal().log(Level.INFO, "--------PageServerEnd--------");
                 }
                 else
                 {   
@@ -102,7 +160,7 @@ public class ControlPanel extends JPanel
                 //else
                   //  JOptionPane.showMessageDialog(null, "Paging not started, server is not active.");
             //}
-            else if (e.getSource() == startServButton)
+            else */if (e.getSource() == startServButton)
             {
                 if(checking == null)
                 {
