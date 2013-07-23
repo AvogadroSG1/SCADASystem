@@ -30,7 +30,6 @@ public class Page implements Runnable
     private final char STX = 0x02;
     private final char ETX = 0x03;
     private final char ACK = 0x06;
-    private boolean MxReady = false;
     private String buffer = "";
     private boolean sentMessage = false;
     private boolean pageSent;
@@ -40,8 +39,6 @@ public class Page implements Runnable
     private String ip;
     private int port;
     private long currentTime;
-    private Thread currentResponder;
-    private Thread oldThread;
     private boolean sawp;
     private PagingSystem ps;
     private Employee employee;
@@ -79,11 +76,7 @@ public class Page implements Runnable
         
         setPagingProgress(25);
         
-        if(currentResponder == null)
-        {
-            currentResponder = new Thread(this);
-            currentResponder.start();
-        }
+        this.run();
        
     }  
 

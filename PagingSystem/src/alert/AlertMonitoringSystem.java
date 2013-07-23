@@ -42,6 +42,8 @@ public final class AlertMonitoringSystem {
     private ArrayList<Alert> activeAlerts = new ArrayList();
     private Alert[] pastAlerts = new Alert[50];
     
+    private AlertDispatchThread dispatch;
+    
     /**
      * 
      * @throws IOException when the config file cannot be found or there is a read error
@@ -111,8 +113,11 @@ public final class AlertMonitoringSystem {
                 Alert alert = parseAlert(rest);
                 try {
                     activeAlerts.add(alert);
-                    alertAllAlertListeners(alert);
-
+                    //alertAllAlertListeners(alert);
+                    
+                    makeSurePageThreadIsRunning();
+                    
+                    alert.setNextAlertTime(Calendar.getInstance());
                     alertAllLogListeners("Created alert: " + alert.toString());
 
                     return SUCCESS;
@@ -255,6 +260,16 @@ public final class AlertMonitoringSystem {
         pastAlerts[0] = alert;
     }
     
+    private void makeSurePageThreadIsRunning() {
+        if(dispatch == null) {
+            dispatch = new AlertDispatchThread();
+        }
+        
+        if(!dispatch.isAlive()) {
+            dispatch.start();
+        }
+    }
+    
     private class AlertMonitorThread extends Thread {
         
         private final AlertMonitoringSystem ams;
@@ -352,13 +367,45 @@ public final class AlertMonitoringSystem {
         
     }
     
+    private class AlertDispatchThread extends Thread {
+
+        public AlertDispatchThread() {
+            super();
+        }
+        
+        @Override
+        public void run(){
+            while(!activeAlerts.isEmpty()) {
+                
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(AlertMonitoringSystem.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                for(Alert alert: activeAlerts) {
+                    if(alert.isReadyToAlert()) {
+                        
+                        alert.incrementTimesPaged();
+                        
+                        alertAllAlertListeners(alert); // page employees
+                        
+                        
+                        
+                        Calendar cal = Calendar.getInstance();
+                        cal.add(Calendar.MINUTE, 15); //add fifteen minutes.
+                        alert.setNextAlertTime(cal);
+                    }
+                }
+            }
+        }
+        
+    }
     
     public class AlertMonitoringPanel extends JPanel implements LogListener {
 
         private AlertMonitoringSystem ams;
         
-        private JLabel ipLabel, portLabel;
-        private JButton changeIPButton, changePortButton;
         private JTextArea logArea;
         
         protected AlertMonitoringPanel(AlertMonitoringSystem aThis) {

@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -107,8 +108,8 @@ public final class PagingSystem implements AlertListener {
     
     @Override
     public void alertReceived(Alert alert) {
-        PageThread thread = new PageThread(this, alert);
-        thread.start();
+        PageThread thread = new PageThread(alert);
+        thread.run();
     }
     
     protected void setIPAddress(String address) {
@@ -148,13 +149,20 @@ public final class PagingSystem implements AlertListener {
 
         String chose = options[choseInt];
         if(chose.equals(RETRY)) {
-            retry = true;
+            // do nothing
         } else if(chose.equals(CHANGE_IP)) {
             setIPAddress("");
         } else if(chose.equals(CHANGE_PORT)) {
             setPort("");
-        } else if(chose.equals(QUIT))
-            System.exit(4);
+        } else if(chose.equals(QUIT)) {
+            int dialogResult = JOptionPane.showConfirmDialog(this.getPagingSystemPanel(), "Are you sure you want to quit?\n"
+                    + "All active pages will be deleted.\n"
+                    + "If any errors are sitll active, they will alert again when the program is reopened", "Are you sure?",JOptionPane.YES_NO_OPTION);
+            if(dialogResult == JOptionPane.YES_OPTION)
+                System.exit(4);
+            else
+                errorRecovery(ex);
+        }
     }
     
     public JPanel getPagingSystemPanel() {
@@ -164,53 +172,48 @@ public final class PagingSystem implements AlertListener {
     private final int FIFTEEN = 15 * 60 * 1000;
     private final int TOTALTIME = 3 * 60 * 60 * 1000;
     
-    private class PageThread extends Thread {
+    private class PageThread implements Runnable {
 
-        private final PagingSystem ps;
         private final Alert alert;
         
-        public PageThread(PagingSystem ps, Alert alert) {
+        public PageThread(Alert alert) {
             super();
-            this.ps = ps;
             this.alert = alert;
         }
         
         @Override
         public void run() {
             Employee[] employees = eh.getCurrentPrioritizedEmployees();
-            ArrayList<Employee> cascade = new ArrayList();
+            Employee[] pageEmployee = new Employee[alert.getTimesPaged()];
             
             if(employees.length == 0) {
-                ps.notifyAllLogListeners("There are no employees on duty");
+                notifyAllLogListeners("There are no employees on duty");
                 return;
             }
             
-            int index = 0;
-            
-            while(!alert.isAcknowledged()) { // person with the lowest rank (kinda like golf) goes first
-                if(cascade.size() < employees.length) {
-                    cascade.add(employees[index]);
-                    index++;
-                }
-                
-                for(Employee employee: cascade) {
-                    Page page = new Page(employee.getPager(), alert.getMessage(), props.getPagerIP(), props.getPagerPort());
-                    do {
-                        try {
-                            retry = false;
-                            page.start();
-                            while(!page.finished()) {
-                                Thread.sleep(50);
-                            }
-                        } catch (Exception ex) {
-                            errorRecovery(ex);
-                        } 
-                    } while(retry == true);
-                }
-                hold(FIFTEEN);
-                }
+            for(int i = 0; i < pageEmployee.length; i++) {
+                pageEmployee[i] = employees[i];
             }
+            
+                
+            for(Employee employee: pageEmployee) {
+                Page page = new Page(employee.getPager(), alert.getMessage(), props.getPagerIP(), props.getPagerPort());
+                boolean worked = false;
+                do {
+                    try {
+                        page.start(); 
+                        worked = true;
+                    } catch (IOException ex) {
+                        errorRecovery(ex);
+                        Logger.getLogger(PagingSystem.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }while(!worked);
+            }
+        
         }
+            
+        
+    }
         
         private void hold(int time) {
             try {
