@@ -4,14 +4,14 @@
  */
 package gui;
 
-import java.awt.BorderLayout;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.JComponent;
+import javax.swing.JRootPane;
 import javax.swing.JTabbedPane;
-import javax.swing.UIManager;
 import pagingsystem.PagingSystem;
 import util.PageAndVoiceProperties;
 
@@ -19,7 +19,7 @@ import util.PageAndVoiceProperties;
  *
  * @author Shawn
  */
-public class PagingGUI extends JTabbedPane {
+public class PagingGUI extends JRootPane {
     /*
     public static void main(String[] args) {
        
@@ -37,6 +37,7 @@ public class PagingGUI extends JTabbedPane {
     }*/
     
     private PagingSystem ps;
+    private JTabbedPane tabbed;
     
     public PagingGUI(PageAndVoiceProperties props) throws IOException {
         super();
@@ -48,12 +49,74 @@ public class PagingGUI extends JTabbedPane {
     }
     
     private void init() {
-        this.addTab("Paging", ps.getPagingSystemPanel());
-        this.addTab("Alerts", ps.getAlertMonitorPanel());
-        this.addTab("Employees", ps.getEmployeePanel());
+        tabbed = new JTabbedPane();
+        
+        tabbed.addTab("Paging", ps.getPagingSystemPanel());
+        tabbed.addTab("Alerts", ps.getAlertMonitorPanel());
+        tabbed.addTab("Employees", ps.getEmployeePanel());
+        
+        this.getContentPane().setLayout(new BorderLayout());
+        this.getContentPane().add(tabbed, BorderLayout.CENTER);
+        
+        this.setGlassPane(new InactiveGlassPanel());
     }
     
     public PagingSystem getPagingSystem() {
         return ps;
+    }
+    
+    
+    public void addTab(String name, JComponent component) {
+        tabbed.addTab(name, component);
+    }
+    
+    public void setGlassVisible(boolean bool) {
+        this.getGlassPane().setVisible(bool);
+    }
+    
+    class InactiveGlassPanel extends JComponent {
+        
+        public InactiveGlassPanel() {
+            super();
+            
+            this.addMouseListener(new MouseAdapter(){});
+            this.addMouseMotionListener(new MouseAdapter(){});
+        }
+
+        
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            
+            
+            Color tGray = new Color(25, 25, 25, 200); //r,g,b,alpha
+            
+            g.setColor(tGray);
+            
+            g.fillRect(0, 0, this.getWidth(), this.getHeight());
+            
+            g.setColor(Color.white);
+            
+            Font font = new Font("Arial", Font.BOLD, 16);
+            g.setFont(font);
+            
+            String string =  "Paging Disabled";
+            FontMetrics metrics = g.getFontMetrics();
+            
+            int stringWidth = metrics.stringWidth(string);
+            int stringHeight = metrics.getHeight();
+            
+            int x = this.getWidth() / 2 - stringWidth / 2;
+            int y = this.getHeight() / 2 - stringHeight / 2;
+            
+            g.drawString(string, x, y);
+        }
+
+        @Override
+        public void setVisible(boolean aFlag) {
+            super.setVisible(aFlag);
+            requestFocus();
+        }
+        
     }
 }

@@ -8,6 +8,7 @@ import SCADASite.SCADASite;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class ServerGUI extends JFrame {
     private final SCADAServer server;
     private final PagingSystem ps;
     
+    private PagingGUI pageGUI;
     private JButton clearAllButton;
     private JLightSwitch checkAlarmSwitch, pageSwitch;
     private SCADAJTree tree;
@@ -42,6 +44,7 @@ public class ServerGUI extends JFrame {
     
     private void init() {
         tree = new SCADAJTree();
+        pageGUI = server.getPageServ().getPagingGUI();
         
         checkAlarmSwitch = new JLightSwitch("Alarms");
         checkAlarmSwitch.addActionListener(new ActionListener() {
@@ -84,13 +87,15 @@ public class ServerGUI extends JFrame {
         scrollStatus.setAutoscrolls(true);
         
         temp.add(scrollStatus);
-        temp.add(server.getPageServ().getPagingGUI(), BorderLayout.SOUTH);
+        temp.add(pageGUI, BorderLayout.SOUTH);
         
         this.setLayout(new BorderLayout());
         
         this.add(toolbar, BorderLayout.NORTH);
         this.add(temp, BorderLayout.CENTER);
         this.add(tree, BorderLayout.WEST);
+        
+        this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
     }
     
     private void checkAlarmsActionPerformed() {
@@ -104,6 +109,7 @@ public class ServerGUI extends JFrame {
             {
                 checking = null;
                 server.pagingOff();
+                pageGUI.setGlassVisible(true);
             }
     }
     
@@ -129,6 +135,12 @@ public class ServerGUI extends JFrame {
     
     private void pageSwitchActionPerformed() {
         server.switchPaging();
+        
+        if(server.getPageServ().isActive()) {
+            pageGUI.setGlassVisible(false);
+        } else {
+            pageGUI.setGlassVisible(true);
+        }
     }
     
     public void updateTree(ArrayList<SCADASite> sites) {

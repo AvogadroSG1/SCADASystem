@@ -40,7 +40,9 @@ public class PageWithModem implements Runnable, ReadListener {
     
     private Logger log = Logger.getGlobal();
     
-    private boolean started = false;
+    private boolean active = false;
+    
+    
     
     public PageWithModem() {
         super();
@@ -186,17 +188,18 @@ public class PageWithModem implements Runnable, ReadListener {
         startModemConnector();
         log.log(Level.INFO, "Modem connector started");
         startPagingModule();
-        started = true;
+        active = true;
     }
     
     public void stop() {
         stopModemConnector();
         stopPagingModule();
+        active = false;
     }
     
     public boolean isActive()
     {
-        return pagingModuleServer != null;
+        return active;
     }
     
     @Override
