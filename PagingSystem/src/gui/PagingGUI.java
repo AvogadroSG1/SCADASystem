@@ -59,6 +59,8 @@ public class PagingGUI extends JRootPane {
         this.getContentPane().add(tabbed, BorderLayout.CENTER);
         
         this.setGlassPane(new InactiveGlassPanel());
+        
+        setGlassVisible(true); //because the paging system will initially be off.
     }
     
     public PagingSystem getPagingSystem() {
