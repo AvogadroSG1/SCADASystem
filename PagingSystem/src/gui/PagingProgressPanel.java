@@ -25,7 +25,7 @@ public class PagingProgressPanel extends JPanel {
     
     private void init() {
         bar = new JProgressBar(0, 100);
-        label = new JLabel();
+        label = new JLabel("No running pages");
         
         this.add(label, BorderLayout.NORTH);
         this.add(bar, BorderLayout.SOUTH);
