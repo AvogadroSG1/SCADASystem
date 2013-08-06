@@ -323,9 +323,10 @@ public class SCADAServer
     
     public boolean pagingOff()
     {
-        if (pageServ != null)
+        if (pageServ != null) {
             pageServ.stop();
-        else
+            
+        } else
         {
             return false;
         }
