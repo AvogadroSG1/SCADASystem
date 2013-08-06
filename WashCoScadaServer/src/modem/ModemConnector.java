@@ -7,6 +7,8 @@ package modem;
 import java.io.*;
 import java.net.*;
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ModemConnector
 {
@@ -120,17 +122,22 @@ public class ModemConnector
             String message = "";
             boolean ring = false;
             boolean zero = false;
-                    
+                 
+            StopThread stopThread = null;
+            
             while(true)
             {
                 try 
                 {
+                    
                     char inc = (char) in.read();
                     
                     if (inc == 'R')
                     {
                         message = "";
                         ring = true;
+                        stopThread = new StopThread();
+                        stopThread.start();
                     }
                     
                     if(ring && !zero)
@@ -149,6 +156,7 @@ public class ModemConnector
                             ring = false;
                             zero = false;
                             readyForRead = true;
+                            stopThread.interrupt();
                             init();
                             System.out.println("Hang up." + lastPin + readyForRead);
                             notifyAllAckListeners(message);
@@ -165,6 +173,33 @@ public class ModemConnector
         }
         
     }
+    
+    private class StopThread extends Thread {
+        
+        private static final int TWO_MINUTES = 2 * 60 * 1000;
+        
+        
+        public StopThread() {
+            super();
+        }
+        
+        public void run() {
+            try {
+                Thread.sleep(TWO_MINUTES);
+                
+                listenThread.interrupt();
+                
+                init();
+                 
+                listenThread = new Thread(new ModemListener());
+                listenThread.start();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ModemConnector.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    
     
     private Stack<ReadListener> readListeners = new Stack();
     
