@@ -101,27 +101,27 @@ public class ServerGUI extends JFrame {
     private void checkAlarmsActionPerformed() {
         
         if(checking == null)
-            {
-                checking = (Thread) new CheckAlarmTask();
-                checking.start();
-            }
-            else
-            {
-                checking = null;
-                server.pagingOff();
-                pageGUI.setGlassVisible(true);
-            }
+        {
+            checking = (Thread) new CheckAlarmTask();
+            checking.start();
+        }
+        else
+        {
+            checking = null;
+            server.pagingOff();
+            pageGUI.setGlassVisible(true);
+        }
     }
     
     private final class CheckAlarmTask extends Thread
     {
         @Override
-        public void run() 
+        public  synchronized void run() 
         {
             boolean checking = true;
             while(checking)
             {
-            server.checkForAlarms(); 
+            server.checkAllAlarms(); 
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException ex) {

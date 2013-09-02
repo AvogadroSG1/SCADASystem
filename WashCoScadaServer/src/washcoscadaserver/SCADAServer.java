@@ -72,6 +72,7 @@ public class SCADAServer
         Thread cc = new Thread(new ClientConnector());
         cc.start();
     }
+    
     private void startUpSites()
     { 
         boolean starting = true;
@@ -268,7 +269,7 @@ public class SCADAServer
         }
     }
     
-    public synchronized void checkForAlarms()
+    public synchronized void checkAllAlarms()
     {
         long startSec = System.currentTimeMillis()/1000;
         log.log(Level.INFO, "Started Checking at: {0}", startSec);
