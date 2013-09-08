@@ -270,7 +270,7 @@ public final class AlertMonitoringSystem {
         }
     }
     
-    private class AlertMonitorThread extends Thread {
+    private class AlertMonitorThread extends ErrorLoggingThread {
         
         private final AlertMonitoringSystem ams;
 
@@ -367,7 +367,7 @@ public final class AlertMonitoringSystem {
         
     }
     
-    private class AlertDispatchThread extends Thread {
+    private class AlertDispatchThread extends ErrorLoggingThread {
 
         public AlertDispatchThread() {
             super();
@@ -438,7 +438,21 @@ public final class AlertMonitoringSystem {
     }
     
     
-    
+    private class ErrorLoggingThread extends Thread {
+        
+        
+        @Override
+        public UncaughtExceptionHandler getUncaughtExceptionHandler() {
+            return new UncaughtExceptionHandler() {
+                @Override
+                public void uncaughtException(Thread t, Throwable e) {
+                    Logger.getGlobal() .log(Level.SEVERE, null, e);
+                }
+                
+            };
+        }
+        
+    }
 }
     
 
