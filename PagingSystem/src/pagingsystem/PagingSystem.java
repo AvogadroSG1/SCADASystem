@@ -108,8 +108,7 @@ public final class PagingSystem implements AlertListener {
     
     @Override
     public void alertReceived(Alert alert) {
-        PageThread thread = new PageThread(alert);
-        thread.run();
+        page(alert);
     }
     
     protected void setIPAddress(String address) {
@@ -169,62 +168,38 @@ public final class PagingSystem implements AlertListener {
         return parent;
     }
     
-    private final int FIFTEEN = 15 * 60 * 1000;
-    private final int TOTALTIME = 3 * 60 * 60 * 1000;
-    
-    private class PageThread implements Runnable {
+    public void page(Alert alert) {
+        Employee[] employees = eh.getCurrentPrioritizedEmployees();
+        Employee[] pageEmployee = new Employee[alert.getTimesPaged()];
 
-        private final Alert alert;
-        
-        public PageThread(Alert alert) {
-            super();
-            this.alert = alert;
+        if(employees.length == 0) {
+            notifyAllLogListeners("There are no employees on duty");
+            return;
         }
-        
-        @Override
-        public void run() {
-            Employee[] employees = eh.getCurrentPrioritizedEmployees();
-            Employee[] pageEmployee = new Employee[alert.getTimesPaged()];
-            
-            if(employees.length == 0) {
-                notifyAllLogListeners("There are no employees on duty");
-                return;
-            }
-            
-            for(int i = 0; i < pageEmployee.length; i++) {
-                pageEmployee[i] = employees[i];
-            }
-            
-                
-            for(Employee employee: pageEmployee) {
-                Page page = new Page(employee.getPager(), alert.getMessage(), props.getPagerIP(), props.getPagerPort());
-                boolean worked = false;
-                do {
-                    try {
-                        page.start(); 
-                        worked = true;
-                    } catch (IOException ex) {
-                        errorRecovery(ex);
-                        Logger.getLogger(PagingSystem.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }while(!worked);
-            }
-        
+
+        for(int i = 0; i < pageEmployee.length; i++) {
+            pageEmployee[i] = employees[i];
         }
+
+
+        for(Employee employee: pageEmployee) {
+            Page page = new Page(employee.getPager(), alert.getMessage(), props.getPagerIP(), props.getPagerPort());
+            boolean worked = false;
+            do {
+                try {
+                    page.start(); 
+                    worked = true;
+                } catch (IOException ex) {
+                    errorRecovery(ex);
+                    Logger.getGlobal().log(Level.SEVERE, null, ex);
+                }
+            }while(!worked);
+        }
+
+    }
             
         
-    }
-        
-        private void hold(int time) {
-            try {
-                System.out.println("Going to sleep");
-                Thread.sleep(time); // 15 minutes
-                System.out.println("I woke up!");
-            } catch (InterruptedException ex) {
-                Logger.getLogger(PagingSystem.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        
-    }
+   
     
     public class PagingSystemPanel extends JPanel implements UpdateListener, LogListener {
 
