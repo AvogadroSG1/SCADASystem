@@ -29,8 +29,12 @@ public class SCADASite implements Serializable, Comparable
     private DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
     private Date date;
 
-    public SCADASite(String aName, String aLat, String aLon, ArrayList<SCADAComponent> scs)
+    private final int id;
+    
+    
+    public SCADASite(int aId, String aName, String aLat, String aLon, ArrayList<SCADAComponent> scs)
     {
+        id = aId;
         name = aName;
         lon = Double.parseDouble(aLon);
         lat = Double.parseDouble(aLat);
@@ -69,6 +73,10 @@ public class SCADASite implements Serializable, Comparable
     public double getLon()
     {
         return lon;
+    }
+    
+    public int getID() {
+        return id;
     }
     
     //Checking for alarms by going through all of the SCADAComponents

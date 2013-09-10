@@ -49,7 +49,6 @@ public class SCADAServer
     private JTextArea textArea;
     
     PageWithModem pageServ;
-    private int currentJobID = 1;
     
     public SCADAServer()
     {
@@ -89,6 +88,7 @@ public class SCADAServer
         try
         {
             Scanner in = new Scanner(siteList);
+            int scadaID = 1;
             
             while(in.hasNextLine())
             {   
@@ -186,7 +186,8 @@ public class SCADAServer
                 if(stuff.equalsIgnoreCase("end"))
                 {
                     log.info("Reached end of site!");
-                    sites.add(new SCADASite(name, lat, lon, components));
+                    sites.add(new SCADASite(scadaID, name, lat, lon, components));
+                    scadaID ++;
                     name = "";
                     lat = "";
                     lon = "";
@@ -278,16 +279,16 @@ public class SCADAServer
             log.log(Level.INFO, "Checking Site:  {0}", ss.getName());
             ss.checkAlarms();
             
-            if(pageServ != null && pageServ.isActive() && ss.isNewAlarm()) {
+            if(pageServ != null && pageServ.isActive() && ss.isNewAlarm() && ss.getAlarm()) { // checks if it is a new alarm and critical
                 System.out.println("About to page");
                 System.out.println(ss.getCritcialInfo());
-                pageServ.startPage(currentJobID, ss.getCritcialInfo());
-                currentJobID++;
+                pageServ.startPage(ss.getID(), ss.getCritcialInfo());
                 System.out.println("Finished Paging");
-                SCADARunner.gui.updateTree(sites);
             }
             
         }
+        
+        SCADARunner.gui.updateTree(sites);
         long endSec = System.currentTimeMillis()/1000;
         
         log.log(Level.INFO, "Stopped Checking at: {0}", endSec);
