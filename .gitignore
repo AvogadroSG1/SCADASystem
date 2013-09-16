@@ -11,3 +11,8 @@
 /PagingSystem/dist/
 /PagingTest/nbproject/private/
 /Paging System/nbproject/private/
+*.class
+
+*.class
+
+*.properties
