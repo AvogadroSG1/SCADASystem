@@ -62,7 +62,7 @@ public class SCADAServer
         this.startUpSites();
 
         log.log(Level.INFO, "Started Client Listening Thread.");
-        
+        this.startClientCon();
         pageServ = new PageWithModem();
     }
     
