@@ -7,6 +7,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -175,6 +178,9 @@ public class Page implements Runnable
                     pageSent = true;
                     logoff();
                     loggedOff = true;
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    Date date = new Date();
+                    Logger.getGlobal().log(Level.SEVERE, "Page: {0} Sent. " + dateFormat.format(date), formedMsg);
                 }
                 
             }
