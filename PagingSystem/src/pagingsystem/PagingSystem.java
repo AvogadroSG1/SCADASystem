@@ -150,9 +150,9 @@ public final class PagingSystem implements AlertListener {
         if(chose.equals(RETRY)) {
             // do nothing
         } else if(chose.equals(CHANGE_IP)) {
-            setIPAddress("");
+            props.setPagerIP("");
         } else if(chose.equals(CHANGE_PORT)) {
-            setPort("");
+            props.setPagerPort(-1);
         } else if(chose.equals(QUIT)) {
             int dialogResult = JOptionPane.showConfirmDialog(this.getPagingSystemPanel(), "Are you sure you want to quit?\n"
                     + "All active pages will be deleted.\n"
@@ -170,7 +170,10 @@ public final class PagingSystem implements AlertListener {
     
     public void page(Alert alert) {
         Employee[] employees = eh.getCurrentPrioritizedEmployees();
-        Employee[] pageEmployee = new Employee[alert.getTimesPaged()];
+        
+        int length = Math.min(employees.length, alert.getTimesPaged());
+        
+        Employee[] pageEmployee = new Employee[length];;
 
         if(employees.length == 0) {
             notifyAllLogListeners("There are no employees on duty");
