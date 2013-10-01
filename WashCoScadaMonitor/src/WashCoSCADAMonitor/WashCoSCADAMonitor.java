@@ -115,8 +115,11 @@ public class WashCoSCADAMonitor extends JFrame implements WashCoSCADAConstants, 
     
     private void makeTabbedPane() 
     {
-        jtreeTabbed.addTab("All", scadaTree);
-        jtreeTabbed.addTab("Alarms", scadaPrioritizedTree);
+        JScrollPane treeScroll1 = new JScrollPane(scadaTree);
+        JScrollPane treeScroll2 = new JScrollPane(scadaPrioritizedTree);
+        
+        jtreeTabbed.addTab("All", treeScroll1);
+        jtreeTabbed.addTab("Alarms", treeScroll2);
     }
     
     private void makeControlPanel()
@@ -196,8 +199,8 @@ public class WashCoSCADAMonitor extends JFrame implements WashCoSCADAConstants, 
                     if(temp instanceof String)
                     {
                         map.setSCADASites(sites);
-                        scadaTree.setSCADASites(sites);
-                        scadaPrioritizedTree.setSCADASites(sites);
+                        scadaTree.updateSCADASites(sites);
+                        scadaPrioritizedTree.updateSCADASites(sites);
                         sp.clearText();
                         sp.setText("Monitor Initialized.");
                         return;
@@ -268,8 +271,8 @@ public class WashCoSCADAMonitor extends JFrame implements WashCoSCADAConstants, 
                         
                         sp.repaint();   
                         map.setSCADASites(sites);
-                        scadaTree.setSCADASites(sites);
-                        scadaPrioritizedTree.setSCADASites(sites);
+                        scadaTree.updateSCADASites(sites);
+                        scadaPrioritizedTree.updateSCADASites(sites);
                         
                         atSite++;
                     }

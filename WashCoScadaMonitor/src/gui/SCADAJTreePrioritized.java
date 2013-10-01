@@ -18,15 +18,26 @@ import javax.swing.tree.TreeModel;
  */
 public class SCADAJTreePrioritized extends SCADAJTree{
 
+    private DefaultMutableTreeNode critical, warning;
+    
     public SCADAJTreePrioritized() {
         super();
-        this.setRootVisible(false);
+        init();
     }
 
+    private void init() {
+        critical = new DefaultMutableTreeNode("Critical");
+        warning = new DefaultMutableTreeNode("Warning");
+        
+        root.add(critical);
+        root.add(warning);
+        
+        this.setRootVisible(false);
+    }
     
-    
+    /*
     @Override
-    public void setSCADASites(ArrayList<SCADASite> sites) {
+    public void updateSCADASites(ArrayList<SCADASite> sites) {
         DefaultMutableTreeNode root = new DefaultMutableTreeNode();
         DefaultMutableTreeNode critical = new DefaultMutableTreeNode("Critical");
         DefaultMutableTreeNode warning = new DefaultMutableTreeNode("Warning");
@@ -46,7 +57,7 @@ public class SCADAJTreePrioritized extends SCADAJTree{
                 warning.add(new SCADANode(site));
             }
         }
-        
+        warning.
 
         this.setModel(siteModel);
         
@@ -55,6 +66,30 @@ public class SCADAJTreePrioritized extends SCADAJTree{
          this.expandRow(i);
         }
         
+    }
+    */
+    
+    @Override
+    public void updateSCADASites(ArrayList<SCADASite> sites) {
+        
+        for(SCADASite site: sites) { 
+            SCADANode node = getSCADANode(site);
+            if(node != null) {
+                node.removeFromParent();
+                placeIntoCorrectTree(node);
+            } else { // if the site isn't found
+                placeIntoCorrectTree(new SCADANode(site));
+            }
+        }
+        
+    }
+    
+    private void placeIntoCorrectTree(SCADANode node) {
+        if(node.getSite().getAlarm()) {
+            critical.add(node);
+        } else if(node.getSite().getWarning()) {
+            warning.add(node);
+        }
     }
     
         public SCADASite getSelected(TreeSelectionEvent tse)

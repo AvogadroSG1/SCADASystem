@@ -21,7 +21,7 @@ import javax.swing.tree.*;
 public class SCADAJTree extends JTree
 {
     DefaultMutableTreeNode root;
-    TreeModel siteModel;
+    DefaultTreeModel siteModel;
     
     public SCADAJTree() {
         super();
@@ -33,21 +33,70 @@ public class SCADAJTree extends JTree
         
     }
     
-    public void setSCADASites(ArrayList<SCADASite> sites) {
-        root.removeAllChildren();
+    public void updateSCADASites(ArrayList<SCADASite> sites) {
         
         for(SCADASite site: sites) {
-            root.add(new SCADANode(site));
+            
+            boolean found = false;
+            
+            for(int i = 0; i < root.getChildCount() && !found; i++) {
+                TreeNode node = root.getChildAt(i);
+                
+                if(node instanceof SCADANode) {
+                    SCADANode  sNode = (SCADANode) node;
+                    if(sNode.getSite().getID() == site.getID()) {
+                        siteModel.reload(node);
+                        found = true;
+                    }
+                }
+                
+            }
+            
+            if(!found)
+                addSite(site);
+            
         }
         
-        for (int i = 0; i < this.getRowCount(); i++) 
-        {
-         this.expandRow(i);
-        }
     }
 
+    public void addSite(SCADASite site) {
+        root.add(new SCADANode(site));
+    }
     
+    public void removeSite(SCADASite site) {
+        SCADANode scadaNode = getSCADANode(site);
+        if(scadaNode != null) {
+            scadaNode.removeFromParent();
+        }
+    }
     
+    SCADANode getSCADANode(SCADASite site) {
+        // searches the entire tree, leafs and all
+        
+        return searchParent(root, site);
+    }
+    
+    protected SCADANode searchParent(DefaultMutableTreeNode node, SCADASite site) { //returns the scadanode belonging to the site or null if not found
+        
+        if(!node.isLeaf()) { //if is a directory
+            DefaultMutableTreeNode[] nodes = new DefaultMutableTreeNode[node.getChildCount()];
+            for(int i = 0; i < nodes.length; i++) {
+                nodes[i] = (DefaultMutableTreeNode) node.getChildAt(i);
+                SCADANode siteNode = searchParent(nodes[i], site);
+                if(siteNode != null)
+                    return siteNode;
+            }
+        } else {
+            if(node instanceof SCADANode) {
+                SCADANode sNode = (SCADANode) node;
+                if(sNode.getSite().getID() == site.getID())
+                    return sNode;
+            }
+        }
+        
+        return null;
+        
+    }
     
     class SCADANode extends DefaultMutableTreeNode {
         

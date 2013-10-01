@@ -11,10 +11,7 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeCellRenderer;
-import javax.swing.tree.TreeModel;
+import javax.swing.tree.*;
 
 /**
  *
@@ -23,33 +20,80 @@ import javax.swing.tree.TreeModel;
 public class SCADAJTree extends JTree
 {
     DefaultMutableTreeNode root;
-    TreeModel siteModel;
+    DefaultTreeModel siteModel;
     
     public SCADAJTree() {
         super();
         root = new DefaultMutableTreeNode("Sites");
         siteModel = new DefaultTreeModel(root);
         this.setModel(siteModel);
-        this.setCellRenderer(new SCADACellRenderer());
+        this.setCellRenderer(new SCADAJTree.SCADACellRenderer());
         this.setFocusable(true);
         
     }
     
-    public void setSCADASites(ArrayList<SCADASite> sites) {
-        root.removeAllChildren();
+    public void updateSCADASites(ArrayList<SCADASite> sites) {
         
         for(SCADASite site: sites) {
-            root.add(new SCADANode(site));
+            
+            boolean found = false;
+            
+            for(int i = 0; i < root.getChildCount() && !found; i++) {
+                TreeNode node = root.getChildAt(i);
+                
+                if(node instanceof SCADAJTree.SCADANode) {
+                    SCADAJTree.SCADANode  sNode = (SCADAJTree.SCADANode) node;
+                    if(sNode.getSite().getID() == site.getID()) {
+                        siteModel.reload(node);
+                        found = true;
+                    }
+                }
+            }
+            
+            if(!found)
+                addSite(site);
         }
         
-        for (int i = 0; i < this.getRowCount(); i++) 
-        {
-         this.expandRow(i);
-        }
     }
 
+    public void addSite(SCADASite site) {
+        root.add(new SCADANode(site));
+    }
     
+    public void removeSite(SCADASite site) {
+        SCADAJTree.SCADANode scadaNode = getSCADANode(site);
+        if(scadaNode != null) {
+            scadaNode.removeFromParent();
+        }
+    }
     
+    SCADAJTree.SCADANode getSCADANode(SCADASite site) {
+        // searches the entire tree, leafs and all
+        
+        return searchParent(root, site);
+    }
+    
+    protected SCADAJTree.SCADANode searchParent(DefaultMutableTreeNode node, SCADASite site) { //returns the scadanode belonging to the site or null if not found
+        
+        if(!node.isLeaf()) { //if is a directory
+            DefaultMutableTreeNode[] nodes = new DefaultMutableTreeNode[node.getChildCount()];
+            for(int i = 0; i < nodes.length; i++) {
+                nodes[i] = (DefaultMutableTreeNode) node.getChildAt(i);
+                SCADAJTree.SCADANode siteNode = searchParent(nodes[i], site);
+                if(siteNode != null)
+                    return siteNode;
+            }
+        } else {
+            if(node instanceof SCADAJTree.SCADANode) {
+                SCADAJTree.SCADANode sNode = (SCADAJTree.SCADANode) node;
+                if(sNode.getSite().getID() == site.getID())
+                    return sNode;
+            }
+        }
+        
+        return null;
+        
+    }
     
     class SCADANode extends DefaultMutableTreeNode {
         
@@ -70,8 +114,8 @@ public class SCADAJTree extends JTree
         public Component getTreeCellRendererComponent(JTree jtree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
             JLabel label = new JLabel();
             
-            if(value instanceof SCADANode) {
-                SCADANode node = (SCADANode) value;
+            if(value instanceof SCADAJTree.SCADANode) {
+                SCADAJTree.SCADANode node = (SCADAJTree.SCADANode) value;
                 SCADASite site = node.getSite();
                 label.setText(site.getName());
                 
@@ -108,9 +152,9 @@ public class SCADAJTree extends JTree
         DefaultMutableTreeNode node = (DefaultMutableTreeNode)
                        getLastSelectedPathComponent();
         
-        if(node instanceof SCADANode)
+        if(node instanceof SCADAJTree.SCADANode)
         {
-            return ((SCADANode) node).getSite();
+            return ((SCADAJTree.SCADANode) node).getSite();
         }
         else
             return null;

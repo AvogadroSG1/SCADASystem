@@ -44,6 +44,9 @@ public class ServerGUI extends JFrame {
     
     private void init() {
         tree = new SCADAJTree();
+        JScrollPane treeScroll = new JScrollPane(tree);
+        
+        
         pageGUI = server.getPageServ().getPagingGUI();
         
         checkAlarmSwitch = new JLightSwitch("Alarms");
@@ -93,7 +96,7 @@ public class ServerGUI extends JFrame {
         
         this.add(toolbar, BorderLayout.NORTH);
         this.add(temp, BorderLayout.CENTER);
-        this.add(tree, BorderLayout.WEST);
+        this.add(treeScroll, BorderLayout.WEST);
         
         this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
     }
@@ -144,7 +147,7 @@ public class ServerGUI extends JFrame {
     }
     
     public void updateTree(ArrayList<SCADASite> sites) {
-        tree.setSCADASites(sites);
+        tree.updateSCADASites(sites);
     }
     
     public boolean isChecking() {
