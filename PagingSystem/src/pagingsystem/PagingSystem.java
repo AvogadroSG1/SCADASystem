@@ -14,9 +14,12 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
@@ -48,6 +51,7 @@ public final class PagingSystem implements AlertListener {
     private InputStream is;
     private PageAndVoiceProperties props;
     private PagingProgressPanel ppp;
+    private PrintWriter pageLog;
     
     private Stack<LogListener> logListeners = new Stack();
     
@@ -60,6 +64,15 @@ public final class PagingSystem implements AlertListener {
         ams = new AlertMonitoringSystem();
         
         ams.addAlertListener(this);
+        
+        File pageFile = new File("pagelog.txt");
+        try 
+        {
+            pageLog = new PrintWriter(pageFile);
+        } catch (FileNotFoundException ex) 
+        {
+            Logger.getGlobal().log( Level.SEVERE, "Could not open page log file for writing.");
+        }
         
         parent = new PagingSystemPanel(this);
         ppp = new PagingProgressPanel();
@@ -197,6 +210,8 @@ public final class PagingSystem implements AlertListener {
                     Logger.getGlobal().log(Level.SEVERE, null, ex);
                 }
             }while(!worked);
+        pageLog.println("Paged: " + employee.getName() + " with message " + alert.getMessage());
+        pageLog.flush();
         }
 
     }

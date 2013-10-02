@@ -24,13 +24,16 @@ public class SCADASite implements Serializable, Comparable
     private ArrayList<SCADAComponent> components = new ArrayList<SCADAComponent>();
     private final int DISCRETE_OFFSET = 10001;
     private final int REGISTER_OFFSET = 30001;
-    private boolean alarm, warning, connected, newAlarm;
+    private Boolean critical = false, warning = false, notNormal = false, normal = false;
+    private boolean connected = true, newAlarm = false;
     private long startdis; 
     private DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
     private Date date;
-
-    private final int id;
+    private ArrayList<Alert> alerts;
     
+    private final int id;
+    private boolean justChanged;
+    private boolean oldCritical, oldWarning, oldNotNormal, oldNormal;
     
     public SCADASite(int aId, String aName, String aLat, String aLon, ArrayList<SCADAComponent> scs)
     {
@@ -39,12 +42,10 @@ public class SCADASite implements Serializable, Comparable
         lon = Double.parseDouble(aLon);
         lat = Double.parseDouble(aLat);
         components = scs;
-        alarm = false;
         statusString = "";
         startdis = -1;
-        connected = true;
-        newAlarm = true;
         date = new Date();
+        alerts = new ArrayList<Alert>();
     }
     
     //Returns the SCADAComponents
@@ -83,9 +84,7 @@ public class SCADASite implements Serializable, Comparable
     public synchronized void checkAlarms()
     {
         statusString = this.getName() + "\n";
-        alarm = false;
-        warning = false;
-   
+        assignOlds();
         for(int siteid = 0; siteid < components.size(); siteid++)
             {
                 SCADAComponent sc = components.get(siteid);
@@ -119,31 +118,40 @@ public class SCADASite implements Serializable, Comparable
                             statusString += "\n"+ dname + " at Discrete: \t" + addy + ":\t";
                             if(bv.getBit(0) && currentD.getWarning() == 2)
                             {
+                                if(critical) //checks to see if critical is already on
+                                    newAlarm = false;
+                                else
+                                    newAlarm = true; 
                                 statusString += "CRITICAL\n";
-                                alarm = true;
+                                changeStatus(critical);
                                 critInfo = currentD.getName();
+                                alerts.add(new Alert(this, currentD.getName(), dateFormat.format(date)));
+                                
                             }
                             else if(bv.getBit(0) && currentD.getWarning() == 1)
                             {
                                 statusString += "Warning\n";
-                                warning = true;
-                                newAlarm = true;
+                                changeStatus(warning);
                                 critInfo = "";
+                                alerts.add(new Alert(this, currentD.getName(), dateFormat.format(date)));
                             }
                             else if(bv.getBit(0) && currentD.getWarning() == 0)
                             {
                                 statusString += "Not Normal\n";
-                                newAlarm = true;
+                                changeStatus(notNormal);
                                 critInfo = "";
+                                alerts.add(new Alert(this, currentD.getName(), dateFormat.format(date)));
                             }
                             else
                             {
                                 statusString += "Normal\n";
-                                newAlarm = true;
+                                changeStatus(normal);
                                 critInfo = "";
                             }
                             
                         }
+                        
+                        justChanged = assignJustChanged();
                         
                         for(int i = 0; i < registers.size(); i++)
                         {
@@ -173,6 +181,21 @@ public class SCADASite implements Serializable, Comparable
                 }
             }
     }
+    
+    private boolean inQueue(Discrete check)
+    {
+        for(Alert a : alerts)
+            if(a.equals(check))
+                return true;
+        
+        return false;
+    }
+    
+    public ArrayList<Alert> getAlerts()
+    {
+        return alerts;
+    }
+    
     public String getStatus()
     {
             return statusString;
@@ -185,9 +208,7 @@ public class SCADASite implements Serializable, Comparable
     
     public boolean getAlarm()
     {
-        if(newAlarm)
-            newAlarm = false;
-        return alarm;
+        return critical;
     }
     
     public String getCritcialInfo()
@@ -196,7 +217,7 @@ public class SCADASite implements Serializable, Comparable
     }
     public boolean isNewAlarm()
     {
-        return alarm && newAlarm;
+        return newAlarm && critical;
     }
     
     public boolean connected()
@@ -209,18 +230,56 @@ public class SCADASite implements Serializable, Comparable
         return connected;
     }
     
+    public boolean didJustChange() {
+        return justChanged;
+    }
+    
     public boolean equals(SCADASite other)
     {
         System.out.println(other.getName() + "Compared!");
-        return other.getName().equals(this.getName());
+        return this.getID() == other.getID();
     }
     
+    @Override
     public int compareTo(Object o) 
     {
-        SCADASite ss = (SCADASite) o;
+        if(o instanceof SCADASite) {
+            SCADASite ss = (SCADASite) o;
+
+            return ss.getID() - this.getID();
+        }else return -1;
+    }
+    
+    /*
+     * This status sets all the statuses to false, then the boolean passed by reference becomes true
+     */
+    private void changeStatus(Boolean status) {
+        notNormal = false;
+        critical = false;
+        warning = false;
+        normal = false;
         
-        if(ss.getName().equals(this.getName()))
-            return 0;
-        else return -1;
+        status = true;
+    }
+    
+    private void assignOlds() {
+        oldNormal = normal;
+        oldNotNormal = notNormal;
+        oldWarning = warning;
+        oldCritical = critical;
+    }
+    
+    private boolean assignJustChanged() {
+        if(critical.booleanValue() != oldCritical)
+            return true;
+        if(warning.booleanValue() != oldWarning)
+            return true;
+        if(notNormal.booleanValue() != oldNotNormal)
+            return true;
+        if(oldNormal != normal.booleanValue())
+            return true;
+        
+        return false;
+            
     }
 }
