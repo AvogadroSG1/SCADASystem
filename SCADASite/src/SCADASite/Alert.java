@@ -48,4 +48,5 @@ public class Alert
     {
         return other.discrete.getName().equals(this.discrete.getName());
     }
+
 }

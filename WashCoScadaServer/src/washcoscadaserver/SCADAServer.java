@@ -189,7 +189,6 @@ public class SCADAServer implements SCADAUpdateListener
                     SCADASite site = new SCADASite(scadaID, name, lat, lon, components);
                     sites.add(site);
                     site.addSCADAUpdateListener(this);
-                    site.startChecking();
                     
                     scadaID ++;
                     name = "";

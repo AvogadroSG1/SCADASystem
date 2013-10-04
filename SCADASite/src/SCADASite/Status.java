@@ -4,11 +4,13 @@
  */
 package SCADASite;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Shawn
  */
-public class Status {
+public class Status implements Serializable {
     
     public static final int CRITICAL = 3;
     public static final int WARNING = 2;

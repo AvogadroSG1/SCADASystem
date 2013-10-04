@@ -132,7 +132,6 @@ public class SCADASite implements Serializable, Comparable
                             else if(bv.getBit(0) && currentD.getWarning() == 1)
                             {
                                 statusString += "Warning\n";
-                                alerts.add(new Alert(this, currentD, dateFormat.format(date)));
                                 currentD.setStatus(Status.WARNING);
                                 
                                 if(!inQueue(currentD))
@@ -150,6 +149,18 @@ public class SCADASite implements Serializable, Comparable
                             {
                                 statusString += "Normal\n";
                                 currentD.setStatus(Status.NORMAL);
+                                if(inQueue(currentD)) {
+                                    
+                                    for(int j = 0; j < alerts.size(); j++) {
+                                        
+                                        if(alerts.get(j).getDiscrete() == currentD) {
+                                            alerts.remove(j);
+                                            j = alerts.size();
+                                        }
+                                        
+                                    }
+                                    
+                                }
                             }
                             
                             if(currentD.getStatus().getStatusCode() > this.status.getStatusCode()) {
@@ -195,12 +206,13 @@ public class SCADASite implements Serializable, Comparable
                     }
                 }
             }
+        
     }
     
     private boolean inQueue(Discrete check)
     {
         for(Alert a : alerts)
-            if(a.equals(check))
+            if(a.getDiscrete() == check)
                 return true;
         
         return false;
@@ -218,12 +230,12 @@ public class SCADASite implements Serializable, Comparable
     
     public boolean getWarning()
     {
-        return status.isWarning();
+        return status.isWarning() || !connected;
     }
     
     public boolean getAlarm()
     {
-        return status.isCritical() || !connected;
+        return status.isCritical();
     }
     
     public String getCritcialInfo()
@@ -232,8 +244,6 @@ public class SCADASite implements Serializable, Comparable
     }
     public boolean isNewAlarm()
     {
-        if(justDisconnected)
-            return true;
         
         for(SCADAComponent comp: components) {
             for(Discrete discrete: comp.getDiscretes()) {
@@ -256,6 +266,9 @@ public class SCADASite implements Serializable, Comparable
     }
     
     public boolean didJustChange() {
+        if(justDisconnected)
+            return true;
+        
         for(SCADAComponent comp: components) {
             for(Discrete discrete: comp.getDiscretes()) {
                 if(discrete.getStatus().didJustChange())
@@ -303,14 +316,16 @@ public class SCADASite implements Serializable, Comparable
         
         @Override
         public void run() {
-            SCADASite.this.checkAlarms();
-            if(didJustChange()) {
-                notifyAllSCADAListeners(alerts);
-            }
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(SCADASite.class.getName()).log(Level.SEVERE, null, ex);
+            while(true) {
+                SCADASite.this.checkAlarms();
+                if(didJustChange()) {
+                    notifyAllSCADAListeners(alerts);
+                }
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(SCADASite.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
         
