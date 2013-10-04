@@ -24,16 +24,16 @@ public class SCADASite implements Serializable, Comparable
     private ArrayList<SCADAComponent> components = new ArrayList<SCADAComponent>();
     private final int DISCRETE_OFFSET = 10001;
     private final int REGISTER_OFFSET = 30001;
-    private Boolean critical = false, warning = false, notNormal = false, normal = false;
-    private boolean connected = true, newAlarm = false;
+    private boolean connected = true;
     private long startdis; 
     private DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
     private Date date;
     private ArrayList<Alert> alerts;
     
+    
     private final int id;
-    private boolean justChanged;
-    private boolean oldCritical, oldWarning, oldNotNormal, oldNormal;
+    private boolean justDisconnected = false;
+    private Status status = new Status();
     
     public SCADASite(int aId, String aName, String aLat, String aLon, ArrayList<SCADAComponent> scs)
     {
@@ -83,19 +83,17 @@ public class SCADASite implements Serializable, Comparable
     //Checking for alarms by going through all of the SCADAComponents
     public synchronized void checkAlarms()
     {
+        status.setStatusCode(Status.NORMAL); // just incase the status is less than it was last time
+        status.setJustChanged(false); //so that we can update it later
+        
         statusString = this.getName() + "\n";
-        assignOlds();
+        
         for(int siteid = 0; siteid < components.size(); siteid++)
             {
                 SCADAComponent sc = components.get(siteid);
                 if(sc.isModBus())
                 {
-                    if(connected)
-                        statusString += sc.getName() + "\n" + dateFormat.format(date) + "\n";
-                    else
-                        statusString += "Disconnceted.\nLast connection on: " +
-                                dateFormat.format(date);
-                    
+                    statusString += sc.getName() + "\n" + dateFormat.format(date) + "\n";
                     
                     try 
                     {
@@ -119,48 +117,40 @@ public class SCADASite implements Serializable, Comparable
                             /* checks for critical alarm*/
                             if(bv.getBit(0) && currentD.getWarning() == 2)
                             {
-                                if(critical) //checks to see if critical is already on
-                                    newAlarm = false;
-                                else
-                                    newAlarm = true; 
-                                
                                 statusString += "CRITICAL\n";
-                                changeStatus(critical);
-                                critical = true;
                                 critInfo = currentD.getName();
                                 alerts.add(new Alert(this, currentD.getName(), dateFormat.format(date)));
-                                
+                                currentD.setStatus(Status.CRITICAL);
                             }
                             else if(bv.getBit(0) && currentD.getWarning() == 1)
                             {
-                                if(!critical)
-                                {
                                 statusString += "Warning\n";
-                                changeStatus(warning);
                                 critInfo = "";
                                 alerts.add(new Alert(this, currentD.getName(), dateFormat.format(date)));
-                                }
+                                currentD.setStatus(Status.WARNING);
                             }
                             else if(bv.getBit(0) && currentD.getWarning() == 0)
                             {
-                                if(!critical)
-                                {
                                 statusString += "Not Normal\n";
-                                changeStatus(notNormal);
                                 critInfo = "";
                                 alerts.add(new Alert(this, currentD.getName(), dateFormat.format(date)));
-                                }
+                                currentD.setStatus(Status.NOTNORMAL);
                             }
                             else
                             {
                                 statusString += "Normal\n";
-                                changeStatus(normal);
                                 critInfo = "";
+                                currentD.setStatus(Status.NORMAL);
+                            }
+                            
+                            if(currentD.getStatus().getStatusCode() > this.status.getStatusCode()) {
+                                status.setStatusCode(currentD.getStatus().getStatusCode());
+                            }
+                            if(currentD.getStatus().didJustChange()) {
+                                status.setJustChanged(true);
                             }
                             
                         }
-                        
-                        justChanged = assignJustChanged();
                         
                         for(int i = 0; i < registers.size(); i++)
                         {
@@ -173,6 +163,7 @@ public class SCADASite implements Serializable, Comparable
                         
                         //Got through connections
                         date = new Date();
+                        justDisconnected = false;
                         connected = true;
                         startdis = -1;
                         
@@ -183,7 +174,16 @@ public class SCADASite implements Serializable, Comparable
                         System.out.println("Disconnected");
                         statusString += "Disconnceted.\nLast connection on: " +
                                 dateFormat.format(date);
-                        warning = true;
+                        
+                        if(!justDisconnected) { //if just disconnected
+                            justDisconnected = true;
+                        } else {
+                            justDisconnected = false;
+                        }
+                        
+                        critInfo = this.getName() + " disconnceted.\nLast connection on: " +
+                                dateFormat.format(date);
+                        
                         connected = false;
                         siteid = components.size();
                     }
@@ -212,12 +212,12 @@ public class SCADASite implements Serializable, Comparable
     
     public boolean getWarning()
     {
-        return warning;
+        return status.isWarning();
     }
     
     public boolean getAlarm()
     {
-        return critical;
+        return status.isCritical() || !connected;
     }
     
     public String getCritcialInfo()
@@ -226,7 +226,17 @@ public class SCADASite implements Serializable, Comparable
     }
     public boolean isNewAlarm()
     {
-        return newAlarm && critical;
+        if(justDisconnected)
+            return true;
+        
+        for(SCADAComponent comp: components) {
+            for(Discrete discrete: comp.getDiscretes()) {
+                if(discrete.getStatus().didJustChange() && discrete.getStatus().isCritical())
+                    return true; // if any of the discretes just changed and is a critical, then there is a new alarm
+            }
+        }
+        
+        return false;
     }
     
     public boolean connected()
@@ -237,10 +247,6 @@ public class SCADASite implements Serializable, Comparable
     public boolean getConnected()
     {
         return connected;
-    }
-    
-    public boolean didJustChange() {
-        return justChanged;
     }
     
     public boolean equals(SCADASite other)
@@ -257,38 +263,5 @@ public class SCADASite implements Serializable, Comparable
 
             return ss.getID() - this.getID();
         }else return -1;
-    }
-    
-    /*
-     * This status sets all the statuses to false, then the boolean passed by reference becomes true
-     */
-    private void changeStatus(Boolean status) {
-        notNormal = false;
-        critical = false;
-        warning = false;
-        normal = false;
-        
-        status = true;
-    }
-    
-    private void assignOlds() {
-        oldNormal = normal;
-        oldNotNormal = notNormal;
-        oldWarning = warning;
-        oldCritical = critical;
-    }
-    
-    private boolean assignJustChanged() {
-        if(critical.booleanValue() != oldCritical)
-            return true;
-        if(warning.booleanValue() != oldWarning)
-            return true;
-        if(notNormal.booleanValue() != oldNotNormal)
-            return true;
-        if(oldNormal != normal.booleanValue())
-            return true;
-        
-        return false;
-            
     }
 }
