@@ -9,6 +9,8 @@ import java.util.*;
 import java.net.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.wimpi.modbus.facade.ModbusTCPMaster;
 import net.wimpi.modbus.procimg.InputRegister;
 import net.wimpi.modbus.util.*;
@@ -30,7 +32,7 @@ public class SCADASite implements Serializable, Comparable
     private Date date;
     
     private ArrayList<Alert> alerts;
-    
+    private CheckThread checkThread = new CheckThread();
     
     private final int id;
     private boolean justDisconnected = false;
@@ -89,8 +91,6 @@ public class SCADASite implements Serializable, Comparable
         
         critInfo = "";
         
-        alerts.clear();
-        
         statusString = this.getName() + "\n";
         
         for(int siteid = 0; siteid < components.size(); siteid++)
@@ -124,20 +124,27 @@ public class SCADASite implements Serializable, Comparable
                             {
                                 statusString += "CRITICAL\n";
                                 critInfo += currentD.getName() + "\n";
-                                alerts.add(new Alert(this, currentD.getName(), dateFormat.format(date)));
                                 currentD.setStatus(Status.CRITICAL);
+                                
+                                if(!inQueue(currentD))
+                                    alerts.add(new Alert(this, currentD, dateFormat.format(date)));
                             }
                             else if(bv.getBit(0) && currentD.getWarning() == 1)
                             {
                                 statusString += "Warning\n";
-                                alerts.add(new Alert(this, currentD.getName(), dateFormat.format(date)));
+                                alerts.add(new Alert(this, currentD, dateFormat.format(date)));
                                 currentD.setStatus(Status.WARNING);
+                                
+                                if(!inQueue(currentD))
+                                    alerts.add(new Alert(this, currentD, dateFormat.format(date)));
                             }
                             else if(bv.getBit(0) && currentD.getWarning() == 0)
                             {
                                 statusString += "Not Normal\n";
-                                alerts.add(new Alert(this, currentD.getName(), dateFormat.format(date)));
                                 currentD.setStatus(Status.NOTNORMAL);
+                                
+                                if(!inQueue(currentD))
+                                    alerts.add(new Alert(this, currentD, dateFormat.format(date)));
                             }
                             else
                             {
@@ -274,5 +281,46 @@ public class SCADASite implements Serializable, Comparable
 
             return ss.getID() - this.getID();
         }else return -1;
+    }
+    
+    private Stack<SCADAUpdateListener> listeners = new Stack();
+    
+    public void addSCADAUpdateListener(SCADAUpdateListener listener) {
+        listeners.add(listener);
+    }
+    
+    public void removeSCADAUpdateListener(SCADAUpdateListener listener) {
+        listeners.remove(listener);
+    }
+    
+    public void notifyAllSCADAListeners(ArrayList<Alert> alerts) {
+        for(SCADAUpdateListener listener: listeners) {
+            listener.update(alerts);
+        }
+    }
+    
+    private class CheckThread extends Thread {
+        
+        @Override
+        public void run() {
+            SCADASite.this.checkAlarms();
+            if(didJustChange()) {
+                notifyAllSCADAListeners(alerts);
+            }
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(SCADASite.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+    }
+    
+    public void startChecking() {
+        checkThread.start();
+    }
+    
+    public void stopChecking() {
+        checkThread.interrupt();
     }
 }

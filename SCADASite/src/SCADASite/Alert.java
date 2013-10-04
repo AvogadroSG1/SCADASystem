@@ -12,15 +12,15 @@ public class Alert
 {
     private final SCADASite ss;
     private final String site;
-    private final String name;
+    private final Discrete discrete;
     private final String time;
     
     
-    public Alert(SCADASite aSS,String aName, String aTime)
+    public Alert(SCADASite aSS,Discrete aDiscrete, String aTime)
     {
         this.ss = aSS;
         this.site = ss.getName();
-        this.name = aName;
+        this.discrete = aDiscrete;
         this.time = aTime;
     }
     
@@ -34,9 +34,9 @@ public class Alert
         return site;
     }
     
-    public String getDiscreteName()
+    public Discrete getDiscrete()
     {
-        return name;
+        return discrete;
     }
     
     public String getTime()
@@ -46,6 +46,6 @@ public class Alert
     
     public boolean equals(Alert other)
     {
-        return other.name.equals(this.name);
+        return other.discrete.getName().equals(this.discrete.getName());
     }
 }

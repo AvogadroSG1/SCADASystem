@@ -4,7 +4,9 @@
  */
 package gui;
 
+import SCADASite.Alert;
 import SCADASite.SCADASite;
+import SCADASite.SCADAUpdateListener;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ import javax.swing.tree.*;
  *
  * @author Shawn
  */
-public class SCADAJTree extends JTree
+public class SCADAJTree extends JTree implements SCADAUpdateListener
 {
     DefaultMutableTreeNode root;
     DefaultTreeModel siteModel;
@@ -31,32 +33,44 @@ public class SCADAJTree extends JTree
         this.setFocusable(true);
         
     }
+
+    @Override
+    public void update(ArrayList<Alert> alerts) {
+        // the batch of alerts only comes from one site
+        if(!alerts.isEmpty()) {
+            SCADASite ss = alerts.get(0).getSS();
+            updateSCADASite(ss);
+        }
+    }
+    
+    
     
     public void updateSCADASites(ArrayList<SCADASite> sites) {
         
         for(SCADASite site: sites) {
-            
-            boolean found = false;
-            
-            for(int i = 0; i < root.getChildCount() && !found; i++) {
-                TreeNode node = root.getChildAt(i);
-                
-                if(node instanceof SCADAJTree.SCADANode) {
-                    SCADAJTree.SCADANode  sNode = (SCADAJTree.SCADANode) node;
-                    if(sNode.getSite().getID() == site.getID()) {
-                        siteModel.reload(node);
-                        found = true;
-                    }
-                }
-            }
-            
-            if(!found)
-                addSite(site);
+            updateSCADASite(site);
         }
         
     }
 
+    public void updateSCADASite(SCADASite site) {
+        boolean found = false;
+
+        for(int i = 0; i < root.getChildCount() && !found; i++) {
+            TreeNode node = root.getChildAt(i);
+
+            if(node instanceof SCADAJTree.SCADANode) {
+                SCADAJTree.SCADANode  sNode = (SCADAJTree.SCADANode) node;
+                if(sNode.getSite().getID() == site.getID()) {
+                    siteModel.reload(node);
+                    found = true;
+                }
+            }
+        }
+    }
+    
     public void addSite(SCADASite site) {
+        site.addSCADAUpdateListener(this);
         root.add(new SCADANode(site));
     }
     
@@ -65,6 +79,7 @@ public class SCADAJTree extends JTree
         if(scadaNode != null) {
             scadaNode.removeFromParent();
         }
+        site.removeSCADAUpdateListener(this);
     }
     
     SCADAJTree.SCADANode getSCADANode(SCADASite site) {
