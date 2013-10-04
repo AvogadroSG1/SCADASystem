@@ -43,7 +43,7 @@ public class Alert
         return time;
     }
     
-    public boolean equals(Alert other)
+        public boolean equals(Alert other)
     {
         return other.name.equals(this.name);
     }
