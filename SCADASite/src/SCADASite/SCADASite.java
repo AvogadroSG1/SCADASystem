@@ -112,35 +112,44 @@ public class SCADASite implements Serializable, Comparable
                             Discrete currentD = discretes.get(i);
                             int addy = currentD.getPort();
                             String dname = currentD.getName();
-                            
-                            //System.out.println(addy);
+
                             BitVector bv = mbm.readInputDiscretes(addy-DISCRETE_OFFSET, 1);
                             statusString += "\n"+ dname + " at Discrete: \t" + addy + ":\t";
+                            
+                            /* checks for critical alarm*/
                             if(bv.getBit(0) && currentD.getWarning() == 2)
                             {
                                 if(critical) //checks to see if critical is already on
                                     newAlarm = false;
                                 else
                                     newAlarm = true; 
+                                
                                 statusString += "CRITICAL\n";
                                 changeStatus(critical);
+                                critical = true;
                                 critInfo = currentD.getName();
                                 alerts.add(new Alert(this, currentD.getName(), dateFormat.format(date)));
                                 
                             }
                             else if(bv.getBit(0) && currentD.getWarning() == 1)
                             {
+                                if(!critical)
+                                {
                                 statusString += "Warning\n";
                                 changeStatus(warning);
                                 critInfo = "";
                                 alerts.add(new Alert(this, currentD.getName(), dateFormat.format(date)));
+                                }
                             }
                             else if(bv.getBit(0) && currentD.getWarning() == 0)
                             {
+                                if(!critical)
+                                {
                                 statusString += "Not Normal\n";
                                 changeStatus(notNormal);
                                 critInfo = "";
                                 alerts.add(new Alert(this, currentD.getName(), dateFormat.format(date)));
+                                }
                             }
                             else
                             {

@@ -280,10 +280,10 @@ public class SCADAServer
             ss.checkAlarms();
             
             if(pageServ != null && pageServ.isActive() && ss.isNewAlarm() && ss.getAlarm()) { // checks if it is a new alarm and critical
-                System.out.println("About to page");
-                System.out.println(ss.getCritcialInfo());
+                log.log(Level.WARNING, "About to page");
+                log.log(Level.WARNING, ss.getCritcialInfo());
                 pageServ.startPage(ss.getID(), ss.getCritcialInfo());
-                System.out.println("Finished Paging");
+                log.log(Level.WARNING, "Finished Paging");
             }
             
         }
@@ -344,7 +344,7 @@ public class SCADAServer
         {
             try
             {
-                log.log(Level.INFO, "Starting Server Again.");
+                log.log(Level.INFO, "Starting Paging Server.");
                 pageServ.start();
                 log.log(Level.INFO, "Returning with started server.");
                 return true;
