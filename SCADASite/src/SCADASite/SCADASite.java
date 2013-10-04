@@ -249,6 +249,10 @@ public class SCADASite implements Serializable, Comparable
         return connected;
     }
     
+    public boolean didJustChange() {
+        return status.didJustChange();
+    }
+    
     public boolean equals(SCADASite other)
     {
         System.out.println(other.getName() + "Compared!");
