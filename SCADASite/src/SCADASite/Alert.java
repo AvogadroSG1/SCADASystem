@@ -15,6 +15,7 @@ public class Alert
     private final String name;
     private final String time;
     
+    
     public Alert(SCADASite aSS,String aName, String aTime)
     {
         this.ss = aSS;

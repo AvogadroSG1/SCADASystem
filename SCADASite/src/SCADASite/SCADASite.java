@@ -28,12 +28,13 @@ public class SCADASite implements Serializable, Comparable
     private long startdis; 
     private DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
     private Date date;
+    
     private ArrayList<Alert> alerts;
     
     
     private final int id;
     private boolean justDisconnected = false;
-    private Status status = new Status();
+    private Status status = new Status();   // status is mainly used for telling the status of this scadasite. just changed doesn't really work here because of the discretes updating
     
     public SCADASite(int aId, String aName, String aLat, String aLon, ArrayList<SCADAComponent> scs)
     {
@@ -86,6 +87,10 @@ public class SCADASite implements Serializable, Comparable
         status.setStatusCode(Status.NORMAL); // just incase the status is less than it was last time
         status.setJustChanged(false); //so that we can update it later
         
+        critInfo = "";
+        
+        alerts.clear();
+        
         statusString = this.getName() + "\n";
         
         for(int siteid = 0; siteid < components.size(); siteid++)
@@ -118,28 +123,25 @@ public class SCADASite implements Serializable, Comparable
                             if(bv.getBit(0) && currentD.getWarning() == 2)
                             {
                                 statusString += "CRITICAL\n";
-                                critInfo = currentD.getName();
+                                critInfo += currentD.getName() + "\n";
                                 alerts.add(new Alert(this, currentD.getName(), dateFormat.format(date)));
                                 currentD.setStatus(Status.CRITICAL);
                             }
                             else if(bv.getBit(0) && currentD.getWarning() == 1)
                             {
                                 statusString += "Warning\n";
-                                critInfo = "";
                                 alerts.add(new Alert(this, currentD.getName(), dateFormat.format(date)));
                                 currentD.setStatus(Status.WARNING);
                             }
                             else if(bv.getBit(0) && currentD.getWarning() == 0)
                             {
                                 statusString += "Not Normal\n";
-                                critInfo = "";
                                 alerts.add(new Alert(this, currentD.getName(), dateFormat.format(date)));
                                 currentD.setStatus(Status.NOTNORMAL);
                             }
                             else
                             {
                                 statusString += "Normal\n";
-                                critInfo = "";
                                 currentD.setStatus(Status.NORMAL);
                             }
                             
