@@ -30,6 +30,8 @@ public class SCADASite implements Serializable, Comparable
     private DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
     private Date date;
     private ArrayList<Alert> alerts;
+    private ArrayList<Integer> alarms;
+    private ArrayList<Integer> oldalarms;
     
     private final int id;
     private boolean justChanged;
@@ -83,6 +85,7 @@ public class SCADASite implements Serializable, Comparable
     //Checking for alarms by going through all of the SCADAComponents
     public synchronized void checkAlarms()
     {
+        clearStatus();
         statusString = this.getName() + "\n";
         assignOlds();
         for(int siteid = 0; siteid < components.size(); siteid++)
@@ -119,40 +122,45 @@ public class SCADASite implements Serializable, Comparable
                             /* checks for critical alarm*/
                             if(bv.getBit(0) && currentD.getWarning() == 2)
                             {
-                                if(critical) //checks to see if critical is already on
-                                    newAlarm = false;
-                                else
-                                    newAlarm = true; 
-                                
                                 statusString += "CRITICAL\n";
                                 changeStatus(critical);
-                                critical = true;
+                                alarms.add(2);
                                 critInfo = currentD.getName();
-                                alerts.add(new Alert(this, currentD.getName(), dateFormat.format(date)));
+                                
+                                Alert temp = new Alert(this, currentD.getName(), dateFormat.format(date));
+                                if(!alerts.contains(temp))
+                                {
+                                    alerts.add(temp);
+                                }
                                 
                             }
                             else if(bv.getBit(0) && currentD.getWarning() == 1)
                             {
-                                if(!critical)
-                                {
                                 statusString += "Warning\n";
                                 changeStatus(warning);
+                                alarms.add(1);
                                 critInfo = "";
-                                alerts.add(new Alert(this, currentD.getName(), dateFormat.format(date)));
+                                Alert temp = new Alert(this, currentD.getName(), dateFormat.format(date));
+                                if(!alerts.contains(temp))
+                                {
+                                    alerts.add(temp);
                                 }
                             }
                             else if(bv.getBit(0) && currentD.getWarning() == 0)
                             {
-                                if(!critical)
-                                {
                                 statusString += "Not Normal\n";
                                 changeStatus(notNormal);
+                                alarms.add(0);
                                 critInfo = "";
-                                alerts.add(new Alert(this, currentD.getName(), dateFormat.format(date)));
+                                Alert temp = new Alert(this, currentD.getName(), dateFormat.format(date));
+                                if(!alerts.contains(temp))
+                                {
+                                    alerts.add(temp);
                                 }
                             }
                             else
                             {
+                                alarms.add(-1);
                                 statusString += "Normal\n";
                                 changeStatus(normal);
                                 critInfo = "";
@@ -161,6 +169,33 @@ public class SCADASite implements Serializable, Comparable
                         }
                         
                         justChanged = assignJustChanged();
+                        
+                        if(alarms.contains(2))
+                            critical = true;
+                        else if (alarms.contains(1))
+                        {
+                            critical = false;
+                            warning = true;
+                        }
+                        else if (alarms.contains(0))
+                        {
+                            critical = false;
+                            warning = false;
+                            notNormal = true;
+                        }
+                        else
+                        {
+                            critical = false;
+                            warning = false;
+                            notNormal = false;
+                        }
+                        
+                        if (!oldalarms.contains(2) && critical)
+                        {
+                            newAlarm = true;
+                        }
+                        
+                        oldalarms = alarms;
                         
                         for(int i = 0; i < registers.size(); i++)
                         {
@@ -269,6 +304,13 @@ public class SCADASite implements Serializable, Comparable
         normal = false;
         
         status = true;
+    }
+    
+    private void clearStatus() {
+        notNormal = false;
+        critical = false;
+        warning = false;
+        normal = false;
     }
     
     private void assignOlds() {
