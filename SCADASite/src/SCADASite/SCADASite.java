@@ -146,9 +146,6 @@ public class SCADASite implements Serializable, Comparable
                             if(currentD.getStatus().getStatusCode() > this.status.getStatusCode()) {
                                 status.setStatusCode(currentD.getStatus().getStatusCode());
                             }
-                            if(currentD.getStatus().didJustChange()) {
-                                status.setJustChanged(true);
-                            }
                             
                         }
                         
@@ -250,7 +247,15 @@ public class SCADASite implements Serializable, Comparable
     }
     
     public boolean didJustChange() {
-        return status.didJustChange();
+        for(SCADAComponent comp: components) {
+            for(Discrete discrete: comp.getDiscretes()) {
+                if(discrete.getStatus().didJustChange())
+                    return true; // if any of the discretes just changed then something needs repainted
+            }
+        }
+        
+        
+        return false;
     }
     
     public boolean equals(SCADASite other)
