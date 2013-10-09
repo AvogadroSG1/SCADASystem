@@ -49,10 +49,7 @@ public class ServerGUI extends JFrame {
             tree.addSite(site);
         }
         
-       
-        
         JScrollPane treeScroll = new JScrollPane(tree);
-        
         
         pageGUI = server.getPageServ().getPagingGUI();
         
@@ -105,6 +102,7 @@ public class ServerGUI extends JFrame {
         this.add(temp, BorderLayout.CENTER);
         this.add(treeScroll, BorderLayout.WEST);
         
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
     }
     
