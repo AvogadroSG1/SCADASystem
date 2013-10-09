@@ -35,6 +35,7 @@ public final class AlertMonitoringSystem {
     private JPanel parent; //incase the AMS becomes a GUI later, we can have a parent for JOptionPanes
     
     private AlertMonitorThread amt;
+    Logger log = Logger.getGlobal();
     
     private Stack<AlertListener> alertListeners = new Stack();
     private Stack<LogListener> logListeners = new Stack();
@@ -122,7 +123,7 @@ public final class AlertMonitoringSystem {
 
                     return SUCCESS;
                 } catch(Exception ex) {
-                    Logger.getLogger(AlertMonitoringSystem.class.getName()).log(Level.SEVERE, null, ex);
+                    log.log(Level.INFO, ex.getMessage());
                     return EXCEPTION;
                 }
 
@@ -339,7 +340,7 @@ public final class AlertMonitoringSystem {
                     try {
                     socket.close();
                 } catch (IOException ex1) {
-                    Logger.getLogger(AlertMonitoringSystem.class.getName()).log(Level.SEVERE, null, ex1);
+                    log.log(Level.INFO, ex1.getMessage());
                 }
                     
                 Logger.getLogger(AlertMonitoringSystem.class.getName()).log(Level.SEVERE, null, ex);

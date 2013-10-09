@@ -129,7 +129,7 @@ public class SCADARunner
         @Override
         public void actionPerformed(ActionEvent e)
         {
-            if(gui.isChecking())
+            if(server.isChecking())
             {
                 mainArea.setText("Status:\n");
                 mainArea.append(server.getInformation());
