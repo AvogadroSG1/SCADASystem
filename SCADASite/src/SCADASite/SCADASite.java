@@ -167,6 +167,9 @@ public class SCADASite implements Serializable, Comparable
                                 status.setStatusCode(currentD.getStatus().getStatusCode());
                             }
                             
+                            if(alerts.size() == 0)
+                                this.status.setStatusCode(Status.NORMAL);
+                            
                         }
                         
                         for(int i = 0; i < registers.size(); i++)
