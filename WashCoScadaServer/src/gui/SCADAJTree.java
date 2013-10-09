@@ -35,12 +35,9 @@ public class SCADAJTree extends JTree implements SCADAUpdateListener
     }
 
     @Override
-    public void update(ArrayList<Alert> alerts) {
+    public void update(SCADASite site) {
         // the batch of alerts only comes from one site
-        if(!alerts.isEmpty()) {
-            SCADASite ss = alerts.get(0).getSS();
-            updateSCADASite(ss);
-        }
+        updateSCADASite(site);
     }
     
     

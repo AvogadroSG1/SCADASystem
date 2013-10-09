@@ -309,9 +309,9 @@ public class SCADASite implements Serializable, Comparable
         listeners.remove(listener);
     }
     
-    public void notifyAllSCADAListeners(ArrayList<Alert> alerts) {
+    public void notifyAllSCADAListeners(SCADASite site) {
         for(SCADAUpdateListener listener: listeners) {
-            listener.update(alerts);
+            listener.update(site);
         }
     }
     
@@ -322,7 +322,7 @@ public class SCADASite implements Serializable, Comparable
             while(true) {
                 SCADASite.this.checkAlarms();
                 if(didJustChange()) {
-                    notifyAllSCADAListeners(alerts);
+                    notifyAllSCADAListeners(SCADASite.this);
                 }
                 try {
                     Thread.sleep(5000);

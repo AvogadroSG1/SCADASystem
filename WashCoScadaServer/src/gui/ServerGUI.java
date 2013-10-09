@@ -49,6 +49,8 @@ public class ServerGUI extends JFrame {
             tree.addSite(site);
         }
         
+       
+        
         JScrollPane treeScroll = new JScrollPane(tree);
         
         

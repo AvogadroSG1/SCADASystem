@@ -12,6 +12,6 @@ import java.util.ArrayList;
  */
 public interface SCADAUpdateListener {
     
-    public void update(ArrayList<Alert> alerts);
+    public void update(SCADASite site);
     
 }

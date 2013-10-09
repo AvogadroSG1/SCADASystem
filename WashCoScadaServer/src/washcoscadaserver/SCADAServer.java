@@ -447,37 +447,25 @@ public class SCADAServer implements SCADAUpdateListener
     }
 
     @Override
-    public void update(ArrayList<Alert> alerts) {
-        doPagingUpdate(alerts);
+    public void update(SCADASite site) {
+        doPagingUpdate(site);
         
-        this.printToClients(alerts);
+        this.printToClients(site);
         log.log(Level.INFO, "Printed to all clients.");
         this.removeClients();
         log.log(Level.INFO, "Removed all nonresponsive clients.");
     }
     
-    private void doPagingUpdate(ArrayList<Alert> alerts) {
+    private void doPagingUpdate(SCADASite site) {
         // the batch of alerts only comes from one site
-        if(!alerts.isEmpty()) {
-            Alert alert = alerts.get(0);
-            SCADASite site = alert.getSS();
             if(pageServ != null && pageServ.isActive() && site.isNewAlarm()) { // checks if it is a new alarm and critical
                 log.log(Level.WARNING, "About to page");
                 log.log(Level.WARNING, site.getCritcialInfo());
                 pageServ.startPage(site.getID(), site.getCritcialInfo());
                 log.log(Level.WARNING, "Finished Paging");
             }
-        }
+        
     }
-    
-    private void printToClients(ArrayList<Alert> alerts) {
-        // the batch of alerts only comes from one site
-        if(!alerts.isEmpty()) {
-            SCADASite site = alerts.get(0).getSS();
-            printToClients(site);
-        }
-    }
-    
     
     public void startChecking() {
         
