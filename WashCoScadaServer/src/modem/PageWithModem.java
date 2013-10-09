@@ -220,6 +220,7 @@ public class PageWithModem implements Runnable, ReadListener {
                 pagingModuleSocket = pagingModuleServer.accept();
                 try{
                     plug = new PagingPlug(pagingModuleSocket);
+                    log.log(Level.INFO, "Created the paging plug!!!!");
                 } catch(IOException ex) {
                     JOptionPane.showMessageDialog(null, "Error opening streams, please try again");
                     Logger.getLogger(PageWithModem.class.getName()).log(Level.SEVERE, null, ex);
