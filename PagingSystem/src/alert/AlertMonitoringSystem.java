@@ -310,6 +310,7 @@ public final class AlertMonitoringSystem {
                         os.write(getAllAlertText().getBytes());
                         os.flush();
                     } else {
+                        log.log(Level.FINE , "Received: " + buffer);
                         write(doTask(buffer));
                     }
                 }
@@ -343,7 +344,8 @@ public final class AlertMonitoringSystem {
                     log.log(Level.INFO, ex1.getMessage());
                 }
                     
-                Logger.getLogger(AlertMonitoringSystem.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getGlobal().log(Level.SEVERE, "AMS :", ex);
+                
                try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ex1) {

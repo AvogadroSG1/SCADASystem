@@ -299,6 +299,7 @@ public class PageWithModem implements Runnable, ReadListener {
         }
         
         protected void stopPage(int scadaID) throws IOException {
+            log.log(Level.INFO, "Stopped the page");
             String compose = "SP " + scadaID;
             os.write(compose.getBytes());
             os.flush();
