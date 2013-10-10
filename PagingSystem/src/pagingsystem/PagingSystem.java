@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Stack;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -52,6 +53,7 @@ public final class PagingSystem implements AlertListener {
     private PageAndVoiceProperties props;
     private PagingProgressPanel ppp;
     private PrintWriter pageLog;
+    private static Logger log = Logger.getGlobal();
     
     private Stack<LogListener> logListeners = new Stack();
     
@@ -64,6 +66,9 @@ public final class PagingSystem implements AlertListener {
         ams = new AlertMonitoringSystem();
         
         ams.addAlertListener(this);
+        
+        String[] verbose = {"v"};
+        dispatch(verbose);
         
         File pageFile = new File("pagelog.txt");
         try 
@@ -182,6 +187,7 @@ public final class PagingSystem implements AlertListener {
     }
     
     public void page(Alert alert) {
+        
         Employee[] employees = eh.getCurrentPrioritizedEmployees();
         
         int length = Math.min(employees.length, alert.getTimesPaged());
@@ -212,8 +218,8 @@ public final class PagingSystem implements AlertListener {
             }while(!worked);
         pageLog.println("Paged: " + employee.getName() + " with message " + alert.getMessage());
         pageLog.flush();
+        notifyAllLogListeners("Paged: " + employee.getName() + " with message " + alert.getMessage());
         }
-
     }
             
         
@@ -313,5 +319,32 @@ public final class PagingSystem implements AlertListener {
     
     public PagingProgressPanel getPagingProgressPanel() {
         return ppp;
+    }
+    
+    static void dispatch(String[] args)
+    {
+        for(String s: args)
+        {
+            s = s.replaceAll("-", "");
+            char command = s.charAt(0);
+            
+            switch (command)
+            {
+                case 'v':
+                    log.setLevel(Level.ALL);
+            try 
+            {
+                FileHandler fh = new FileHandler("pagelog.xml");
+                log.addHandler(fh);
+                log.info("Hai");
+            } catch (IOException ex) 
+            {
+                Logger.getGlobal().info(ex.toString());
+            } catch (SecurityException ex) 
+            {
+                Logger.getGlobal().info(ex.toString());
+            }
+            }
+        }
     }
 }
