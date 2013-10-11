@@ -35,6 +35,7 @@ public final class AlertMonitoringSystem {
     private JPanel parent; //incase the AMS becomes a GUI later, we can have a parent for JOptionPanes
     
     private AlertMonitorThread amt;
+    Logger log = Logger.getGlobal();
     
     private Stack<AlertListener> alertListeners = new Stack();
     private Stack<LogListener> logListeners = new Stack();
@@ -122,7 +123,7 @@ public final class AlertMonitoringSystem {
 
                     return SUCCESS;
                 } catch(Exception ex) {
-                    Logger.getLogger(AlertMonitoringSystem.class.getName()).log(Level.SEVERE, null, ex);
+                    log.log(Level.INFO, ex.getMessage());
                     return EXCEPTION;
                 }
 
@@ -158,7 +159,7 @@ public final class AlertMonitoringSystem {
                 try {
                     jobID = Integer.parseInt(rest);
                 } catch(Exception ex) {
-                    Logger.getLogger(AlertMonitoringSystem.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getGlobal().log(Level.SEVERE, "Bad syntax n acknowledgement", ex);
                     return BADSYNTAX;
                 }
 
@@ -309,6 +310,7 @@ public final class AlertMonitoringSystem {
                         os.write(getAllAlertText().getBytes());
                         os.flush();
                     } else {
+                        log.log(Level.FINE , "Received: " + buffer);
                         write(doTask(buffer));
                     }
                 }
@@ -339,10 +341,11 @@ public final class AlertMonitoringSystem {
                     try {
                     socket.close();
                 } catch (IOException ex1) {
-                    Logger.getLogger(AlertMonitoringSystem.class.getName()).log(Level.SEVERE, null, ex1);
+                    log.log(Level.INFO, ex1.getMessage());
                 }
                     
-                Logger.getLogger(AlertMonitoringSystem.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getGlobal().log(Level.SEVERE, "AMS :", ex);
+                
                try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ex1) {
@@ -389,8 +392,6 @@ public final class AlertMonitoringSystem {
                         alert.incrementTimesPaged();
                         
                         alertAllAlertListeners(alert); // page employees
-                        
-                        
                         
                         Calendar cal = Calendar.getInstance();
                         cal.add(Calendar.MINUTE, 15); //add fifteen minutes.
@@ -447,9 +448,35 @@ public final class AlertMonitoringSystem {
                 @Override
                 public void uncaughtException(Thread t, Throwable e) {
                     Logger.getGlobal() .log(Level.SEVERE, null, e);
+                    makeGUI(t, e);
                 }
                 
             };
+        }
+        
+        private void makeGUI(Thread t, Throwable e) {
+        
+            JFrame frame = new JFrame("ALERT: Uncaught Exception");
+
+            frame.getContentPane().setLayout(new BorderLayout());
+
+            JTextArea area = new JTextArea();
+            area.setWrapStyleWord(true);
+            area.setLineWrap(true);
+            area.setEditable(false);
+
+            area.append("There was an uncaught exception in a thread.\nThis is a serious problem. Please report this to Specialized Programming LLC\n");
+            area.append("Exception in " + t.getClass().getName() + "\n");
+            area.append("Exception type: "+e.getClass().getName() + "\n");
+
+            StackTraceElement[] stackTrace = e.getStackTrace();
+            for(StackTraceElement ele: stackTrace) {
+                area.append(ele.toString() + "\n");
+            }
+
+            frame.add(area, BorderLayout.CENTER);
+            frame.setSize(400,400);
+            frame.setVisible(true);
         }
         
     }

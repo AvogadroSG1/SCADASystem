@@ -44,8 +44,12 @@ public class ServerGUI extends JFrame {
     
     private void init() {
         tree = new SCADAJTree();
-        JScrollPane treeScroll = new JScrollPane(tree);
         
+        for(SCADASite site: server.getSCADASites()) {
+            tree.addSite(site);
+        }
+        
+        JScrollPane treeScroll = new JScrollPane(tree);
         
         pageGUI = server.getPageServ().getPagingGUI();
         
@@ -98,41 +102,16 @@ public class ServerGUI extends JFrame {
         this.add(temp, BorderLayout.CENTER);
         this.add(treeScroll, BorderLayout.WEST);
         
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
     }
     
     private void checkAlarmsActionPerformed() {
         
-        if(checking == null)
-        {
-            checking = (Thread) new CheckAlarmTask();
-            checking.start();
-        }
-        else
-        {
-            checking = null;
-            server.pagingOff();
-            pageGUI.setGlassVisible(true);
-        }
-    }
-    
-    private final class CheckAlarmTask extends Thread
-    {
-        @Override
-        public  synchronized void run() 
-        {
-            boolean checking = true;
-            while(checking)
-            {
-            server.checkAllAlarms(); 
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException ex) {
-                    Logger.getLogger(SCADAServer.class.getName()).log(Level.SEVERE, null, ex);
-                    // when this thread is interrupted it should be closed.
-                    checking = false;
-            }
-            }
+        if(!server.isChecking()) {
+            server.startChecking();
+        } else {
+            server.stopChecking();
         }
     }
     
@@ -144,10 +123,6 @@ public class ServerGUI extends JFrame {
         } else {
             pageGUI.setGlassVisible(true);
         }
-    }
-    
-    public void updateTree(ArrayList<SCADASite> sites) {
-        tree.updateSCADASites(sites);
     }
     
     public boolean isChecking() {

@@ -1,6 +1,6 @@
 /*
  * To change this template, choose Tools | Templates
- * and open the template in the editor.
+                                    * and open the template in the editor.
  */
 package modem;
 
@@ -220,6 +220,7 @@ public class PageWithModem implements Runnable, ReadListener {
                 pagingModuleSocket = pagingModuleServer.accept();
                 try{
                     plug = new PagingPlug(pagingModuleSocket);
+                    log.log(Level.INFO, "Created the paging plug!!!!");
                 } catch(IOException ex) {
                     JOptionPane.showMessageDialog(null, "Error opening streams, please try again");
                     Logger.getLogger(PageWithModem.class.getName()).log(Level.SEVERE, null, ex);
@@ -253,8 +254,8 @@ public class PageWithModem implements Runnable, ReadListener {
                     }
                     int pin = Integer.parseInt(pinText);
                     int scadaID = jacg.getScadaID(pin);
+                    jacg.acknowledgeCode(pin);
                     plug.acknowledgePage(scadaID);
-                    jacg.ackScadaID(scadaID);
                 } catch (IOException ex) {
                     fix();
                     onRead(pinText);
@@ -298,6 +299,7 @@ public class PageWithModem implements Runnable, ReadListener {
         }
         
         protected void stopPage(int scadaID) throws IOException {
+            log.log(Level.INFO, "Stopped the page");
             String compose = "SP " + scadaID;
             os.write(compose.getBytes());
             os.flush();
@@ -338,7 +340,22 @@ public class PageWithModem implements Runnable, ReadListener {
         }
     }
     
-    private class JobAckCodeGenerator {
+    public static void main(String[] args) {
+        JobAckCodeGenerator gen = new JobAckCodeGenerator();
+        int code = gen.generateAckCode(0);
+        System.out.println(code);
+        System.out.println(gen.activeCodes.toString());
+        gen.acknowledgeCode(code);
+        System.out.println(gen.activeCodes.toString());
+        code = gen.generateAckCode(5);
+        int scadaID = gen.getScadaID(code);
+        System.out.println(scadaID);
+        gen.acknowledgeScadaID(0);
+        System.out.println(gen.activeCodes.toString());
+    }
+        
+    private static class JobAckCodeGenerator {
+        
         
         private Random random;
         private ArrayList<AckCode> activeCodes;
@@ -350,9 +367,10 @@ public class PageWithModem implements Runnable, ReadListener {
         }
         
         public int generateAckCode(int scadaID) {
-            String codeText = "";
+            
             int ran;
             do {
+                String codeText = "";
                 for(int i = 0; i < 4; i++) {
                     int randomInt = random.nextInt(9); //0-8
                     randomInt++; //1-9
@@ -361,7 +379,7 @@ public class PageWithModem implements Runnable, ReadListener {
                 }
                 
                 ran = Integer.parseInt(codeText);
-            } while(!randomUsed(ran) && codeText.length() <= 4);
+            } while(randomUsed(ran));
             
             
             //now we have a random int that isn't used yet
@@ -400,9 +418,18 @@ public class PageWithModem implements Runnable, ReadListener {
         /*
          * Acknoledge the scadaID
          */
-        public void ackScadaID(int scadaID) {
+        public void acknowledgeScadaID(int scadaID) {
             for(AckCode code: activeCodes) {
                 if(code.getScadaID() == scadaID) {
+                    activeCodes.remove(code);
+                    return;
+                }
+            }
+        }
+        
+        public void acknowledgeCode(int ackcode) {
+            for(AckCode code: activeCodes) {
+                if(code.getAckCode() == ackcode) {
                     activeCodes.remove(code);
                     return;
                 }
@@ -425,6 +452,10 @@ public class PageWithModem implements Runnable, ReadListener {
 
             public int getScadaID() {
                 return scadaID;
+            }
+            
+            public String toString() {
+                return "ACKCODE :" + ackCode + " SCADAID: " + scadaID;
             }
         }
     }

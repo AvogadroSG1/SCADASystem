@@ -23,14 +23,13 @@ import modem.PageWithModem;
  * @author Peter O'Connor
  * 
  */
-public class SCADAServer
+public class SCADAServer implements SCADAUpdateListener
 {
     Logger log = Logger.getGlobal();
     ArrayList<SCADASite> sites = new ArrayList<SCADASite>();
     File siteList = new File("SiteConfigs.dat");
     int second = 0;
     
-    private ScheduledExecutorService scheduler;
     private final long initDelay;
     private final long delay;
     private final int DISCRETE_OFFSET = 10001;
@@ -50,10 +49,11 @@ public class SCADAServer
     
     PageWithModem pageServ;
     
+    private boolean isChecking = false;
+    
     public SCADAServer()
     {
         clientPrinter = null;
-        scheduler = null;
         pageServ = null;
         initDelay = 5;
         delay = 5;
@@ -186,7 +186,10 @@ public class SCADAServer
                 if(stuff.equalsIgnoreCase("end"))
                 {
                     log.info("Reached end of site!");
-                    sites.add(new SCADASite(scadaID, name, lat, lon, components));
+                    SCADASite site = new SCADASite(scadaID, name, lat, lon, components);
+                    sites.add(site);
+                    site.addSCADAUpdateListener(this);
+                    
                     scadaID ++;
                     name = "";
                     lat = "";
@@ -217,6 +220,7 @@ public class SCADAServer
         return info;
     }
     
+    /*
     private synchronized void printToClients()
     {
         log.info("Printing to clients.");
@@ -256,6 +260,46 @@ public class SCADAServer
             }
         }
         
+    }*/
+    
+    private synchronized void printToClients(SCADASite site)
+    {
+        log.info("Printing to clients.");
+        for(ClientConnection oos: clients)
+        {
+            try {
+                oos.resetOutStream();
+            } catch (IOException ex) {
+                Logger.getLogger(SCADAServer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            log.log(Level.INFO, "Printing to client:{0}", oos.getIP());
+            
+            try 
+            {
+
+                log.log(Level.FINE, site.getStatus());
+                oos.printSite(site);
+            }catch (IOException ex)
+            {
+                log.log(Level.SEVERE, "Printing to client:" + oos.getIP() + " failed.");
+                log.log(Level.SEVERE, ex.toString());
+            }
+            
+            
+            try 
+            {
+                oos.printString("End Sites");
+                oos.resetOutStream();
+                log.info("Sent to client: " + oos.getIP());
+            }
+            catch (IOException se)
+            {
+                log.log(Level.SEVERE, se.toString());
+                oos.connectionProblem();
+                log.log(Level.SEVERE, "Printing End Sites didn't work.");
+            }
+        }
+        
     }
     
     private void removeClients()
@@ -270,6 +314,7 @@ public class SCADAServer
         }
     }
     
+    /*
     public synchronized void checkAllAlarms()
     {
         long startSec = System.currentTimeMillis()/1000;
@@ -298,7 +343,7 @@ public class SCADAServer
         this.removeClients();
         log.log(Level.INFO, "Removed all nonresponsive clients.");
         
-    }
+    }*/
     
     public synchronized String getInformation()
     {
@@ -310,17 +355,9 @@ public class SCADAServer
         return totalStatus;
     }
     
-    public void stopChecking()
-    {
-        scheduler.shutdown();
-    }
-    
     public boolean isChecking()
     {
-        if(scheduler == null)
-            return false;
-        else
-            return !scheduler.isShutdown();
+        return isChecking;
     }
     
     public boolean pagingOff()
@@ -407,5 +444,49 @@ public class SCADAServer
     
     public PageWithModem getPageServ() {
         return pageServ;
+    }
+
+    @Override
+    public void update(SCADASite site) {
+        doPagingUpdate(site);
+        
+        this.printToClients(site);
+        log.log(Level.INFO, "Printed to all clients.");
+        this.removeClients();
+        log.log(Level.INFO, "Removed all nonresponsive clients.");
+    }
+    
+    private void doPagingUpdate(SCADASite site) {
+        // the batch of alerts only comes from one site
+            if(pageServ != null && pageServ.isActive() && site.isNewAlarm()) { // checks if it is a new alarm and critical
+                log.log(Level.WARNING, "About to page");
+                log.log(Level.WARNING, site.getCritcialInfo());
+                pageServ.startPage(site.getID(), site.getCritcialInfo());
+                log.log(Level.WARNING, "Finished Paging");
+            }
+        
+    }
+    
+    public void startChecking() {
+        
+        for(SCADASite site:  sites) {
+            site.startChecking();
+        }
+        
+        isChecking = true;
+    }
+    
+    public void stopChecking() {
+        
+        for(SCADASite site: sites) {
+            site.stopChecking();
+        }
+        
+        isChecking = false;
+    }
+    
+    
+    public ArrayList<SCADASite> getSCADASites() {
+        return sites;
     }
 }

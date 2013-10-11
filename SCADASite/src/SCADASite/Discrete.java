@@ -16,6 +16,8 @@ public class Discrete implements Serializable
     final int port;
     final int warningType;
     
+    private Status status = new Status();
+    
     public Discrete(String aName, int aPort, int aWarning)
     {
         name = aName;
@@ -38,5 +40,12 @@ public class Discrete implements Serializable
         return warningType;
     }
     
+    public void setStatus(int statusCode) {
+        status.setStatusCode(statusCode);
+    }
+    
+    public Status getStatus() {
+        return status;
+    }
     
 }

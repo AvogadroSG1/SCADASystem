@@ -46,15 +46,11 @@ public class Page implements Runnable
     private PagingSystem ps;
     private Employee employee;
     
-    public Page(String pagerID, String aMessage, String aIp, int aPort) {
-        formedMsg = "" + STX + pagerID + CR + aMessage + CR + ETX;
-        ip = aIp;
-        port = aPort;
-    }
     
     public Page(PagingSystem ps, Employee employee, String aMessage, String aIp, int aPort)
     {
         this.ps = ps;
+        this.employee = employee;
         formedMsg = "" + STX + employee.getPager() + CR + aMessage + CR + ETX;
         ip = aIp;
         port = aPort;
