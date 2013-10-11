@@ -32,7 +32,7 @@ public final class AlertMonitoringSystem {
     private static final String IP_PROPERTY = "alertServerIP", PORT_PROPERTY = "alertServerPort";
 
     
-    private JPanel parent; //incase the AMS becomes a GUI later, we can have a parent for JOptionPanes
+    private AlertMonitoringPanel parent; //incase the AMS becomes a GUI later, we can have a parent for JOptionPanes
     
     private AlertMonitorThread amt;
     Logger log = Logger.getGlobal();
@@ -54,6 +54,8 @@ public final class AlertMonitoringSystem {
         
         amt = new AlertMonitorThread(this);
         amt.start();
+        
+        parent = new AlertMonitoringPanel(this);
     }
     
     public void addAlertListener(AlertListener listener) {
