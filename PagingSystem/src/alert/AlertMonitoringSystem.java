@@ -393,8 +393,6 @@ public final class AlertMonitoringSystem {
                         
                         alertAllAlertListeners(alert); // page employees
                         
-                        
-                        
                         Calendar cal = Calendar.getInstance();
                         cal.add(Calendar.MINUTE, 15); //add fifteen minutes.
                         alert.setNextAlertTime(cal);
@@ -458,28 +456,28 @@ public final class AlertMonitoringSystem {
         
         private void makeGUI(Thread t, Throwable e) {
         
-        JFrame frame = new JFrame("ALERT: Uncaught Exception");
-        
-        frame.getContentPane().setLayout(new BorderLayout());
-        
-        JTextArea area = new JTextArea();
-        area.setWrapStyleWord(true);
-        area.setLineWrap(true);
-        area.setEditable(false);
-        
-        area.append("There was an uncaught exception in a thread.\nThis is a serious problem. Please report this to Specialized Programming LLC\n");
-        area.append("Exception in " + t.getClass().getName() + "\n");
-        area.append("Exception type: "+e.getClass().getName() + "\n");
-        
-        StackTraceElement[] stackTrace = e.getStackTrace();
-        for(StackTraceElement ele: stackTrace) {
-            area.append(ele.toString() + "\n");
+            JFrame frame = new JFrame("ALERT: Uncaught Exception");
+
+            frame.getContentPane().setLayout(new BorderLayout());
+
+            JTextArea area = new JTextArea();
+            area.setWrapStyleWord(true);
+            area.setLineWrap(true);
+            area.setEditable(false);
+
+            area.append("There was an uncaught exception in a thread.\nThis is a serious problem. Please report this to Specialized Programming LLC\n");
+            area.append("Exception in " + t.getClass().getName() + "\n");
+            area.append("Exception type: "+e.getClass().getName() + "\n");
+
+            StackTraceElement[] stackTrace = e.getStackTrace();
+            for(StackTraceElement ele: stackTrace) {
+                area.append(ele.toString() + "\n");
+            }
+
+            frame.add(area, BorderLayout.CENTER);
+            frame.setSize(400,400);
+            frame.setVisible(true);
         }
-        
-        frame.add(area, BorderLayout.CENTER);
-        frame.setSize(400,400);
-        frame.setVisible(true);
-    }
         
     }
 }
