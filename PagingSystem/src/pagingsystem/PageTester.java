@@ -19,7 +19,7 @@ public class PageTester {
      */
     public static void main(String[] args) 
     {
-        Page test = new Page("3001", "poopy", "192.168.78.92", 10001);
+        /*Page test = new Page("3001", "poopy", "192.168.78.92", 10001);
         try 
         {
             test.start();
@@ -29,6 +29,6 @@ public class PageTester {
         } catch (IOException ex) 
         {
             JOptionPane.showMessageDialog(null, ex.toString());
-        }
+        }*/
     }
 }
