@@ -159,7 +159,7 @@ public final class AlertMonitoringSystem {
                 try {
                     jobID = Integer.parseInt(rest);
                 } catch(Exception ex) {
-                    Logger.getLogger(AlertMonitoringSystem.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getGlobal().log(Level.SEVERE, "Bad syntax n acknowledgement", ex);
                     return BADSYNTAX;
                 }
 
