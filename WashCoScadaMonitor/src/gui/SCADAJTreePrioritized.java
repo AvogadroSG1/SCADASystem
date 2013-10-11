@@ -85,9 +85,9 @@ public class SCADAJTreePrioritized extends SCADAJTree{
     }
     
     private void placeIntoCorrectTree(SCADANode node) {
-        if(node.getSite().getAlarm()) {
+        if(node.getSite().isCritical()) {
             critical.add(node);
-        } else if(node.getSite().getWarning()) {
+        } else if(node.getSite().isWarning()) {
             warning.add(node);
         }
     }

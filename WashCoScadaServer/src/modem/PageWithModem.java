@@ -42,8 +42,6 @@ public class PageWithModem implements Runnable, ReadListener {
     
     private boolean active = false;
     
-    
-    
     public PageWithModem() {
         super();
         log.log(Level.INFO, "-------Making New Page and Voice Properties-------");
@@ -254,7 +252,6 @@ public class PageWithModem implements Runnable, ReadListener {
                     }
                     int pin = Integer.parseInt(pinText);
                     int scadaID = jacg.getScadaID(pin);
-                    jacg.acknowledgeCode(pin);
                     plug.acknowledgePage(scadaID);
                 } catch (IOException ex) {
                     fix();
@@ -292,6 +289,8 @@ public class PageWithModem implements Runnable, ReadListener {
         }
         
         protected void acknowledgePage(int scadaID) throws IOException {
+            
+            jacg.acknowledgeScadaID(scadaID);
             String compose = "ACK " + scadaID;
             os.write(compose.getBytes());
             os.flush();

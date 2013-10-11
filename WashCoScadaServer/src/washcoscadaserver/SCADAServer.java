@@ -458,11 +458,13 @@ public class SCADAServer implements SCADAUpdateListener
     
     private void doPagingUpdate(SCADASite site) {
         // the batch of alerts only comes from one site
-            if(pageServ != null && pageServ.isActive() && site.isNewAlarm()) { // checks if it is a new alarm and critical
-                log.log(Level.WARNING, "About to page");
-                log.log(Level.WARNING, site.getCritcialInfo());
-                pageServ.startPage(site.getID(), site.getCritcialInfo());
-                log.log(Level.WARNING, "Finished Paging");
+            if(pageServ != null && pageServ.isActive()) { // checks if it is a new alarm and critical
+                if(site.isNewAlarm()) {
+                    log.log(Level.WARNING, "About to page");
+                    log.log(Level.WARNING, site.getCritcialInfo());
+                    pageServ.startPage(site.getID(), site.getCritcialInfo());
+                    log.log(Level.WARNING, "Finished Paging");
+                }
             }
         
     }

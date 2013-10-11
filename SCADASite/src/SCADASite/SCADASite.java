@@ -32,16 +32,15 @@ public class SCADASite implements Serializable, Comparable
     private Date date;
     
     private ArrayList<Alert> alerts;
-<<<<<<< HEAD
-    private ArrayList<Integer> alarms;
-    private ArrayList<Integer> oldalarms;
-=======
+    //private ArrayList<Integer> alarms;
+    //private ArrayList<Integer> oldalarms;
     private CheckThread checkThread = new CheckThread();
->>>>>>> SCADA-Framework-Update
     
     private final int id;
     private boolean justDisconnected = false;
     private Status status = new Status();   // status is mainly used for telling the status of this scadasite. just changed doesn't really work here because of the discretes updating
+    private Status oldStatus = new Status();
+    
     
     public SCADASite(int aId, String aName, String aLat, String aLon, ArrayList<SCADAComponent> scs)
     {
@@ -91,6 +90,7 @@ public class SCADASite implements Serializable, Comparable
     //Checking for alarms by going through all of the SCADAComponents
     public synchronized void checkAlarms()
     {
+        oldStatus = status;
         status.setStatusCode(Status.NORMAL); // just incase the status is less than it was last time
         status.setJustChanged(false); //so that we can update it later
         
@@ -128,20 +128,18 @@ public class SCADASite implements Serializable, Comparable
                             if(bv.getBit(0) && currentD.getWarning() == 2)
                             {
                                 statusString += "CRITICAL\n";
-<<<<<<< HEAD
+
                                 //changeStatus(critical);
-                                alarms.add(2);
+                                //alarms.add(2);
                                 critInfo = currentD.getName();
-                                critical = true;
-                                Alert temp = new Alert(this, currentD.getName(), dateFormat.format(date));
+                                //critical = true;
+                                Alert temp = new Alert(this, currentD, dateFormat.format(date));
                                 if(!alerts.contains(temp))
                                 {
                                     alerts.add(temp);
                                 }
-=======
                                 critInfo += currentD.getName() + "\n";
                                 currentD.setStatus(Status.CRITICAL);
->>>>>>> SCADA-Framework-Update
                                 
                                 if(!inQueue(currentD))
                                     alerts.add(new Alert(this, currentD, dateFormat.format(date)));
@@ -149,47 +147,43 @@ public class SCADASite implements Serializable, Comparable
                             else if(bv.getBit(0) && currentD.getWarning() == 1)
                             {
                                 statusString += "Warning\n";
-<<<<<<< HEAD
                                 //changeStatus(warning);
-                                warning = true;
-                                alarms.add(1);
+                                //warning = true;
+                                //alarms.add(1);
                                 critInfo = "";
-                                Alert temp = new Alert(this, currentD.getName(), dateFormat.format(date));
+                                Alert temp = new Alert(this, currentD, dateFormat.format(date));
                                 if(!alerts.contains(temp))
                                 {
                                     alerts.add(temp);
                                 }
-=======
+
                                 currentD.setStatus(Status.WARNING);
                                 
                                 if(!inQueue(currentD))
                                     alerts.add(new Alert(this, currentD, dateFormat.format(date)));
->>>>>>> SCADA-Framework-Update
                             }
                             else if(bv.getBit(0) && currentD.getWarning() == 0)
                             {
                                 statusString += "Not Normal\n";
-<<<<<<< HEAD
                                 //changeStatus(notNormal);
-                                notNormal = true;
-                                alarms.add(0);
+                                //notNormal = true;
+                                //alarms.add(0);
                                 critInfo = "";
-                                Alert temp = new Alert(this, currentD.getName(), dateFormat.format(date));
+                                Alert temp = new Alert(this, currentD, dateFormat.format(date));
                                 if(!alerts.contains(temp))
                                 {
                                     alerts.add(temp);
                                 }
-=======
+
                                 currentD.setStatus(Status.NOTNORMAL);
                                 
                                 if(!inQueue(currentD))
                                     alerts.add(new Alert(this, currentD, dateFormat.format(date)));
->>>>>>> SCADA-Framework-Update
                             }
                             else
                             {
-                                normal = true;
-                                alarms.add(-1);
+                                //normal = true;
+                                //alarms.add(-1);
                                 statusString += "Normal\n";
                                 currentD.setStatus(Status.NORMAL);
                                 if(inQueue(currentD)) {
@@ -215,13 +209,8 @@ public class SCADASite implements Serializable, Comparable
                             
                         }
                         
-<<<<<<< HEAD
-                        justChanged = assignJustChanged();
+                        //justChanged = assignJustChanged();
                         
-                        
-                        
-=======
->>>>>>> SCADA-Framework-Update
                         for(int i = 0; i < registers.size(); i++)
                         {
                             int addy = registers.get(i).getPort();
@@ -260,7 +249,7 @@ public class SCADASite implements Serializable, Comparable
                 }
             }
         
-<<<<<<< HEAD
+        /*
         if(alarms.contains(2))
             critical = true;
         else if (alarms.contains(1))
@@ -288,7 +277,7 @@ public class SCADASite implements Serializable, Comparable
 
         oldalarms = alarms;
 =======
->>>>>>> SCADA-Framework-Update
+>>>>>>> SCADA-Framework-Update*/
     }
     
     private boolean inQueue(Discrete check)
@@ -310,14 +299,18 @@ public class SCADASite implements Serializable, Comparable
             return statusString;
     }
     
-    public boolean getWarning()
+    public boolean isWarning()
     {
         return status.isWarning() || !connected;
     }
     
-    public boolean getAlarm()
+    public boolean isCritical()
     {
         return status.isCritical();
+    }
+    
+    public boolean isNormal() {
+        return status.isNormal();
     }
     
     public String getCritcialInfo()
@@ -326,21 +319,16 @@ public class SCADASite implements Serializable, Comparable
     }
     public boolean isNewAlarm()
     {
-        
-        for(SCADAComponent comp: components) {
-            for(Discrete discrete: comp.getDiscretes()) {
-                if(discrete.getStatus().didJustChange() && discrete.getStatus().isCritical())
-                    return true; // if any of the discretes just changed and is a critical, then there is a new alarm
-            }
-        }
-        
+        if(didJustChange() && status.isCritical())
+            return true;
+            
         return false;
     }
-    
+    /*
     public void ackNewAlrm()
     {
         newAlarm = false;
-    }
+    }*/
     
     public boolean connected()
     {
@@ -356,12 +344,8 @@ public class SCADASite implements Serializable, Comparable
         if(justDisconnected)
             return true;
         
-        for(SCADAComponent comp: components) {
-            for(Discrete discrete: comp.getDiscretes()) {
-                if(discrete.getStatus().didJustChange())
-                    return true; // if any of the discretes just changed then something needs repainted
-            }
-        }
+        if(status.getStatusCode() != oldStatus.getStatusCode())
+            return true;
         
         
         return false;
@@ -389,7 +373,10 @@ public class SCADASite implements Serializable, Comparable
         listeners.add(listener);
     }
     
-<<<<<<< HEAD
+    public void removeSCADAUpdateListener(SCADAUpdateListener listener) {
+        listeners.remove(listener);
+    }
+/*    
     private void clearStatus() {
         notNormal = false;
         critical = false;
@@ -405,8 +392,8 @@ public class SCADASite implements Serializable, Comparable
 =======
     public void removeSCADAUpdateListener(SCADAUpdateListener listener) {
         listeners.remove(listener);
->>>>>>> SCADA-Framework-Update
-    }
+>>>>>>> SCADA-Framework-Update*/
+    //}
     
     public void notifyAllSCADAListeners(SCADASite site) {
         for(SCADAUpdateListener listener: listeners) {

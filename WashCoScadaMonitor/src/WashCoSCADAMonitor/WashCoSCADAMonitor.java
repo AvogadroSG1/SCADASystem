@@ -212,9 +212,9 @@ public class WashCoSCADAMonitor extends JFrame implements WashCoSCADAConstants, 
                         sites.add(tSite);
                         
                         int alarmInt = 0;
-                        if(tSite.getAlarm())
+                        if(tSite.isCritical())
                             alarmInt = 2;
-                        else if(tSite.getWarning())
+                        else if(tSite.isWarning())
                             alarmInt = 1;
                         points.add(new SitePoint(tSite.getLon(), tSite.getLat(), alarmInt, tSite.getName()));
                     }
@@ -250,8 +250,8 @@ public class WashCoSCADAMonitor extends JFrame implements WashCoSCADAConstants, 
                     {
                         SCADASite tSite = (SCADASite) temp;
                         log.log(Level.FINE, "Processing site: {0}", tSite.toString());
-                        log.log(Level.FINE, "Alarm status: {0}", tSite.getAlarm());
-                        log.log(Level.FINE, "Warning status: {0}", tSite.getWarning());
+                        log.log(Level.FINE, "Alarm status: {0}", tSite.isCritical());
+                        log.log(Level.FINE, "Warning status: {0}", tSite.isWarning());
                         
                         for(int i = 0; i < sites.size(); i++)
                         {

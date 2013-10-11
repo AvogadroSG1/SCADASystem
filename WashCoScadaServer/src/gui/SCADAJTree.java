@@ -131,9 +131,9 @@ public class SCADAJTree extends JTree implements SCADAUpdateListener
                 SCADASite site = node.getSite();
                 label.setText(site.getName());
                 
-                if(site.getAlarm()) {
+                if(site.isCritical()) {
                     label.setForeground(Color.red);
-                } else if(site.getWarning()) {
+                } else if(site.isWarning()) {
                     label.setForeground(Color.orange);
                 } else {
                     label.setForeground(Color.black);

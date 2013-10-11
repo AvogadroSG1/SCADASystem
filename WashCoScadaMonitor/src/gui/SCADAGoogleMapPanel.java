@@ -64,13 +64,13 @@ public class SCADAGoogleMapPanel extends JPanel {
             crit = false;
             warn = false;
                     
-            if(site.getAlarm()) 
+            if(site.isCritical()) 
             {
                 color = "red";
                 crit = true;
                 playSound();
                 firstAlarm = false;
-            } else if(site.getWarning()) {
+            } else if(site.isWarning()) {
                 color = "orange";
                 warn = true;
                 firstAlarm = true;
