@@ -289,7 +289,7 @@ public class PageWithModem implements Runnable, ReadListener {
         }
         
         protected void acknowledgePage(int scadaID) throws IOException {
-            
+            //log.log(Level.INFO, "Clearing SCADAID {0} from the system", ""+scadaID);
             jacg.acknowledgeScadaID(scadaID);
             String compose = "ACK " + scadaID;
             os.write(compose.getBytes());
