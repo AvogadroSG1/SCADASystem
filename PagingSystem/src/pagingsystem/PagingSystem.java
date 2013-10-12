@@ -145,7 +145,7 @@ public final class PagingSystem implements AlertListener {
         logListeners.remove(listener);
     }
     
-    private void notifyAllLogListeners(String logText) {
+    public void notifyAllLogListeners(String logText) {
         for(LogListener listener: logListeners) {
             listener.onLog(logText);
         }

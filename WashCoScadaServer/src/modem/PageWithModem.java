@@ -252,6 +252,7 @@ public class PageWithModem implements Runnable, ReadListener {
                     }
                     int pin = Integer.parseInt(pinText);
                     int scadaID = jacg.getScadaID(pin);
+                    jacg.acknowledgeCode(pin);
                     plug.acknowledgePage(scadaID);
                 } catch (IOException ex) {
                     fix();
@@ -274,12 +275,6 @@ public class PageWithModem implements Runnable, ReadListener {
         }
         
         protected void startPage(int scadaID, String message) throws IOException {
-            if(jacg.getAckCode(scadaID) != -2)  {
-                System.out.println("Already paging about " + scadaID);
-                System.out.println("Please contact Specialized Programming LLC");
-                return;
-            }
-            
             int ackCode = jacg.generateAckCode(scadaID);
             log.log(Level.INFO, "Generated Ack Code");
             String compose = "ST " + scadaID + " " + message + " ACKCODE:" + ackCode;
@@ -290,7 +285,6 @@ public class PageWithModem implements Runnable, ReadListener {
         
         protected void acknowledgePage(int scadaID) throws IOException {
             //log.log(Level.INFO, "Clearing SCADAID {0} from the system", ""+scadaID);
-            jacg.acknowledgeScadaID(scadaID);
             String compose = "ACK " + scadaID;
             os.write(compose.getBytes());
             os.flush();
@@ -349,7 +343,7 @@ public class PageWithModem implements Runnable, ReadListener {
         code = gen.generateAckCode(5);
         int scadaID = gen.getScadaID(code);
         System.out.println(scadaID);
-        gen.acknowledgeScadaID(0);
+        //gen.acknowledgeScadaID(0);
         System.out.println(gen.activeCodes.toString());
     }
         
@@ -416,7 +410,7 @@ public class PageWithModem implements Runnable, ReadListener {
         
         /*
          * Acknoledge the scadaID
-         */
+         */ /*
         public void acknowledgeScadaID(int scadaID) {
             for(AckCode code: activeCodes) {
                 if(code.getScadaID() == scadaID) {
@@ -424,7 +418,7 @@ public class PageWithModem implements Runnable, ReadListener {
                     return;
                 }
             }
-        }
+        }*/ // cant do this anymore because there can be two acknowledgment codes for one scada site
         
         public void acknowledgeCode(int ackcode) {
             for(AckCode code: activeCodes) {

@@ -39,7 +39,7 @@ public class SCADASite implements Serializable, Comparable
     private final int id;
     private boolean justDisconnected = false;
     private Status status = new Status();   // status is mainly used for telling the status of this scadasite. just changed doesn't really work here because of the discretes updating
-    private Status oldStatus = new Status();
+    
     
     
     public SCADASite(int aId, String aName, String aLat, String aLon, ArrayList<SCADAComponent> scs)
@@ -90,9 +90,7 @@ public class SCADASite implements Serializable, Comparable
     //Checking for alarms by going through all of the SCADAComponents
     public synchronized void checkAlarms()
     {
-        oldStatus = status;
-        status.setStatusCode(Status.NORMAL); // just incase the status is less than it was last time
-        status.setJustChanged(false); //so that we can update it later
+        Status tempStatus = new Status();
         
         critInfo = "";
         
@@ -200,12 +198,12 @@ public class SCADASite implements Serializable, Comparable
                                 }
                             }
                             
-                            if(currentD.getStatus().getStatusCode() > this.status.getStatusCode()) {
-                                status.setStatusCode(currentD.getStatus().getStatusCode());
+                            if(currentD.getStatus().getStatusCode() > tempStatus.getStatusCode()) {
+                                tempStatus.setStatusCode(currentD.getStatus().getStatusCode());
                             }
                             
-                            if(alerts.size() == 0)
-                                this.status.setStatusCode(Status.NORMAL);
+                            if(alerts.isEmpty())
+                                tempStatus.setStatusCode(Status.NORMAL);
                             
                         }
                         
@@ -219,6 +217,8 @@ public class SCADASite implements Serializable, Comparable
                             InputRegister[] ir = mbm.readInputRegisters(addy-REGISTER_OFFSET, 1);
                             statusString += "\n" + rname + " at Register: \t" + addy + ":\t" + ir[0].getValue() + "\n";
                         }
+                        
+                        status.setStatusCode(tempStatus.getStatusCode());
                         
                         //Got through connections
                         date = new Date();
@@ -344,11 +344,7 @@ public class SCADASite implements Serializable, Comparable
         if(justDisconnected)
             return true;
         
-        if(status.getStatusCode() != oldStatus.getStatusCode())
-            return true;
-        
-        
-        return false;
+        return status.didJustChange();
     }
     
     public boolean equals(SCADASite other)

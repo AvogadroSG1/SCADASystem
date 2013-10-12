@@ -75,6 +75,8 @@ public class Page implements Runnable
         
         setPagingProgress(25);
         
+        alertAllLogListeners("Connected to paging server");
+        
         this.run();
        
     }  
@@ -96,10 +98,12 @@ public class Page implements Runnable
         }
         os.write((formedMsg + calculateChecksum(formedMsg)).getBytes());
         sentMessage = true;
+        alertAllLogListeners("Logged on and sent message");
     }
   
     private void logoff() throws IOException
     {
+        alertAllLogListeners("Logging off paging server");
         if(!socket.isClosed())
         {
             os.write(("CR" + EOT + CR).getBytes());
@@ -110,11 +114,13 @@ public class Page implements Runnable
     
     private void disconnect() throws IOException
     {
+        alertAllLogListeners("Disconnecting");
         socket.close();
     }
     
     private void reconnect() throws IOException, InterruptedException
     {
+        alertAllLogListeners("Starting reconnection");
         startTime = System.currentTimeMillis();
         disconnect();
         Thread.sleep(5000);
@@ -169,6 +175,7 @@ public class Page implements Runnable
                 
                 if(sentMessage  && temp == ACK)
                 {
+                    alertAllLogListeners("Page succesfully sent");
                     setPagingProgress(75);
                     
                     pageSent = true;
@@ -234,13 +241,18 @@ public class Page implements Runnable
         return pageSent;
     }
     
-    public void setPagingProgressText(String text) {
+    private void setPagingProgressText(String text) {
         if(ps != null)
             ps.getPagingProgressPanel().getLabel().setText(text);
     }
     
-    public void setPagingProgress(int progress) {
+    private void setPagingProgress(int progress) {
         if(ps != null)
             ps.getPagingProgressPanel().getProgressBar().setValue(progress);
+    }
+    
+    private void alertAllLogListeners(String text) {
+        if(ps != null) 
+            ps.notifyAllLogListeners(text);
     }
 }
