@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import util.PageAndVoiceProperties;
 
 /*
  * To change this template, choose Tools | Templates
@@ -39,21 +40,19 @@ public class Page implements Runnable
     private String formedMsg;
     private long startTime;
     private int numTries;
-    private String ip;
-    private int port;
     private long currentTime;
     private boolean sawp;
     private PagingSystem ps;
     private Employee employee;
+    private PageAndVoiceProperties props;
+    private boolean loggedOff;
     
-    
-    public Page(PagingSystem ps, Employee employee, String aMessage, String aIp, int aPort)
+    public Page(PagingSystem ps, Employee employee, String aMessage, PageAndVoiceProperties props)
     {
         this.ps = ps;
         this.employee = employee;
         formedMsg = "" + STX + employee.getPager() + CR + aMessage + CR + ETX;
-        ip = aIp;
-        port = aPort;
+        this.props = props;
     }
     
     public void start() throws UnknownHostException, IOException
@@ -61,12 +60,12 @@ public class Page implements Runnable
         numTries = 0;
         setPagingProgressText("Sending page to " + employee.getName());
         setPagingProgress(0);
-        connect();
+        this.run();
     }
         
     private void connect() throws UnknownHostException, IOException
     {
-        socket = new Socket(ip, port);
+        socket = new Socket(props.getPagerIP(), props.getPagerPort());
         is = socket.getInputStream();
         os = socket.getOutputStream();
         sendCR();
@@ -77,8 +76,8 @@ public class Page implements Runnable
         
         alertAllLogListeners("Connected to paging server");
         
-        this.run();
-       
+        //this.run();
+       loggedOff = false;
     }  
 
     private void sendCR() throws IOException
@@ -109,13 +108,13 @@ public class Page implements Runnable
             os.write(("CR" + EOT + CR).getBytes());
             os.flush();
         }
-        disconnect();
     }
     
     private void disconnect() throws IOException
     {
         alertAllLogListeners("Disconnecting");
         socket.close();
+        loggedOff = true;
     }
     
     private void reconnect() throws IOException, InterruptedException
@@ -123,11 +122,15 @@ public class Page implements Runnable
         alertAllLogListeners("Starting reconnection");
         startTime = System.currentTimeMillis();
         disconnect();
-        Thread.sleep(5000);
+        
+        try { 
+            Thread.sleep(5000);
+        } catch(Exception ex) {}
+        
         connect();
     }
     
-    private void respond(String recieved) throws IOException, InterruptedException
+    private void respond(String recieved) throws IOException
     {
         if(recieved.contains("ID="))
             sendLoginAndMessage();
@@ -139,61 +142,83 @@ public class Page implements Runnable
     
     public void run()
     {
-        boolean loggedOff = false;
-        
-        while(!loggedOff)
-        {
-            currentTime = System.currentTimeMillis();
-            if(currentTime - startTime > 5000)
-                try 
-                {
-                    numTries++;
-                    reconnect();
-                } catch (IOException ex) 
-                {
-                Logger.getLogger(Page.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InterruptedException ex) 
-                {
-                Logger.getLogger(Page.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            
-            try
-            {
-                if (is == null)
-                    continue;
-                char temp = (char)is.read();
-                buffer += temp;
-                //System.out.println(temp);
-                if(temp == CR || buffer.contains("ID="))
-                {
-                    
-                    setPagingProgress(50);
-                    
-                    respond(buffer);
-                    buffer = "";
+        while(!pageSent) {
+            try {
+                connect();
+
+                WatchdogThread watchdog = new WatchdogThread();
+                watchdog.start();
+
+                try {
+                    while(!loggedOff)
+                    {
+                        /*currentTime = System.currentTimeMillis();
+                        if(currentTime - startTime > 5000)
+                            try 
+                            {
+                                numTries++;
+                                reconnect();
+                            } catch (IOException ex) 
+                            {
+                            Logger.getLogger(Page.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (InterruptedException ex) 
+                            {
+                            Logger.getLogger(Page.class.getName()).log(Level.SEVERE, null, ex);
+                            }*/
+
+                        if (is == null)
+                                continue;
+
+                        int read = is.read();
+                        if(read == -1)
+                            throw new IOException("Inputstream was closed");
+
+                        try
+                        {
+                            char temp = (char)read;
+
+                            buffer += temp;
+                            //System.out.println(temp);
+                            if(temp == CR || buffer.contains("ID="))
+                            {
+
+                                setPagingProgress(50);
+
+                                respond(buffer);
+                                buffer = "";
+                            }
+
+                            if(sentMessage  && temp == ACK)
+                            {
+                                alertAllLogListeners("Page succesfully sent");
+                                setPagingProgress(75);
+
+                                pageSent = true;
+                                logoff();
+                                loggedOff = true;
+                                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                                Date date = new Date();
+                                Logger.getGlobal().log(Level.SEVERE, "Page: {0} Sent. " + dateFormat.format(date), formedMsg);
+                            }
+
+                        }
+                        catch(IOException e)
+                        {
+                            disconnect(); // if it gives any kind of IOException, disconnect
+                            
+                            System.out.println(e.toString());
+                            Logger.getGlobal().log(Level.SEVERE, e.toString());
+                        } 
+                    }
+
+                } catch(IOException ex) {
+                    // the watchdog closed the input stream
+                    // the loop will run again
                 }
                 
-                if(sentMessage  && temp == ACK)
-                {
-                    alertAllLogListeners("Page succesfully sent");
-                    setPagingProgress(75);
-                    
-                    pageSent = true;
-                    logoff();
-                    loggedOff = true;
-                    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                    Date date = new Date();
-                    Logger.getGlobal().log(Level.SEVERE, "Page: {0} Sent. " + dateFormat.format(date), formedMsg);
-                }
-                
-            }
-            catch(IOException e)
-            {
-                System.out.println(e.toString());
-                Logger.getGlobal().log(Level.SEVERE, e.toString());
-            } catch (InterruptedException ex) 
-            {
-                Logger.getLogger(Page.class.getName()).log(Level.SEVERE, null, ex);
+                watchdog.interrupt();
+            } catch(IOException ex) {
+                ps.errorRecovery(ex); // this will only happen if and only if connect throws an exception
             }
         }
         
@@ -254,5 +279,23 @@ public class Page implements Runnable
     private void alertAllLogListeners(String text) {
         if(ps != null) 
             ps.notifyAllLogListeners(text);
+    }
+    
+    
+    private class WatchdogThread extends Thread {
+        
+        
+        @Override
+        public void run() {
+            try{
+                Thread.sleep(5000);
+                disconnect(); // this will close the inputstream and result in the above thread being restarted
+            } catch(InterruptedException ex) {
+                // the page is finished
+            } catch(IOException ex) {
+                //ps.errorRecovery(ex); let the thread deal with it
+            }
+            
+        }
     }
 }

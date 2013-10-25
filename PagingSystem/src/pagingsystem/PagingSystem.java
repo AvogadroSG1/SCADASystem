@@ -151,7 +151,7 @@ public final class PagingSystem implements AlertListener {
         }
     }
     
-    private void errorRecovery(Exception ex) {
+    protected void errorRecovery(Exception ex) {
         final String RETRY = "Retry";
         final String CHANGE_IP = "Change IP";
         final String CHANGE_PORT = "Change Port";
