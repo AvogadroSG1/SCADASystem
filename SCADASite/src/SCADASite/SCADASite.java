@@ -38,7 +38,7 @@ public class SCADASite implements Serializable, Comparable
     
     private final int id;
     private boolean justDisconnected = false;
-    private Status status = new Status();   // status is mainly used for telling the status of this scadasite. just changed doesn't really work here because of the discretes updating
+    private Status status = new Status();  
     
     
     
@@ -129,13 +129,15 @@ public class SCADASite implements Serializable, Comparable
 
                                 //changeStatus(critical);
                                 //alarms.add(2);
-                                critInfo = currentD.getName();
+                                critInfo += currentD.getName() + " ";
                                 //critical = true;
+                                /*
                                 Alert temp = new Alert(this, currentD, dateFormat.format(date));
                                 if(!alerts.contains(temp))
                                 {
                                     alerts.add(temp);
-                                }
+                                }*/
+                                
                                 critInfo += currentD.getName() + "\n";
                                 currentD.setStatus(Status.CRITICAL);
                                 
@@ -148,12 +150,13 @@ public class SCADASite implements Serializable, Comparable
                                 //changeStatus(warning);
                                 //warning = true;
                                 //alarms.add(1);
-                                critInfo = "";
+                                //critInfo = "";
+                                /*
                                 Alert temp = new Alert(this, currentD, dateFormat.format(date));
                                 if(!alerts.contains(temp))
                                 {
                                     alerts.add(temp);
-                                }
+                                }*/
 
                                 currentD.setStatus(Status.WARNING);
                                 
@@ -166,12 +169,13 @@ public class SCADASite implements Serializable, Comparable
                                 //changeStatus(notNormal);
                                 //notNormal = true;
                                 //alarms.add(0);
-                                critInfo = "";
+                                //critInfo = "";
+                                /*
                                 Alert temp = new Alert(this, currentD, dateFormat.format(date));
                                 if(!alerts.contains(temp))
                                 {
                                     alerts.add(temp);
-                                }
+                                }*/
 
                                 currentD.setStatus(Status.NOTNORMAL);
                                 
@@ -315,7 +319,7 @@ public class SCADASite implements Serializable, Comparable
     
     public String getCritcialInfo()
     {
-        return critInfo;
+        return critInfo.trim();
     }
     public boolean isNewAlarm()
     {
