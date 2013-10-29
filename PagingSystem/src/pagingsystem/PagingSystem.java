@@ -205,7 +205,7 @@ public final class PagingSystem implements AlertListener {
 
 
         for(Employee employee: pageEmployee) {
-            Page page = new Page(this, employee, alert.getMessage(), props.getPagerIP(), props.getPagerPort());
+            Page page = new Page(this, employee, alert.getMessage(), props);
             boolean worked = false;
             do {
                 try {
