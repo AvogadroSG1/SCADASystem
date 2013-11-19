@@ -271,6 +271,9 @@ public final class PagingSystem implements AlertListener {
             logArea = new JTextArea();
             logArea.setEditable(false);
             
+            JScrollPane scroller = new JScrollPane(logArea);
+            
+            
             JPanel alertPanel = new JPanel(new GridLayout(2,2));
             
             alertPanel.add(ipLabel);
@@ -280,7 +283,7 @@ public final class PagingSystem implements AlertListener {
             
             contentPanel.add(alertPanel, BorderLayout.CENTER);
             
-            this.add(logArea, BorderLayout.CENTER);
+            this.add(scroller, BorderLayout.CENTER);
             this.add(contentPanel, BorderLayout.NORTH);
             
             ps.addLogListener(this);
@@ -346,5 +349,8 @@ public final class PagingSystem implements AlertListener {
             }
             }
         }
+        
+        
     }
+    
 }

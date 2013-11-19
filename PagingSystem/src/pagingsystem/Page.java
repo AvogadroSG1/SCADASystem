@@ -83,19 +83,19 @@ public class Page implements Runnable
     private void sendCR() throws IOException
     {
         if(!socket.isClosed())
-            os.write(CR);
+            write(""+CR);
     }
     
     private void sendLoginAndMessage() throws IOException
     {
         String everything = "" + ESC + (char)0x050 + (char)0x47 + (char)0x31 +CR;
-        os.write(everything.getBytes());
+        write(everything);
         try {
             Thread.sleep(10);
         } catch (InterruptedException ex) {
             Logger.getLogger(Page.class.getName()).log(Level.SEVERE, null, ex);
         }
-        os.write((formedMsg + calculateChecksum(formedMsg)).getBytes());
+        write((formedMsg + calculateChecksum(formedMsg)));
         sentMessage = true;
         alertAllLogListeners("Logged on and sent message");
     }
@@ -105,8 +105,9 @@ public class Page implements Runnable
         alertAllLogListeners("Logging off paging server");
         if(!socket.isClosed())
         {
-            os.write(("CR" + EOT + CR).getBytes());
-            os.flush();
+            //write(("CR" + EOT + CR));
+            write("" + EOT + CR);
+            //os.flush();
         }
     }
     
@@ -144,6 +145,8 @@ public class Page implements Runnable
     {
         while(!pageSent) {
             try {
+                setPagingProgress(0);
+                
                 connect();
 
                 WatchdogThread watchdog = new WatchdogThread();
@@ -214,6 +217,7 @@ public class Page implements Runnable
                 } catch(IOException ex) {
                     // the watchdog closed the input stream
                     // the loop will run again
+                    alertAllLogListeners("Watchdog closed stream, retrying");
                 }
                 
                 watchdog.interrupt();
@@ -297,5 +301,13 @@ public class Page implements Runnable
             }
             
         }
+    }
+    
+    private void write(String string) throws IOException {
+        for(byte byt : string.getBytes()) {
+            alertAllLogListeners("" + (int)byt);
+        }
+        os.write(string.getBytes());
+        os.flush();
     }
 }

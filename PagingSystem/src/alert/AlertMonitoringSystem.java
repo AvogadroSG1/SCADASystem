@@ -181,8 +181,10 @@ public final class AlertMonitoringSystem {
                 try {
                     for(Alert alert: activeAlerts) {
                         alert.acknowledge();
+                        
                     }
-
+                    activeAlerts.removeAll(activeAlerts);
+                    
                     alertAllLogListeners("Stopped all alerts");
                     return SUCCESS;
                 } catch(Exception ex) {

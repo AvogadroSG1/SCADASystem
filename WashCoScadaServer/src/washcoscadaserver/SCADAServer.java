@@ -462,7 +462,7 @@ public class SCADAServer implements SCADAUpdateListener
                 if(site.isNewAlarm()) {
                     log.log(Level.WARNING, "About to page");
                     log.log(Level.WARNING, site.getCritcialInfo());
-                    pageServ.startPage(site.getID(), site.getCritcialInfo());
+                    pageServ.startPage(site.getID(), site.getName() + " " + site.getCritcialInfo());
                     log.log(Level.WARNING, "Finished Paging");
                 }
             }
