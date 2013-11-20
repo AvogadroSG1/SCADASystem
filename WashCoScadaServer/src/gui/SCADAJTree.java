@@ -136,7 +136,7 @@ public class SCADAJTree extends JTree implements SCADAUpdateListener
                 } else if(site.isWarning()) {
                     label.setForeground(Color.orange);
                 } else {
-                    label.setForeground(Color.black);
+                    label.setForeground(Color.green.darker());
                 }
                 
                 if(selected) {
@@ -150,7 +150,7 @@ public class SCADAJTree extends JTree implements SCADAUpdateListener
             } else if(value instanceof DefaultMutableTreeNode){
                 label.setText(((DefaultMutableTreeNode) value).toString());
             } else {
-                label.setText("Invalid argument passed");
+                label.setText("Invalid onject passed");
             }
             
             return label;

@@ -51,7 +51,7 @@ public class Alert {
     }
     
     public String toString() {
-        return "" + jobID + " " + message;
+        return "" + message;
     }
 
     public int getJobID() {

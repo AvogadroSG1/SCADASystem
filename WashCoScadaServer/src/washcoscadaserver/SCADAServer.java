@@ -50,6 +50,7 @@ public class SCADAServer implements SCADAUpdateListener
     PageWithModem pageServ;
     
     private boolean isChecking = false;
+    private int jobID = 300;
     
     public SCADAServer()
     {
@@ -415,29 +416,29 @@ public class SCADAServer implements SCADAUpdateListener
         @Override
         public void run()
         {
-            ServerSocket serverSocket = null;
             try 
             {
-                serverSocket = new ServerSocket(port);
+                ServerSocket serverSocket = new ServerSocket(port);
+                while(listening)
+                {
+                    try 
+                    {
+                        ClientConnection client = new ClientConnection(serverSocket.accept());
+                        clients.add(client);
+                        log.log(Level.INFO, "Client at: {0}", client.getIP());
+                        connected = true;
+                    } 
+                    catch (IOException e) 
+                    {
+                        log.log(Level.SEVERE, "Accept failed.");
+                    }
+                }
             } 
             catch (IOException e) 
             {
                 log.log(Level.SEVERE, "Could not listen on port: {0}", port);
             }
-            while(listening)
-            {
-                try 
-                {
-                    ClientConnection client = new ClientConnection(serverSocket.accept());
-                    clients.add(client);
-                    log.log(Level.INFO, "Client at: {0}", client.getIP());
-                    connected = true;
-                } 
-                catch (IOException e) 
-                {
-                    log.log(Level.SEVERE, "Accept failed.");
-                }
-            }
+            
         }
     }
     
@@ -462,8 +463,9 @@ public class SCADAServer implements SCADAUpdateListener
                 if(site.isNewAlarm()) {
                     log.log(Level.WARNING, "About to page");
                     log.log(Level.WARNING, site.getCritcialInfo());
-                    pageServ.startPage(site.getID(), site.getName() + " " + site.getCritcialInfo());
+                    pageServ.startPage(jobID, site.getName() + " " + site.getCritcialInfo());
                     log.log(Level.WARNING, "Finished Paging");
+                    jobID++;
                 }
             }
         

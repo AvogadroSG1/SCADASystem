@@ -137,8 +137,6 @@ public class SCADASite implements Serializable, Comparable
                                 {
                                     alerts.add(temp);
                                 }*/
-                                
-                                critInfo += currentD.getName() + "\n";
                                 currentD.setStatus(Status.CRITICAL);
                                 
                                 if(!inQueue(currentD))

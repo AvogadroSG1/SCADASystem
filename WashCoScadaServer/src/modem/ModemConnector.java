@@ -9,6 +9,7 @@ import java.net.*;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class ModemConnector
 {

@@ -106,7 +106,9 @@ public final class AlertMonitoringSystem {
         try {
             String[] split = task.split(" ", 2); //split by spaces
             String command = split[0];
-            String rest = split[1].trim();
+            String rest = "";
+            if(split.length > 1)
+                rest = split[1].trim();
 
             if(command.equals(STATUS)) {
                 int jobID = Integer.parseInt(rest);
@@ -122,10 +124,12 @@ public final class AlertMonitoringSystem {
                     
                     alert.setNextAlertTime(Calendar.getInstance());
                     alertAllLogListeners("Created alert: " + alert.toString());
-
+                    
                     return SUCCESS;
                 } catch(Exception ex) {
+                    alertAllLogListeners(ex.getClass().getName() + ": " + ex.getMessage());
                     log.log(Level.INFO, ex.getMessage());
+                    Logger.getLogger(AlertMonitoringSystem.class.getName()).log(Level.SEVERE, null, ex);
                     return EXCEPTION;
                 }
 
@@ -181,13 +185,12 @@ public final class AlertMonitoringSystem {
                 try {
                     for(Alert alert: activeAlerts) {
                         alert.acknowledge();
-                        
                     }
                     activeAlerts.removeAll(activeAlerts);
-                    
                     alertAllLogListeners("Stopped all alerts");
                     return SUCCESS;
                 } catch(Exception ex) {
+                    alertAllLogListeners("EXCEPTION");
                     Logger.getLogger(AlertMonitoringSystem.class.getName()).log(Level.SEVERE, null, ex);
                     return EXCEPTION;
                 }
@@ -197,6 +200,7 @@ public final class AlertMonitoringSystem {
                 return BADSYNTAX;
             }
         } catch(Exception ex) {
+            alertAllLogListeners(ex.getClass().getName() + ": " + ex.getMessage());
             return BADSYNTAX;
         }
     }
@@ -266,13 +270,11 @@ public final class AlertMonitoringSystem {
     }
     
     private void makeSurePageThreadIsRunning() {
-        if(dispatch == null) {
+        if(dispatch == null || !dispatch.isAlive()) {
             dispatch = new AlertDispatchThread();
-        }
-        
-        if(!dispatch.isAlive()) {
             dispatch.start();
         }
+        
     }
     
     private class AlertMonitorThread extends ErrorLoggingThread {
@@ -315,7 +317,11 @@ public final class AlertMonitoringSystem {
                         os.flush();
                     } else {
                         log.log(Level.FINE , "Received: " + buffer);
-                        write(doTask(buffer));
+                        alertAllLogListeners("Received: " + buffer);
+                        int toWrite = doTask(buffer);
+                        write(toWrite);
+                        //alertAllLogListeners("" + toWrite);
+                        //alertAllLogListeners("Did stuff");
                     }
                 }
             } catch (Exception ex) {
@@ -348,7 +354,8 @@ public final class AlertMonitoringSystem {
                     log.log(Level.INFO, ex1.getMessage());
                 }
                     
-                Logger.getGlobal().log(Level.SEVERE, "AMS :", ex);
+                if(!ex.getClass().getName().contains("ConnectException"))
+                    Logger.getGlobal().log(Level.SEVERE, "AMS :", ex);
                 
                try {
                     Thread.sleep(1000);
@@ -425,7 +432,10 @@ public final class AlertMonitoringSystem {
             
             logArea = new JTextArea();
             logArea.setEditable(false);
-            this.add(logArea, BorderLayout.CENTER);
+            
+            JScrollPane scroller = new JScrollPane(logArea);
+            
+            this.add(scroller, BorderLayout.CENTER);
             
             ams.addLogListener(this);
         }

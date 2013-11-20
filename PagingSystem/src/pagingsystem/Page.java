@@ -304,9 +304,9 @@ public class Page implements Runnable
     }
     
     private void write(String string) throws IOException {
-        for(byte byt : string.getBytes()) {
+        /*for(byte byt : string.getBytes()) {
             alertAllLogListeners("" + (int)byt);
-        }
+        }*/
         os.write(string.getBytes());
         os.flush();
     }

@@ -6,14 +6,14 @@ package gui;
 
 import SCADASite.SCADASite;
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 import pagingsystem.PagingSystem;
 import washcoscadaserver.SCADARunner;
@@ -32,8 +32,11 @@ public class ServerGUI extends JFrame {
     private JButton clearAllButton;
     private JLightSwitch checkAlarmSwitch, pageSwitch;
     private SCADAJTree tree;
+    private SiteStatusList list;
     
     private Thread checking;
+    
+    private GridBagConstraints pageConstr, mainConstr, treeConstr;
     
     public ServerGUI(PagingSystem ps) {
         super("SCADA System");
@@ -43,10 +46,14 @@ public class ServerGUI extends JFrame {
     }
     
     private void init() {
+        setupGridBags();
+         
         tree = new SCADAJTree();
+        list = new SiteStatusList();
         
         for(SCADASite site: server.getSCADASites()) {
             tree.addSite(site);
+            list.addSite(site);
         }
         
         JScrollPane treeScroll = new JScrollPane(tree);
@@ -86,21 +93,21 @@ public class ServerGUI extends JFrame {
         toolbar.add(ps.getPagingProgressPanel());
         toolbar.add(clearAllButton);
         
-        JPanel temp = new JPanel(new BorderLayout());
-        
-        JScrollPane scrollStatus = new JScrollPane(SCADARunner.getLogArea());
+        JScrollPane scrollStatus = new JScrollPane(list);
         scrollStatus.setPreferredSize(new Dimension(500,700));
         scrollStatus.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollStatus.setAutoscrolls(true);
         
-        temp.add(scrollStatus);
-        temp.add(pageGUI, BorderLayout.SOUTH);
+        JPanel temp = new JPanel(new GridBagLayout());
+        
+        temp.add(tree, treeConstr);
+        temp.add(scrollStatus, mainConstr);
+        temp.add(pageGUI, pageConstr);
         
         this.setLayout(new BorderLayout());
         
         this.add(toolbar, BorderLayout.NORTH);
         this.add(temp, BorderLayout.CENTER);
-        this.add(treeScroll, BorderLayout.WEST);
         
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
@@ -127,5 +134,37 @@ public class ServerGUI extends JFrame {
     
     public boolean isChecking() {
         return checking != null;
+    }
+    
+    private void setupGridBags() {
+        pageConstr = new GridBagConstraints();
+        mainConstr = new GridBagConstraints();
+        treeConstr = new GridBagConstraints();
+        
+        treeConstr.gridx = 0;
+        treeConstr.gridy = 0;
+        treeConstr.gridwidth = 1;
+        treeConstr.gridheight = 3;
+        treeConstr.fill = GridBagConstraints.BOTH;
+        treeConstr.weightx = 0.25;
+        treeConstr.weighty = 1;
+        
+        mainConstr.gridx = 1;
+        mainConstr.gridy = 0;
+        mainConstr.gridwidth = 3;
+        mainConstr.gridheight = 2;
+        mainConstr.fill = GridBagConstraints.BOTH;
+        mainConstr.weightx = 1;
+        mainConstr.weighty = 1;
+        
+        
+        pageConstr.gridx = 1;
+        pageConstr.gridy = 2;
+        pageConstr.gridwidth = 3;
+        pageConstr.gridheight = 1;
+        pageConstr.fill = GridBagConstraints.BOTH;
+        pageConstr.weightx = 1;
+        pageConstr.weighty = 0.5;
+        
     }
 }

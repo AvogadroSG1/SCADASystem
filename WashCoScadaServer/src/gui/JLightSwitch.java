@@ -83,9 +83,15 @@ public final class JLightSwitch extends AbstractButton {
             @Override
             public void mouseClicked(MouseEvent me) {
                 super.mouseClicked(me);
-                setSelected(!isSelected());
-                ActionEvent e = new ActionEvent(JLightSwitch.this, 0, JLightSwitch.this.getActionCommand());
-                fireActionPerformed(e);
+                if(isEnabled()) {
+                    setEnabled(false);
+                    setSelected(!isSelected());
+                    repaint();
+                    ActionEvent e = new ActionEvent(JLightSwitch.this, 0, JLightSwitch.this.getActionCommand());
+                    fireActionPerformed(e);
+                    setEnabled(true);
+                    repaint();
+                }
             }
         });
         
@@ -193,6 +199,12 @@ public final class JLightSwitch extends AbstractButton {
         g.fillRect(backgroundX, backgroundHeight - 2, backgroundWidth, 2);
         g.fillRect(backgroundX + backgroundWidth - 2, backgroundY, 2, backgroundHeight);
         g.fillRect(backgroundX + backgroundWidth / 2 - 1, backgroundY, 3, backgroundHeight);
+        
+        if(!isEnabled()) {
+            Color color = new Color(150,150,150,100);
+            g.setColor(color);
+            g.fillRect(0, 0, dim.width, dim.height);
+        }
     }
     
 }

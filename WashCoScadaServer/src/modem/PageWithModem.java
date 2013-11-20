@@ -80,40 +80,40 @@ public class PageWithModem implements Runnable, ReadListener {
         }
     }
     
-    public void startPage(int scadaID, String message) {
+    public void startPage(int jobID, String message) {
         try {
-            plug.startPage(scadaID, message);
+            plug.startPage(jobID, message);
             log.log(Level.INFO, "started page");
         } catch (IOException ex) {
             fix();
-            startPage(scadaID, message);
+            startPage(jobID, message);
         }
     }
             
-    public void stopPage(int scadaID) {
+    public void stopPage(int jobID) {
         try {
-            plug.stopPage(scadaID);
+            plug.stopPage(jobID);
         } catch (IOException ex) {
             fix();
-            stopPage(scadaID);
+            stopPage(jobID);
         }
     }
     
-    public void acknowledgePage(int scadaID) {
+    public void acknowledgePage(int jobID) {
         try {
-            plug.acknowledgePage(scadaID);
+            plug.acknowledgePage(jobID);
         } catch (IOException ex) {
             fix();
-            acknowledgePage(scadaID);
+            acknowledgePage(jobID);
         }
     }
     
-    public int getStatus(int scadaID) {
+    public int getStatus(int jobID) {
         try {
-            return plug.getStatus(scadaID);
+            return plug.getStatus(jobID);
         } catch (IOException ex) {
             fix();
-            return getStatus(scadaID);
+            return getStatus(jobID);
         }
     }
     
@@ -250,10 +250,11 @@ public class PageWithModem implements Runnable, ReadListener {
                         onRead(pinText);
                         return;
                     }
+                    JOptionPane.showMessageDialog(null, pinText);
                     int pin = Integer.parseInt(pinText);
-                    int scadaID = jacg.getScadaID(pin);
+                    int jobID = jacg.getJobID(pin);
                     jacg.acknowledgeCode(pin);
-                    plug.acknowledgePage(scadaID);
+                    plug.acknowledgePage(jobID);
                 } catch (IOException ex) {
                     fix();
                     onRead(pinText);
@@ -274,32 +275,32 @@ public class PageWithModem implements Runnable, ReadListener {
             os = socket.getOutputStream();
         }
         
-        protected void startPage(int scadaID, String message) throws IOException {
-            int ackCode = jacg.generateAckCode(scadaID);
+        protected void startPage(int jobID, String message) throws IOException {
+            int ackCode = jacg.generateAckCode(jobID);
             log.log(Level.INFO, "Generated Ack Code");
-            String compose = "ST " + scadaID + " " + message + " ACKCODE:" + ackCode;
+            String compose = "ST " + jobID + " " + message + " ACKCODE:" + ackCode;
             os.write(compose.getBytes());
             os.flush();
-            //LoggingSystem.getLoggingSystem().alertAllLogListeners("Page sent: scadaID-" + scadaID + " message-" + message);
+            //LoggingSystem.getLoggingSystem().alertAllLogListeners("Page sent: jobID-" + jobID + " message-" + message);
         }
         
-        protected void acknowledgePage(int scadaID) throws IOException {
-            //log.log(Level.INFO, "Clearing SCADAID {0} from the system", ""+scadaID);
-            String compose = "ACK " + scadaID;
+        protected void acknowledgePage(int jobID) throws IOException {
+            //log.log(Level.INFO, "Clearing SCADAID {0} from the system", ""+jobID);
+            String compose = "ACK " + jobID;
             os.write(compose.getBytes());
             os.flush();
-            //LoggingSystem.getLoggingSystem().alertAllLogListeners("Acknowledgement received: scadaID-" + scadaID);
+            //LoggingSystem.getLoggingSystem().alertAllLogListeners("Acknowledgement received: jobID-" + jobID);
         }
         
-        protected void stopPage(int scadaID) throws IOException {
+        protected void stopPage(int jobID) throws IOException {
             log.log(Level.INFO, "Stopped the page");
-            String compose = "SP " + scadaID;
+            String compose = "SP " + jobID;
             os.write(compose.getBytes());
             os.flush();
         }
         
-        protected int getStatus(int scadaID) throws IOException {
-            String compose = "S " + scadaID;
+        protected int getStatus(int jobID) throws IOException {
+            String compose = "S " + jobID;
             os.write(compose.getBytes());
             os.flush();
             return Integer.parseInt(readBuffer());
@@ -341,8 +342,8 @@ public class PageWithModem implements Runnable, ReadListener {
         gen.acknowledgeCode(code);
         System.out.println(gen.activeCodes.toString());
         code = gen.generateAckCode(5);
-        int scadaID = gen.getScadaID(code);
-        System.out.println(scadaID);
+        int jobID = gen.getJobID(code);
+        System.out.println(jobID);
         //gen.acknowledgeScadaID(0);
         System.out.println(gen.activeCodes.toString());
     }
@@ -359,7 +360,7 @@ public class PageWithModem implements Runnable, ReadListener {
             activeCodes = new ArrayList();
         }
         
-        public int generateAckCode(int scadaID) {
+        public int generateAckCode(int jobID) {
             
             int ran;
             do {
@@ -376,7 +377,7 @@ public class PageWithModem implements Runnable, ReadListener {
             
             
             //now we have a random int that isn't used yet
-            AckCode code = new AckCode(scadaID, ran);
+            AckCode code = new AckCode(jobID, ran);
             activeCodes.add(code);
             return code.getAckCode();
         }
@@ -390,30 +391,30 @@ public class PageWithModem implements Runnable, ReadListener {
             return false;
         }
         
-        public int getAckCode(int scadaID) {
+        public int getAckCode(int jobID) {
             for(AckCode code: activeCodes) {
-                if(code.scadaID == scadaID)
+                if(code.jobID == jobID)
                     return code.getAckCode();
             }
             
             return -2;
         }
         
-        public int getScadaID(int ackCode) {
+        public int getJobID(int ackCode) {
             for(AckCode code: activeCodes) {
                 if(code.ackCode == ackCode)
-                    return code.scadaID;
+                    return code.jobID;
             }
             
             return -2;
         }
         
         /*
-         * Acknoledge the scadaID
+         * Acknoledge the jobID
          */ /*
-        public void acknowledgeScadaID(int scadaID) {
+        public void acknowledgeScadaID(int jobID) {
             for(AckCode code: activeCodes) {
-                if(code.getScadaID() == scadaID) {
+                if(code.getScadaID() == jobID) {
                     activeCodes.remove(code);
                     return;
                 }
@@ -430,12 +431,12 @@ public class PageWithModem implements Runnable, ReadListener {
         }
         
         private class AckCode {
-            private final int scadaID;
+            private final int jobID;
             private final int ackCode;
             
-            public AckCode(int scadaID, int ackCode) {
+            public AckCode(int jobID, int ackCode) {
                 super();
-                this.scadaID = scadaID;
+                this.jobID = jobID;
                 this.ackCode = ackCode;
             }
 
@@ -443,12 +444,12 @@ public class PageWithModem implements Runnable, ReadListener {
                 return ackCode;
             }
 
-            public int getScadaID() {
-                return scadaID;
+            public int getJobID() {
+                return jobID;
             }
             
             public String toString() {
-                return "ACKCODE :" + ackCode + " SCADAID: " + scadaID;
+                return "ACKCODE :" + ackCode + " SCADAID: " + jobID;
             }
         }
     }
