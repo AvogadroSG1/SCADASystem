@@ -21,6 +21,7 @@ public class ModemConnector
     ModemListener listen;
     String lastPin = "";
     boolean readyForRead;
+    static Logger log = Logger.getGlobal();
     
     Thread listenThread;
     
@@ -159,7 +160,7 @@ public class ModemConnector
                             readyForRead = true;
                             stopThread.interrupt();
                             init();
-                            System.out.println("Hang up." + lastPin + readyForRead);
+                            log.log(Level.WARNING, "Hang up." + lastPin + readyForRead);
                             notifyAllAckListeners(message);
                         }
                     }
