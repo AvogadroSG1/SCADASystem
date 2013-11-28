@@ -242,6 +242,8 @@ public class SCADASite implements Serializable, Comparable
                             justDisconnected = false;
                         }
                         
+                        status.setStatusCode(Status.WARNING);
+                        
                         critInfo = this.getName() + " disconnceted.\nLast connection on: " +
                                 dateFormat.format(date);
                         
@@ -332,10 +334,6 @@ public class SCADASite implements Serializable, Comparable
         newAlarm = false;
     }*/
     
-    public boolean connected()
-    {
-        return connected;
-    }
     
     public boolean getConnected()
     {

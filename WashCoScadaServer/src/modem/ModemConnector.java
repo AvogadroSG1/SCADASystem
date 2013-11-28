@@ -161,7 +161,17 @@ public class ModemConnector
                             stopThread.interrupt();
                             init();
                             log.log(Level.WARNING, "Hang up." + lastPin + readyForRead);
-                            notifyAllAckListeners(message);
+                            
+                            message = "";
+                            if(lastPin.length() == 8) {
+                                for(int i = 0; i < lastPin.length(); i+=2) { // take every other char
+                                    message += lastPin.charAt(i);
+                                }
+                                
+                                lastPin = message;
+                            }
+                            
+                            notifyAllAckListeners(lastPin);
                         }
                     }
                     

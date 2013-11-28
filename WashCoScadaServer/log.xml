@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="US-ASCII" standalone="no"?>
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008454</millis>
+  <date>2013-11-25T08:37:01</date>
+  <millis>1385386621776</millis>
   <sequence>0</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -13,9 +13,9 @@
   <message>Hai</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008498</millis>
-  <sequence>1</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625526</millis>
+  <sequence>2</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -24,9 +24,9 @@
   <message>Starting up sites.</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008518</millis>
-  <sequence>2</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625619</millis>
+  <sequence>3</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -35,9 +35,9 @@
   <message>Processing line: ###########################################################</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008520</millis>
-  <sequence>3</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625621</millis>
+  <sequence>4</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -46,9 +46,9 @@
   <message>Processing line: #</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008525</millis>
-  <sequence>4</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625622</millis>
+  <sequence>5</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -57,9 +57,9 @@
   <message>Processing line: #   SiteConfigs.dat</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008527</millis>
-  <sequence>5</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625623</millis>
+  <sequence>6</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -68,9 +68,9 @@
   <message>Processing line: #   Author: Peter O'Connor</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008529</millis>
-  <sequence>6</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625624</millis>
+  <sequence>7</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -79,9 +79,9 @@
   <message>Processing line: #   See Readme.txt for more information on formatting.</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008530</millis>
-  <sequence>7</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625625</millis>
+  <sequence>8</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -90,9 +90,9 @@
   <message>Processing line: #   </message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008532</millis>
-  <sequence>8</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625626</millis>
+  <sequence>9</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -101,9 +101,9 @@
   <message>Processing line: ############################################################</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008534</millis>
-  <sequence>9</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625627</millis>
+  <sequence>10</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -112,9 +112,9 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008536</millis>
-  <sequence>10</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625628</millis>
+  <sequence>11</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -123,9 +123,9 @@
   <message>Processing line: Site Name=Airport PS</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008537</millis>
-  <sequence>11</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625628</millis>
+  <sequence>12</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -134,9 +134,9 @@
   <message>Processing line: Lat=39.708500</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008541</millis>
-  <sequence>12</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625629</millis>
+  <sequence>13</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -145,9 +145,9 @@
   <message>Processing line: Long=-77.726500</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008542</millis>
-  <sequence>13</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625630</millis>
+  <sequence>14</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -156,9 +156,9 @@
   <message>Processing line: Device Name=Radio</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008549</millis>
-  <sequence>14</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625644</millis>
+  <sequence>15</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -167,9 +167,9 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008551</millis>
-  <sequence>15</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625645</millis>
+  <sequence>16</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -178,9 +178,9 @@
   <message>Processing line: Device Name=Switch</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008553</millis>
-  <sequence>16</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625646</millis>
+  <sequence>17</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -189,9 +189,9 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008555</millis>
-  <sequence>17</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625647</millis>
+  <sequence>18</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -200,9 +200,9 @@
   <message>Processing line: Device Name=SCADA Controller</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008559</millis>
-  <sequence>18</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625648</millis>
+  <sequence>19</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -211,9 +211,9 @@
   <message>Processing line: end</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008561</millis>
-  <sequence>19</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625649</millis>
+  <sequence>20</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -222,9 +222,9 @@
   <message>Reached end of site!</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008568</millis>
-  <sequence>20</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625651</millis>
+  <sequence>21</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -233,9 +233,9 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008569</millis>
-  <sequence>21</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625651</millis>
+  <sequence>22</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -244,9 +244,9 @@
   <message>Processing line: Site Name=Farm Lane PS</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008571</millis>
-  <sequence>22</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625652</millis>
+  <sequence>23</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -255,9 +255,9 @@
   <message>Processing line: Lat=39.701215</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008573</millis>
-  <sequence>23</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625653</millis>
+  <sequence>24</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -266,9 +266,9 @@
   <message>Processing line: Long=-77.719136</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008575</millis>
-  <sequence>24</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625654</millis>
+  <sequence>25</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -277,9 +277,9 @@
   <message>Processing line: Device Name=Radio</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008577</millis>
-  <sequence>25</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625655</millis>
+  <sequence>26</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -288,9 +288,9 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008579</millis>
-  <sequence>26</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625655</millis>
+  <sequence>27</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -299,9 +299,9 @@
   <message>Processing line: Device Name=Switch</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008582</millis>
-  <sequence>27</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625656</millis>
+  <sequence>28</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -310,9 +310,9 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008584</millis>
-  <sequence>28</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625657</millis>
+  <sequence>29</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -321,9 +321,9 @@
   <message>Processing line: Device Name=SCADA Controller</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008586</millis>
-  <sequence>29</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625659</millis>
+  <sequence>30</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -332,9 +332,9 @@
   <message>Processing line: end</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008588</millis>
-  <sequence>30</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625659</millis>
+  <sequence>31</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -343,9 +343,9 @@
   <message>Reached end of site!</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008590</millis>
-  <sequence>31</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625660</millis>
+  <sequence>32</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -354,9 +354,9 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008592</millis>
-  <sequence>32</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625661</millis>
+  <sequence>33</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -365,9 +365,9 @@
   <message>Processing line: Site Name=CitiCorp PS</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008594</millis>
-  <sequence>33</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625661</millis>
+  <sequence>34</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -376,9 +376,9 @@
   <message>Processing line: Lat=39.718873</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008595</millis>
-  <sequence>34</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625662</millis>
+  <sequence>35</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -387,9 +387,9 @@
   <message>Processing line: Long=-77.731662</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008597</millis>
-  <sequence>35</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625663</millis>
+  <sequence>36</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -398,9 +398,9 @@
   <message>Processing line: Device Name=Radio</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008599</millis>
-  <sequence>36</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625664</millis>
+  <sequence>37</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -409,9 +409,9 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008601</millis>
-  <sequence>37</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625664</millis>
+  <sequence>38</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -420,9 +420,9 @@
   <message>Processing line: Device Name=Switch</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008608</millis>
-  <sequence>38</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625665</millis>
+  <sequence>39</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -431,9 +431,9 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008610</millis>
-  <sequence>39</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625666</millis>
+  <sequence>40</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -442,9 +442,9 @@
   <message>Processing line: Device Name=SCADA Controller</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008613</millis>
-  <sequence>40</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625667</millis>
+  <sequence>41</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -453,9 +453,9 @@
   <message>Processing line: end</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008614</millis>
-  <sequence>41</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625668</millis>
+  <sequence>42</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -464,9 +464,9 @@
   <message>Reached end of site!</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008616</millis>
-  <sequence>42</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625668</millis>
+  <sequence>43</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -475,9 +475,9 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008620</millis>
-  <sequence>43</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625669</millis>
+  <sequence>44</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -486,9 +486,9 @@
   <message>Processing line: Site Name=Carriage Hills PS</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008622</millis>
-  <sequence>44</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625670</millis>
+  <sequence>45</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -497,9 +497,9 @@
   <message>Processing line: Lat=39.598761</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008624</millis>
-  <sequence>45</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625670</millis>
+  <sequence>46</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -508,9 +508,9 @@
   <message>Processing line: Long=-77.723336</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008626</millis>
-  <sequence>46</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625671</millis>
+  <sequence>47</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -519,9 +519,9 @@
   <message>Processing line: Device Name=Radio</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008627</millis>
-  <sequence>47</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625672</millis>
+  <sequence>48</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -530,9 +530,9 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008629</millis>
-  <sequence>48</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625672</millis>
+  <sequence>49</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -541,9 +541,9 @@
   <message>Processing line: Device Name=Switch</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008633</millis>
-  <sequence>49</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625673</millis>
+  <sequence>50</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -552,9 +552,9 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008634</millis>
-  <sequence>50</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625674</millis>
+  <sequence>51</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -563,9 +563,9 @@
   <message>Processing line: Device Name=SCADA Controller</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008637</millis>
-  <sequence>51</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625675</millis>
+  <sequence>52</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -574,9 +574,9 @@
   <message>Processing line: end</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008639</millis>
-  <sequence>52</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625676</millis>
+  <sequence>53</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -585,9 +585,9 @@
   <message>Reached end of site!</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008640</millis>
-  <sequence>53</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625676</millis>
+  <sequence>54</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -596,9 +596,9 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008643</millis>
-  <sequence>54</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625677</millis>
+  <sequence>55</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -607,9 +607,9 @@
   <message>Processing line: Site Name=Country Side PS</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008645</millis>
-  <sequence>55</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625677</millis>
+  <sequence>56</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -618,9 +618,9 @@
   <message>Processing line: Lat=39.698322</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008647</millis>
-  <sequence>56</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625678</millis>
+  <sequence>57</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -629,9 +629,9 @@
   <message>Processing line: Long=-77.753106</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008648</millis>
-  <sequence>57</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625679</millis>
+  <sequence>58</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -640,9 +640,9 @@
   <message>Processing line: Device Name=Radio</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008650</millis>
-  <sequence>58</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625679</millis>
+  <sequence>59</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -651,9 +651,9 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008652</millis>
-  <sequence>59</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625680</millis>
+  <sequence>60</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -662,9 +662,9 @@
   <message>Processing line: Device Name=Switch</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008657</millis>
-  <sequence>60</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625681</millis>
+  <sequence>61</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -673,9 +673,9 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008659</millis>
-  <sequence>61</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625681</millis>
+  <sequence>62</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -684,9 +684,9 @@
   <message>Processing line: Device Name=SCADA Controller</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008663</millis>
-  <sequence>62</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625683</millis>
+  <sequence>63</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -695,9 +695,9 @@
   <message>Processing line: end</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008665</millis>
-  <sequence>63</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625684</millis>
+  <sequence>64</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -706,9 +706,9 @@
   <message>Reached end of site!</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008666</millis>
-  <sequence>64</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625685</millis>
+  <sequence>65</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -717,9 +717,9 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008668</millis>
-  <sequence>65</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625685</millis>
+  <sequence>66</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -728,9 +728,9 @@
   <message>Processing line: Site Name=Oak Ridge PS</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008670</millis>
-  <sequence>66</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625686</millis>
+  <sequence>67</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -739,9 +739,9 @@
   <message>Processing line: Lat=39.611379</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008671</millis>
-  <sequence>67</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625686</millis>
+  <sequence>68</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -750,9 +750,9 @@
   <message>Processing line: Long=-77.754402</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008673</millis>
-  <sequence>68</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625687</millis>
+  <sequence>69</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -761,9 +761,9 @@
   <message>Processing line: Device Name=Radio</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008674</millis>
-  <sequence>69</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625688</millis>
+  <sequence>70</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -772,9 +772,9 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008677</millis>
-  <sequence>70</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625688</millis>
+  <sequence>71</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -783,9 +783,9 @@
   <message>Processing line: Device Name=Switch</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008679</millis>
-  <sequence>71</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625689</millis>
+  <sequence>72</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -794,9 +794,9 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008680</millis>
-  <sequence>72</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625690</millis>
+  <sequence>73</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -805,9 +805,9 @@
   <message>Processing line: Device Name=SCADA Controller</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008684</millis>
-  <sequence>73</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625691</millis>
+  <sequence>74</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -816,9 +816,9 @@
   <message>Processing line: end</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008685</millis>
-  <sequence>74</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625691</millis>
+  <sequence>75</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -827,19 +827,8 @@
   <message>Reached end of site!</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008687</millis>
-  <sequence>75</sequence>
-  <logger>global</logger>
-  <level>INFO</level>
-  <class>washcoscadaserver.SCADAServer</class>
-  <method>startUpSites</method>
-  <thread>1</thread>
-  <message>Processing line: </message>
-</record>
-<record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008699</millis>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625692</millis>
   <sequence>76</sequence>
   <logger>global</logger>
   <level>INFO</level>
@@ -849,9 +838,20 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008700</millis>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625693</millis>
   <sequence>77</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>washcoscadaserver.SCADAServer</class>
+  <method>startUpSites</method>
+  <thread>1</thread>
+  <message>Processing line: </message>
+</record>
+<record>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625693</millis>
+  <sequence>78</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -860,9 +860,9 @@
   <message>Processing line: #DeviceName=Touch Screen</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008702</millis>
-  <sequence>78</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625694</millis>
+  <sequence>79</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -871,9 +871,9 @@
   <message>Processing line: #TCPIP=192.168.10.11</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008703</millis>
-  <sequence>79</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625694</millis>
+  <sequence>80</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -882,9 +882,9 @@
   <message>Processing line: #Modbus=1</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008705</millis>
-  <sequence>80</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625695</millis>
+  <sequence>81</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -893,9 +893,9 @@
   <message>Processing line: #Discretes=Pump:10001w,Relay:10002w,Power:10003c</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008706</millis>
-  <sequence>81</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625696</millis>
+  <sequence>82</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -904,9 +904,9 @@
   <message>Processing line: #Registers=Level:30001c</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008708</millis>
-  <sequence>82</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625696</millis>
+  <sequence>83</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -915,9 +915,9 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008710</millis>
-  <sequence>83</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625697</millis>
+  <sequence>84</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -926,9 +926,9 @@
   <message>Processing line: #Site Name=OCTEst</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008726</millis>
-  <sequence>84</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625698</millis>
+  <sequence>85</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -937,9 +937,9 @@
   <message>Processing line: #Lat=39.720499</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008728</millis>
-  <sequence>85</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625698</millis>
+  <sequence>86</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -948,9 +948,9 @@
   <message>Processing line: #Long=-80.783203</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008730</millis>
-  <sequence>86</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625699</millis>
+  <sequence>87</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -959,9 +959,9 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008737</millis>
-  <sequence>87</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625699</millis>
+  <sequence>88</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -970,9 +970,9 @@
   <message>Processing line: #Device Name=Radio</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008747</millis>
-  <sequence>88</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625700</millis>
+  <sequence>89</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -981,9 +981,9 @@
   <message>Processing line: #TCPIP=192.168.10.21</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008749</millis>
-  <sequence>89</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625700</millis>
+  <sequence>90</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -992,9 +992,9 @@
   <message>Processing line: #Modbus=0</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008751</millis>
-  <sequence>90</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625701</millis>
+  <sequence>91</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -1003,9 +1003,9 @@
   <message>Processing line: #Discretes=</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008765</millis>
-  <sequence>91</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625702</millis>
+  <sequence>92</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -1014,9 +1014,9 @@
   <message>Processing line: #Registers=</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008766</millis>
-  <sequence>92</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625702</millis>
+  <sequence>93</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -1025,9 +1025,9 @@
   <message>Processing line: </message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008768</millis>
-  <sequence>93</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625703</millis>
+  <sequence>94</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -1036,9 +1036,9 @@
   <message>Processing line: #Device Name=Touch Screen</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008769</millis>
-  <sequence>94</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625704</millis>
+  <sequence>95</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -1047,9 +1047,9 @@
   <message>Processing line: #TCPIP=192.168.10.20</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008771</millis>
-  <sequence>95</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625704</millis>
+  <sequence>96</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -1058,9 +1058,9 @@
   <message>Processing line: #Modbus=1</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008772</millis>
-  <sequence>96</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625705</millis>
+  <sequence>97</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -1069,9 +1069,9 @@
   <message>Processing line: #Discretes=Pump:10001w,Relay:10002n,Power:10003c</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008774</millis>
-  <sequence>97</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625706</millis>
+  <sequence>98</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -1080,9 +1080,9 @@
   <message>Processing line: #Registers=Level:30001c</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008775</millis>
-  <sequence>98</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625706</millis>
+  <sequence>99</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -1091,9 +1091,9 @@
   <message>Processing line: #end</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008777</millis>
-  <sequence>99</sequence>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625746</millis>
+  <sequence>100</sequence>
   <logger>global</logger>
   <level>INFO</level>
   <class>washcoscadaserver.SCADAServer</class>
@@ -1102,80 +1102,14 @@
   <message>Started Client Listening Thread.</message>
 </record>
 <record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008791</millis>
-  <sequence>100</sequence>
-  <logger>global</logger>
-  <level>INFO</level>
-  <class>modem.PageWithModem</class>
-  <method>&lt;init&gt;</method>
-  <thread>1</thread>
-  <message>-------Making New Page and Voice Properties-------</message>
-</record>
-<record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008831</millis>
+  <date>2013-11-25T08:37:05</date>
+  <millis>1385386625753</millis>
   <sequence>101</sequence>
   <logger>global</logger>
   <level>INFO</level>
-  <class>modem.PageWithModem</class>
-  <method>&lt;init&gt;</method>
+  <class>washcoscadaserver.SCADAServer</class>
+  <method>startChecking</method>
   <thread>1</thread>
-  <message>-------Properties Made-------</message>
-</record>
-<record>
-  <date>2013-07-29T11:33:28</date>
-  <millis>1375112008832</millis>
-  <sequence>102</sequence>
-  <logger>global</logger>
-  <level>INFO</level>
-  <class>modem.PageWithModem</class>
-  <method>makeGUI</method>
-  <thread>1</thread>
-  <message>-------Making The GUI!-------</message>
-</record>
-<record>
-  <date>2013-07-29T11:33:29</date>
-  <millis>1375112009313</millis>
-  <sequence>103</sequence>
-  <logger>global</logger>
-  <level>INFO</level>
-  <class>gui.PagingGUI</class>
-  <method>&lt;init&gt;</method>
-  <thread>1</thread>
-  <message>-------Making Paging System with props!-------</message>
-</record>
-<record>
-  <date>2013-07-29T11:33:29</date>
-  <millis>1375112009509</millis>
-  <sequence>105</sequence>
-  <logger>global</logger>
-  <level>INFO</level>
-  <class>gui.PagingGUI</class>
-  <method>&lt;init&gt;</method>
-  <thread>1</thread>
-  <message>-------Paging System Created, starting init()-------</message>
-</record>
-<record>
-  <date>2013-07-29T11:33:29</date>
-  <millis>1375112009514</millis>
-  <sequence>106</sequence>
-  <logger>global</logger>
-  <level>INFO</level>
-  <class>gui.PagingGUI</class>
-  <method>&lt;init&gt;</method>
-  <thread>1</thread>
-  <message>-------initialized with init()-------</message>
-</record>
-<record>
-  <date>2013-07-29T11:33:29</date>
-  <millis>1375112009515</millis>
-  <sequence>107</sequence>
-  <logger>global</logger>
-  <level>INFO</level>
-  <class>modem.PageWithModem</class>
-  <method>makeGUI</method>
-  <thread>1</thread>
-  <message>-------GUi Created!-------</message>
+  <message>Started Alarm Listening Thread with initial delay of: 5 and continual delay of 5</message>
 </record>
 </log>
