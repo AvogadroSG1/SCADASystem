@@ -397,7 +397,11 @@ public final class AlertMonitoringSystem {
                     Logger.getLogger(AlertMonitoringSystem.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
-                for(Alert alert: activeAlerts) {
+                for(int i = 0; i < activeAlerts.size(); i++) {
+                    try
+                    {
+                    Alert alert = activeAlerts.get(i);
+                        
                     if(alert.isReadyToAlert()) {
                         
                         alert.incrementTimesPaged();
@@ -407,6 +411,12 @@ public final class AlertMonitoringSystem {
                         Calendar cal = Calendar.getInstance();
                         cal.add(Calendar.MINUTE, 15); //add fifteen minutes.
                         alert.setNextAlertTime(cal);
+                    }
+                    }
+                    catch(IndexOutOfBoundsException e)
+                    {
+                        log.log(Level.SEVERE, e.getMessage());
+                        i = activeAlerts.size()+1;
                     }
                 }
             }
