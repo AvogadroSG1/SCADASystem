@@ -12,6 +12,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
+import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -32,6 +35,11 @@ public final class JLightSwitch extends AbstractButton {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 System.out.println("ON");
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(JLightSwitch.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         JPanel panel = new JPanel(new FlowLayout());
@@ -44,7 +52,6 @@ public final class JLightSwitch extends AbstractButton {
     }
     
     private static final Color DEF_COLOR = Color.gray;
-    private static final int ARC_LENGTH = 25;
     private static final String ON = "ON";
     private static final String OFF = "OFF";
     private static final Color ON_COLOR = Color.green;
@@ -53,6 +60,7 @@ public final class JLightSwitch extends AbstractButton {
     private static final int BUFFER = 10;
     
     private int titleWidth;
+    public boolean enabled = true;
     
     public JLightSwitch() {
         this("", DEF_COLOR);
@@ -86,7 +94,18 @@ public final class JLightSwitch extends AbstractButton {
                 if(isEnabled()) {
                     setEnabled(false);
                     setSelected(!isSelected());
-                    repaint();
+                    try {
+                        SwingUtilities.invokeAndWait(new Runnable() {
+                            @Override
+                            public void run() {
+                                repaint();
+                            }
+                        });
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(JLightSwitch.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InvocationTargetException ex) {
+                        Logger.getLogger(JLightSwitch.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     ActionEvent e = new ActionEvent(JLightSwitch.this, 0, JLightSwitch.this.getActionCommand());
                     fireActionPerformed(e);
                     setEnabled(true);
@@ -107,7 +126,17 @@ public final class JLightSwitch extends AbstractButton {
             setBackground(OFF_COLOR);
         }
     }
+    
+    @Override
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+    
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(pWidth + titleWidth, pHeight);

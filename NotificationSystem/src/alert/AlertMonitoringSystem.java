@@ -29,13 +29,10 @@ import util.LogListener;
  */
 public final class AlertMonitoringSystem {
     
-    private static final String IP_PROPERTY = "alertServerIP", PORT_PROPERTY = "alertServerPort";
-
-    
-    private AlertMonitoringPanel parent; //incase the AMS becomes a GUI later, we can have a parent for JOptionPanes
+    private AlertMonitoringPanel parent;
     
     private AlertMonitorThread amt;
-    Logger log = Logger.getGlobal();
+    private Logger log = Logger.getGlobal();
     
     private Stack<AlertListener> alertListeners = new Stack();
     private Stack<LogListener> logListeners = new Stack();
@@ -49,7 +46,7 @@ public final class AlertMonitoringSystem {
      * 
      * @throws IOException when the config file cannot be found or there is a read error
      */
-    public AlertMonitoringSystem() throws IOException {
+    public AlertMonitoringSystem() {
         super();
         
         amt = new AlertMonitorThread(this);

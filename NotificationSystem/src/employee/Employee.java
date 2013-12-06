@@ -120,14 +120,4 @@ public final class Employee implements Comparable<Employee>{
     public void goDownPriority() {
         priority++;
     }
-    
-    public static String timeFormat(double time) {
-        int hours = (int) time;
-        time -= hours;
-        int minutes = (int) (time * 60.0);
-        NumberFormat format = new DecimalFormat("00");
-        String hoursText = format.format(hours);
-        String minutesText = format.format(minutes);
-        return "" + hoursText + ":" + minutesText;
-    }
 }

@@ -26,22 +26,20 @@ import washcoscadaserver.SCADAServer;
 public class ServerGUI extends JFrame {
     
     private final SCADAServer server;
-    private final PagingSystem ps;
     
-    private PagingGUI pageGUI;
     private JButton clearAllButton;
     private JLightSwitch checkAlarmSwitch, pageSwitch;
     private SCADAJTree tree;
     private SiteStatusList list;
+    private NotificationSystemPanel notificationPanel;
     
     private Thread checking;
     
-    private GridBagConstraints pageConstr, mainConstr, treeConstr;
+    private GridBagConstraints notifyConstr, mainConstr, treeConstr;
     
-    public ServerGUI(PagingSystem ps) {
+    public ServerGUI(SCADAServer server) {
         super("SCADA System");
-        server = SCADARunner.getServer();
-        this.ps = ps;
+        this.server = server;
         init();
     }
     
@@ -58,7 +56,7 @@ public class ServerGUI extends JFrame {
         
         JScrollPane treeScroll = new JScrollPane(tree);
         
-        pageGUI = server.getPageServ().getPagingGUI();
+        notificationPanel = server.getPageServ().getNotificationSystem().getNotificationSystemPanel();
         
         checkAlarmSwitch = new JLightSwitch("Alarms");
         checkAlarmSwitch.addActionListener(new ActionListener() {
@@ -90,7 +88,7 @@ public class ServerGUI extends JFrame {
         toolbar.setLayout(new GridLayout(1, 4));
         toolbar.add(checkAlarmSwitch);
         toolbar.add(pageSwitch);
-        toolbar.add(ps.getPagingProgressPanel());
+        toolbar.add(server.getPageServ().getNotificationSystem().getPagingSystem().getPagingProgressPanel());
         toolbar.add(clearAllButton);
         
         JScrollPane scrollStatus = new JScrollPane(list);
@@ -102,7 +100,7 @@ public class ServerGUI extends JFrame {
         
         temp.add(tree, treeConstr);
         temp.add(scrollStatus, mainConstr);
-        temp.add(pageGUI, pageConstr);
+        temp.add(notificationPanel, notifyConstr);
         
         this.setLayout(new BorderLayout());
         
@@ -126,9 +124,9 @@ public class ServerGUI extends JFrame {
         server.switchPaging();
         
         if(server.getPageServ().isActive()) {
-            pageGUI.setGlassVisible(false);
+            notificationPanel.setGlassVisible(false);
         } else {
-            pageGUI.setGlassVisible(true);
+            notificationPanel.setGlassVisible(true);
         }
     }
     
@@ -137,7 +135,7 @@ public class ServerGUI extends JFrame {
     }
     
     private void setupGridBags() {
-        pageConstr = new GridBagConstraints();
+        notifyConstr = new GridBagConstraints();
         mainConstr = new GridBagConstraints();
         treeConstr = new GridBagConstraints();
         
@@ -158,13 +156,13 @@ public class ServerGUI extends JFrame {
         mainConstr.weighty = 1;
         
         
-        pageConstr.gridx = 1;
-        pageConstr.gridy = 2;
-        pageConstr.gridwidth = 3;
-        pageConstr.gridheight = 1;
-        pageConstr.fill = GridBagConstraints.BOTH;
-        pageConstr.weightx = 1;
-        pageConstr.weighty = 0.5;
+        notifyConstr.gridx = 1;
+        notifyConstr.gridy = 2;
+        notifyConstr.gridwidth = 3;
+        notifyConstr.gridheight = 1;
+        notifyConstr.fill = GridBagConstraints.BOTH;
+        notifyConstr.weightx = 1;
+        notifyConstr.weighty = 0.5;
         
     }
 }

@@ -4,7 +4,7 @@
  */
 package employee;
 
-import employee.gui.EmployeePanel;
+import gui.EmployeePanel;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;

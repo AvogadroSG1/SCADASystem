@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package employee.gui;
+package gui;
 
 import employee.Employee;
 import employee.EmployeeHandler;
@@ -14,8 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import util.Utilities;
@@ -324,8 +322,8 @@ public class EmployeePanel extends JPanel {
                         Employee employee = (Employee) o;
                         changeName(employee.getName());
                         changePager(employee.getPager());
-                        changeStart(""+ Employee.timeFormat(employee.getStartHour()));
-                        changeStop(""+Employee.timeFormat(employee.getStopHour()));
+                        changeStart(""+ Utilities.timeFormat(employee.getStartHour()));
+                        changeStop(""+Utilities.timeFormat(employee.getStopHour()));
 
                         setBackground(background);
                         setForeground(foreground);
@@ -382,8 +380,8 @@ public class EmployeePanel extends JPanel {
                     
                     DateFormat format = new SimpleDateFormat("HH:mm");
                     try {
-                        Date start = format.parse(Employee.timeFormat(employee.getStartHour()));
-                        Date stop = format.parse(Employee.timeFormat(employee.getStopHour()));
+                        Date start = format.parse(Utilities.timeFormat(employee.getStartHour()));
+                        Date stop = format.parse(Utilities.timeFormat(employee.getStopHour()));
 
                         Date minDate = format.parse("00:00");
                         Date maxDate = format.parse("23:59");
@@ -505,10 +503,6 @@ public class EmployeePanel extends JPanel {
                     double minute = cal.get(Calendar.MINUTE);
                     return hour + (minute / 60.0);
                 } 
-                
-                private void cancel() {
-                    this.dispose();
-                }
 
            
             }

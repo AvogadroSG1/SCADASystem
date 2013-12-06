@@ -4,8 +4,6 @@
  */
 package modem;
 
-import gui.PagingGUI;
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import main.NotificationSystem;
 import util.PageAndVoiceProperties;
 
 
@@ -31,7 +30,7 @@ public class PageWithModem implements Runnable, ReadListener {
     
     private PageAndVoiceProperties props;
     
-    private PagingGUI pagingGUI;
+    private NotificationSystem notificationSystem;
     
     private JobAckCodeGenerator jacg = new JobAckCodeGenerator();
     
@@ -47,19 +46,15 @@ public class PageWithModem implements Runnable, ReadListener {
         log.log(Level.INFO, "-------Making New Page and Voice Properties-------");
         props = new PageAndVoiceProperties();
         log.log(Level.INFO, "-------Properties Made-------");
-        makeGUI();
+        createNotificationSystem();
     }
 
-    private void makeGUI()
+    private void createNotificationSystem()
     {
-        try {
-            log.log(Level.INFO, "-------Making The GUI!-------");
-            pagingGUI = new PagingGUI(props);
-            log.log(Level.INFO, "-------GUi Created!-------");
-            pagingGUI.addTab("Phone", new PageAndModemPanel(this));
-        } catch (IOException ex) {
-            Logger.getLogger(PageWithModem.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        log.log(Level.INFO, "-------Making The GUI!-------");
+        notificationSystem = new NotificationSystem(props);
+        log.log(Level.INFO, "-------GUi Created!-------");
+        notificationSystem.getNotificationSystemPanel().getTabbedPane().addTab("Phone", new ModemPanel(this));
     }
     
    
@@ -164,8 +159,8 @@ public class PageWithModem implements Runnable, ReadListener {
         }
     }
           
-    public synchronized PagingGUI getPagingGUI() {
-        return pagingGUI;
+    public synchronized NotificationSystem getNotificationSystem() {
+        return notificationSystem;
     }
     
     private void resetModemConnector() {
@@ -454,22 +449,14 @@ public class PageWithModem implements Runnable, ReadListener {
         }
     }
     
-    private void configure(JFrame parent) {
-        JDialog dialog = new JDialog(parent, "Configure", true);
-        dialog.setLayout(new BorderLayout());
-        dialog.add(new PageAndModemPanel(this));
-        dialog.pack();
-        dialog.setVisible(true);
-    }
-    
-    private class PageAndModemPanel extends JPanel {
+    private class ModemPanel extends JPanel {
         
         private JLabel modemIPLabel = new JLabel(), modemPortLabel = new JLabel();
         private JButton changeMIPButton = new JButton("Change"), changeMPButton = new JButton("Change");
         
         private PageWithModem pwm;
         
-        public PageAndModemPanel(PageWithModem pwm) {
+        public ModemPanel(PageWithModem pwm) {
             super(new GridLayout(3,2,10,10));
             this.pwm = pwm;
             init();

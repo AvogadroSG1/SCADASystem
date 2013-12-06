@@ -8,7 +8,7 @@ import alert.Alert;
 import alert.AlertMonitoringSystem;
 import employee.Employee;
 import employee.EmployeeHandler;
-import employee.gui.EmployeePanel;
+import gui.EmployeePanel;
 import gui.PagingProgressPanel;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -43,13 +43,9 @@ import util.UpdateListener;
  */
 public final class PagingSystem implements AlertListener {
     
-
-    private JPanel parent;
+    private PagingSystemPanel parent;
+    private EmployeeHandler employeeHandler;
     private AlertMonitoringSystem ams;
-    private EmployeeHandler eh;
-    private Socket socket;
-    private OutputStream os;
-    private InputStream is;
     private PageAndVoiceProperties props;
     private PagingProgressPanel ppp;
     private PrintWriter pageLog;
@@ -57,15 +53,9 @@ public final class PagingSystem implements AlertListener {
     
     private Stack<LogListener> logListeners = new Stack();
     
-    private boolean retry;
-    
-    public PagingSystem(PageAndVoiceProperties props) throws IOException {
+    public PagingSystem(PageAndVoiceProperties props) {
         super();
         this.props = props;
-        eh = new EmployeeHandler();
-        ams = new AlertMonitoringSystem();
-        
-        ams.addAlertListener(this);
         
         String[] verbose = {"v"};
         dispatch(verbose);
@@ -83,51 +73,6 @@ public final class PagingSystem implements AlertListener {
         ppp = new PagingProgressPanel();
     }
     
-    /*
-    private synchronized void sendPage(Page page) {
-        try {
-            // Send message
-            System.out.println("Start sendPage to server");
-            if(os == null) {
-                throw new IOException("Unexpected error sending message");
-            }
-            System.out.println("Here's the page: " + page.toString());
-            System.out.println("Here's the checksum " + page.getCheckSum());
-            //os.write("\r".getBytes());
-            os.write(page.toString().getBytes());
-            os.flush();
-            System.out.println("Wrote to WashCo Paging Server");
-            String buffer = readBuffer();
-            System.out.println("readBuffer OK");
-            System.out.println(buffer);
-            notifyAllLogListeners("Paged " + page.getEmployee().getName());
-            
-        } catch(IOException ex) {
-            Logger.getLogger(PagingSystem.class.getName()).log(Level.SEVERE, null, ex);
-            errorRecovery(ex);
-            sendPage(page);
-        }
-        System.out.println("Finished Sending Page");
-    }*/
-    
-    private String readBuffer() throws IOException {
-        String buffer= "";
-        
-        do {
-            int i = is.read();
-            if(i == -1)
-                throw new IOException("The connection was broken.");
-
-            buffer += (char) i;
-        } while(is.available() > 0);
-        
-        return buffer;
-    }
-    
-    @Override
-    public void alertReceived(Alert alert) {
-        page(alert);
-    }
     
     protected void setIPAddress(String address) {
         props.setPagerIP(address);
@@ -182,17 +127,18 @@ public final class PagingSystem implements AlertListener {
         }
     }
     
-    public JPanel getPagingSystemPanel() {
-        return parent;
+    @Override
+    public void alertReceived(Alert alert) {
+        page(alert);
     }
     
     public void page(Alert alert) {
         
-        Employee[] employees = eh.getCurrentPrioritizedEmployees();
+        Employee[] employees = employeeHandler.getCurrentPrioritizedEmployees();
         
         int length = Math.min(employees.length, alert.getTimesPaged());
         
-        Employee[] pageEmployee = new Employee[length];;
+        Employee[] pageEmployee = new Employee[length];
 
         if(employees.length == 0) {
             notifyAllLogListeners("There are no employees on duty");
@@ -216,14 +162,17 @@ public final class PagingSystem implements AlertListener {
                     Logger.getGlobal().log(Level.SEVERE, null, ex);
                 }
             }while(!worked);
-        pageLog.println("Paged: " + employee.getName() + " with message " + alert.getMessage());
-        pageLog.flush();
-        notifyAllLogListeners("Paged: " + employee.getName() + " with message " + alert.getMessage());
+            pageLog.println("Paged: " + employee.getName() + " with message " + alert.getMessage());
+            pageLog.flush();
+            notifyAllLogListeners("Paged: " + employee.getName() + " with message " + alert.getMessage());
+            try { Thread.sleep(1000); } catch (InterruptedException ex) {}
         }
     }
             
-        
-   
+    
+    public PagingSystemPanel getPagingSystemPanel() {
+        return parent;
+    }
     
     public class PagingSystemPanel extends JPanel implements UpdateListener, LogListener {
 
@@ -312,14 +261,6 @@ public final class PagingSystem implements AlertListener {
         }
     }
     
-    public JPanel getAlertMonitorPanel() {
-        return ams.getAlertMonitoringPanel();
-    }
-    
-    public EmployeePanel getEmployeePanel() {
-        return eh.getEmployeePanel();
-    }
-    
     public PagingProgressPanel getPagingProgressPanel() {
         return ppp;
     }
@@ -351,6 +292,21 @@ public final class PagingSystem implements AlertListener {
         }
         
         
+    }
+    
+    public void setAlertMonitoringSystem(AlertMonitoringSystem ams) {
+        if(ams != null) {
+            ams.removeAlertListner(this);
+        }
+        
+        this.ams = ams;
+        
+        if(ams != null)
+            ams.addAlertListener(this);
+    }
+    
+    public void setEmployeeHandler(EmployeeHandler employeeHandler) {
+        this.employeeHandler = employeeHandler;
     }
     
 }
