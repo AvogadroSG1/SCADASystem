@@ -165,7 +165,7 @@ public final class PagingSystem implements AlertListener {
             pageLog.println("Paged: " + employee.getName() + " with message " + alert.getMessage());
             pageLog.flush();
             notifyAllLogListeners("Paged: " + employee.getName() + " with message " + alert.getMessage());
-            try { Thread.sleep(1000); } catch (InterruptedException ex) {}
+            try { Thread.sleep(5000); } catch (InterruptedException ex) {}
         }
     }
             
