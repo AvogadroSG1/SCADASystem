@@ -18,3 +18,6 @@
 *.properties
 
 *.properties
+/NotiicationSystem/nbproject/private/
+/NotiicationSystem/build/
+/NotiicationSystem/dist/
