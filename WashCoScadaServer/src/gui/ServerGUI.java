@@ -78,7 +78,7 @@ public class ServerGUI extends JFrame {
         clearAllButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                server.clearAllPages();
+                server.getPageServ().stopAllRunningPages();
             }
             
         });

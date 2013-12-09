@@ -64,10 +64,11 @@ public class SCADAServer implements SCADAUpdateListener
 
         log.log(Level.INFO, "Started Client Listening Thread.");
         this.startClientCon();
+        
         pageServ = new PageWithModem();
     }
     
-    public void startClientCon()
+    private void startClientCon()
     {
         Thread cc = new Thread(new ClientConnector());
         cc.start();
@@ -346,16 +347,6 @@ public class SCADAServer implements SCADAUpdateListener
         
     }*/
     
-    public synchronized String getInformation()
-    {
-        totalStatus = "";
-        for(SCADASite ss: sites)
-            {
-                    totalStatus += ss.getStatus();
-            }
-        return totalStatus;
-    }
-    
     public boolean isChecking()
     {
         return isChecking;
@@ -365,9 +356,7 @@ public class SCADAServer implements SCADAUpdateListener
     {
         if (pageServ != null) {
             pageServ.stop();
-            
-        } else
-        {
+        } else {
             return false;
         }
         
@@ -399,14 +388,6 @@ public class SCADAServer implements SCADAUpdateListener
             return false;
         }
 
-    }
-    
-    public void clearAllPages()
-    {
-        if(pageServ != null && pageServ.isActive())
-        {
-            pageServ.stopAllRunningPages();
-        }
     }
     
     private class ClientConnector implements Runnable

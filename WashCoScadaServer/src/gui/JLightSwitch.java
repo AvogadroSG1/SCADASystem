@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
-import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -51,32 +50,18 @@ public final class JLightSwitch extends AbstractButton {
         frame.setVisible(true);
     }
     
-    private static final Color DEF_COLOR = Color.gray;
     private static final String ON = "ON";
     private static final String OFF = "OFF";
     private static final Color ON_COLOR = Color.green;
     private static final Color OFF_COLOR = Color.red;
     private static final int pWidth = 125, pHeight = 25;
     private static final int BUFFER = 10;
+    private static final Color DEF_COLOR = Color.DARK_GRAY;
     
     private int titleWidth;
-    public boolean enabled = true;
-    
-    public JLightSwitch() {
-        this("", DEF_COLOR);
-    }
-    
-    public JLightSwitch(Color color) {
-        this("", color);
-    }
     
     public JLightSwitch(String title) {
-        this(title, DEF_COLOR);
-    }
-    
-    public JLightSwitch(String title, Color color) {
         super();
-        setForeground(color);
         setText(title);
         setFont(new JLabel().getFont());
         
@@ -88,30 +73,24 @@ public final class JLightSwitch extends AbstractButton {
         setSelected(false);
         
         addMouseListener(new MouseAdapter() {
+            private long lastInt;
             @Override
             public void mouseClicked(MouseEvent me) {
-                super.mouseClicked(me);
-                if(isEnabled()) {
-                    setEnabled(false);
-                    setSelected(!isSelected());
-                    try {
-                        SwingUtilities.invokeAndWait(new Runnable() {
-                            @Override
-                            public void run() {
-                                repaint();
-                            }
-                        });
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(JLightSwitch.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (InvocationTargetException ex) {
-                        Logger.getLogger(JLightSwitch.class.getName()).log(Level.SEVERE, null, ex);
+                //super.mouseClicked(me);
+                if(lastInt < me.getWhen()) {
+                    if(isEnabled()) {
+                        setEnabled(false);
+                        setSelected(!isSelected());
+                        new RepaintThread().start();
+                        ActionEvent e = new ActionEvent(JLightSwitch.this, 0, JLightSwitch.this.getActionCommand());
+                        fireActionPerformed(e);
+                        setEnabled(true);
+                        new RepaintThread().start();
                     }
-                    ActionEvent e = new ActionEvent(JLightSwitch.this, 0, JLightSwitch.this.getActionCommand());
-                    fireActionPerformed(e);
-                    setEnabled(true);
-                    repaint();
-                }
+                    lastInt = System.currentTimeMillis();
+                } 
             }
+            
         });
         
     }
@@ -127,15 +106,6 @@ public final class JLightSwitch extends AbstractButton {
         }
     }
     
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
     
     @Override
     public Dimension getPreferredSize() {
@@ -147,8 +117,8 @@ public final class JLightSwitch extends AbstractButton {
         super.paintComponent(g);
         
         Dimension dim = this.getPreferredSize();
-        Color background = getBackground();
-        Color foreground = getForeground();
+        Color background = DEF_COLOR;
+        Color foreground = DEF_COLOR;
         
         g.setFont(getFont());
         FontMetrics metrics = g.getFontMetrics();
@@ -230,10 +200,18 @@ public final class JLightSwitch extends AbstractButton {
         g.fillRect(backgroundX + backgroundWidth / 2 - 1, backgroundY, 3, backgroundHeight);
         
         if(!isEnabled()) {
-            Color color = new Color(150,150,150,100);
+            Color color = new Color(150,150,150,200);
             g.setColor(color);
-            g.fillRect(0, 0, dim.width, dim.height);
+            g.fillRect(backgroundX, backgroundY, backgroundWidth, backgroundHeight);
         }
     }
     
+    private class RepaintThread extends Thread {
+        
+        public void run() {
+            System.out.println("Repainting");
+            update(getGraphics());
+            System.out.println("Repaint finished");
+        }
+    }
 }
