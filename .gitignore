@@ -18,10 +18,7 @@
 *.properties
 
 *.properties
-<<<<<<< HEAD
 /NotiicationSystem/nbproject/private/
 /NotiicationSystem/build/
 /NotiicationSystem/dist/
 /Plaza Tycoon/nbproject/private/
-=======
->>>>>>> parent of 5c573cb... Finished
