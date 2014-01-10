@@ -15,8 +15,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import main.NotificationSystem;
-import util.PageAndVoiceProperties;
 
 
 /**
