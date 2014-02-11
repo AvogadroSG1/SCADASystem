@@ -20,13 +20,7 @@ import javax.swing.JOptionPane;
  */
 public class PageAndVoiceProperties {
     
-    private static final String PAGER_IP = "Pager IP", 
-            PAGER_PORT = "Pager Port", 
-            MODEM_IP = "Modem IP", 
-            MODEM_PORT = "Modem Port",
-            SMTP_SERVER = "SMTP Server",
-            FROM_ADDRESS = "From Address";
-            
+    private static final String PAGER_IP = "Pager IP", PAGER_PORT = "Pager Port", MODEM_IP = "Modem IP", MODEM_PORT = "Modem Port";
     private static final File configFile = new File(Utilities.getMainDirPath() + "pagingsystem/" + "modemProps.cfg");
 
     private Properties props;
@@ -57,8 +51,6 @@ public class PageAndVoiceProperties {
             props.setProperty(MODEM_PORT, "-1");
             props.setProperty(PAGER_IP, "");
             props.setProperty(PAGER_PORT, "-1");
-            props.setProperty(SMTP_SERVER, "");
-            props.setProperty(FROM_ADDRESS, "");
             saveProps();
         } else {
             try {
@@ -76,9 +68,6 @@ public class PageAndVoiceProperties {
         checkPagerPort();
         checkModemIP();
         checkModemPort();
-        checkSMTP();
-        checkFromAddress();
-        saveProps();
     }
     
     private void saveProps() {
@@ -119,20 +108,6 @@ public class PageAndVoiceProperties {
         saveProps();
     }
     
-    public void setSMTPServer(String serverAddress) {
-        props.setProperty(SMTP_SERVER, serverAddress);
-        
-        checkSMTP();
-        saveProps();
-    }
-    
-    public void setFromAddress(String fromAddress) {
-        props.setProperty(FROM_ADDRESS, fromAddress);
-        
-        checkFromAddress();
-        saveProps();
-    }
-    
     public String getPagerIP() {
         return props.getProperty(PAGER_IP);
     }
@@ -147,14 +122,6 @@ public class PageAndVoiceProperties {
     
     public int getModemPort() {
         return Integer.parseInt(props.getProperty(MODEM_PORT));
-    }
-    
-    public String getSMTPServer() {
-        return props.getProperty(SMTP_SERVER);
-    }
-    
-    public String getFromAddress() { 
-        return props.getProperty(FROM_ADDRESS);
     }
     
     private void checkPagerIP() {
@@ -182,20 +149,6 @@ public class PageAndVoiceProperties {
         while(((String)props.getProperty(MODEM_PORT)).equals("") || !isValidPort(Integer.parseInt(props.getProperty(MODEM_PORT)))) {
             String port = JOptionPane.showInputDialog("Enter Phone Modem Port".trim());
             props.setProperty(MODEM_PORT, port);
-        }
-    }
-    
-    private void checkSMTP() {
-        while(((String)props.getProperty(SMTP_SERVER)).equals("") || !isValidSMTP(props.getProperty(SMTP_SERVER))) {
-            String smtp = JOptionPane.showInputDialog("Enter SMTP Server".trim());
-            props.setProperty(SMTP_SERVER, smtp);
-        }
-    }
-    
-    private void checkFromAddress() {
-        while(((String)props.getProperty(FROM_ADDRESS)).equals("") || !isValidFromAddress(props.getProperty(FROM_ADDRESS))) {
-            String from = JOptionPane.showInputDialog("Enter Email From Address".trim());
-            props.setProperty(FROM_ADDRESS, from);
         }
     }
     
@@ -227,17 +180,4 @@ public class PageAndVoiceProperties {
  
     }
     
-    private boolean isValidSMTP(String smtp) {
-        if(smtp == null || smtp.equals(""))
-            return false;
-        
-        return true;
-    }
-    
-    private boolean isValidFromAddress(String from) {
-        if(from == null || from.equals(""))
-            return false;
-        
-        return true;
-    }
 }

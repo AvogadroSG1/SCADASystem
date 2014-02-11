@@ -16,7 +16,7 @@ public final class Employee implements Comparable<Employee>{
     
    
     
-    private String name, pager, email; // pager should equal the ip or something to send to employee
+    private String name, pager; // pager should equal the ip or something to send to employee
     /*
      * The time the employee starts his/her shift.
      * Expressed in 24 hour format.
@@ -30,10 +30,9 @@ public final class Employee implements Comparable<Employee>{
         super();
     }
     
-    public Employee(String name, String pager, String email, double startHour, double stopHour, int priority, int dayWorking) {
+    public Employee(String name, String pager, double startHour, double stopHour, int priority, int dayWorking) {
         super();
         this.name = name;
-        this.email = email;
         this.pager = pager;
         this.startHour = startHour;
         this.stopHour = stopHour;
@@ -73,10 +72,6 @@ public final class Employee implements Comparable<Employee>{
         return pager;
     }
 
-    public String getEmail() {
-        return email;
-    }
-    
     public int getPriority() {
         return priority;
     }
@@ -113,10 +108,6 @@ public final class Employee implements Comparable<Employee>{
         this.pager = pager;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    
     public void setDayWorking(int dayWorking) {
         this.dayWorking = dayWorking;
     }
@@ -128,13 +119,5 @@ public final class Employee implements Comparable<Employee>{
     
     public void goDownPriority() {
         priority++;
-    }
-    
-    public boolean hasEmail() {
-        return email != null;
-    }
-    
-    public boolean hasPager() {
-        return pager != null;
     }
 }
