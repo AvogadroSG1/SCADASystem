@@ -158,7 +158,7 @@ public final class PagingSystem implements AlertListener {
                     page.start(); 
                     worked = true;
                 } catch (IOException ex) {
-                    errorRecovery(ex);
+                    //errorRecovery(ex);
                     Logger.getGlobal().log(Level.SEVERE, null, ex);
                 }
             }while(!worked);
