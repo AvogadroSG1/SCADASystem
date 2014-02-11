@@ -28,7 +28,7 @@ public class DummyAlertServer {
             @Override
             public void run() {
                 try {
-                    ServerSocket ss = new ServerSocket(7654);
+                    ServerSocket ss = new ServerSocket(7655);
                     Socket socket = ss.accept();
                     OutputStream os = socket.getOutputStream();
                     InputStream is = socket.getInputStream();
@@ -43,7 +43,7 @@ public class DummyAlertServer {
                 }
             }
         }).start();
-        
+        /*
         new Thread(new Runnable() {
 //PAGING
             @Override
@@ -66,7 +66,7 @@ public class DummyAlertServer {
                     Logger.getLogger(DummyAlertServer.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-        }).start();
+        }).start();*/
     }
     
     private static String readBuffer(InputStream is) throws IOException {

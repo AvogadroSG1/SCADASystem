@@ -58,12 +58,29 @@ public class EmployeeHandler {
                     String line = scanner.nextLine();
                     if(!line.trim().equals("")) {
                         String[] tokens = line.split(",");
-                        String name = tokens[0];
-                        String pager = tokens[1];
-                        double startTime = Double.parseDouble(tokens[2]);
-                        double stopTime = Double.parseDouble(tokens[3]);
-                        int priority = Integer.parseInt(tokens[4]);
-                        Employee employee = new Employee(name, pager, startTime, stopTime, priority, i + 1);
+                        Employee employee;
+                        
+                        if(tokens.length == 5) {
+                            String name = tokens[0];
+                            String pager = tokens[1];
+                            double startTime = Double.parseDouble(tokens[2]);
+                            double stopTime = Double.parseDouble(tokens[3]);
+                            int priority = Integer.parseInt(tokens[4]);
+                            employee = new Employee(name, pager, null, startTime, stopTime, priority, i + 1);
+                        } else {
+                            String name = tokens[0];
+                            String pager = tokens[1];
+                            String email = tokens[2];
+                            double startTime = Double.parseDouble(tokens[3]);
+                            double stopTime = Double.parseDouble(tokens[4]);
+                            int priority = Integer.parseInt(tokens[5]);
+                            if(pager.equals("null"))
+                                pager = null;
+                            if(email.equals("null")) 
+                                email = null;
+                            employee = new Employee(name, pager, email, startTime, stopTime, priority, i+1);
+                        }
+                        
                         allEmployees.add(employee);
                         lineStop++;
                     }
@@ -140,7 +157,17 @@ public class EmployeeHandler {
                 
                 String text;
                 for(Employee employee: daysEmployees[i]) {
-                    text = "" + employee.getName() + "," + employee.getPager() + "," + employee.getStartHour() + "," + employee.getStopHour() + "," + employee.getPriority();
+                    String name = employee.getName();
+                    String pager = employee.getPager();
+                    String email = employee.getEmail();
+                    String startHour = "" + employee.getStartHour();
+                    String stopHour = "" + employee.getStopHour();
+                    String priority = "" + employee.getPriority();
+                    if(email == null)
+                        email = "null";
+                    if(pager == null)
+                        pager = "null";
+                    text = "" + name + "," + pager + "," + email + "," + startHour + "," + stopHour + "," + priority;
                     writer.println(text);
                 }
                 

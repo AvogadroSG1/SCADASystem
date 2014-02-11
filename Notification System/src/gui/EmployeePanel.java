@@ -256,23 +256,29 @@ public class EmployeePanel extends JPanel {
                 
                 private class EmployeeListRenderer extends JPanel implements ListCellRenderer {
 
-                    private JLabel nameLabel, pagerLabel, startLabel, stopLabel;
+                    private JLabel nameLabel, pagerLabel, startLabel, stopLabel, emailLabel;
                     
                     public EmployeeListRenderer() {
-                        super(new GridLayout(2,2));
+                        super(new BorderLayout());
                         init();
                     }
                     
                     private void init() {
+                        JPanel temp = new JPanel(new GridLayout(2,2));
+                        temp.setOpaque(false);
                         nameLabel = new JLabel();
                         pagerLabel = new JLabel();
                         startLabel = new JLabel();
                         stopLabel = new JLabel();
+                        emailLabel = new JLabel();
                         
-                        this.add(nameLabel);
-                        this.add(pagerLabel);
-                        this.add(startLabel);
-                        this.add(stopLabel);
+                        temp.add(nameLabel);
+                        temp.add(pagerLabel);
+                        temp.add(startLabel);
+                        temp.add(stopLabel);
+                        
+                        this.add(temp, BorderLayout.CENTER);
+                        this.add(emailLabel, BorderLayout.SOUTH);
                         
                         this.setPreferredSize(new Dimension(400,50));
                     }
@@ -320,33 +326,18 @@ public class EmployeePanel extends JPanel {
                         }
                         
                         Employee employee = (Employee) o;
-                        changeName(employee.getName());
-                        changePager(employee.getPager());
-                        changeStart(""+ Utilities.timeFormat(employee.getStartHour()));
-                        changeStop(""+Utilities.timeFormat(employee.getStopHour()));
-
+                        nameLabel.setText("Name: " + employee.getName());
+                        pagerLabel.setText("Pager:" + employee.getPager());
+                        startLabel.setText("Shift Start: " + Utilities.timeFormat(employee.getStartHour()));
+                        stopLabel.setText("Shift Stop:" + Utilities.timeFormat(employee.getStopHour()));
+                        emailLabel.setText("Email: " + employee.getEmail());
+                        
                         setBackground(background);
                         setForeground(foreground);
 
                         repaint();
                         
                         return this;
-                    }
-                    
-                    private void changeName(String name) {
-                        nameLabel.setText("Name: " + name);
-                    }
-                    
-                    private void changePager(String pager) {
-                        pagerLabel.setText("Pager: " + pager);
-                    }
-                    
-                    private void changeStart(String start) {
-                        startLabel.setText("Shift Start: " + start);
-                    }
-                    
-                    private void changeStop(String stop) {
-                        stopLabel.setText("Shift Stop: " + stop);
                     }
                     
                 }
@@ -357,13 +348,14 @@ public class EmployeePanel extends JPanel {
 
                 private final Employee employee;
                 
-                private JLabel nameLabel = new JLabel("Employee Name"), 
-                        pagerLabel = new JLabel("Employee Pager ID"), 
-                        startHourLabel = new JLabel("Employee Start of Shift"), 
-                        stopHourLabel = new JLabel("Employee End of Shift"),
+                private final JLabel nameLabel = new JLabel("Employee Name"), 
+                        pagerLabel = new JLabel("Pager ID"), 
+                        emailLabel = new JLabel("Email Address"),
+                        startHourLabel = new JLabel("Time of Start of Shift"), 
+                        stopHourLabel = new JLabel("Time of End of Shift"),
                         dayWorkingLabel = new JLabel("Day Working");
                 
-                private JTextField nameArea, pagerIDArea;
+                private JTextField nameArea, pagerIDArea, emailArea;
                 private JSpinner startTimeSpinner, stopTimeSpinner;
                 private JComboBox dayWorkingCombo;
                 
@@ -377,6 +369,7 @@ public class EmployeePanel extends JPanel {
                     
                     nameArea = new JTextField(employee.getName());
                     pagerIDArea = new JTextField(employee.getPager());
+                    emailArea = new JTextField(employee.getEmail());
                     
                     DateFormat format = new SimpleDateFormat("HH:mm");
                     try {
@@ -412,13 +405,16 @@ public class EmployeePanel extends JPanel {
                     JPanel contentPanel = new JPanel(new BorderLayout());
                     contentPanel.setBorder(new EmptyBorder(10,10,10,10));
                     
-                    JPanel changePanel = new JPanel(new GridLayout(5, 2, 15,15));
+                    JPanel changePanel = new JPanel(new GridLayout(6, 2, 15,15));
                     
                     changePanel.add(nameLabel);
                     changePanel.add(nameArea);
                     
                     changePanel.add(pagerLabel);
                     changePanel.add(pagerIDArea);
+                    
+                    changePanel.add(emailLabel);
+                    changePanel.add(emailArea);
                     
                     changePanel.add(startHourLabel);
                     changePanel.add(startTimeSpinner);
@@ -449,6 +445,7 @@ public class EmployeePanel extends JPanel {
                 private void save() {
                     String name = nameArea.getText();
                     String page = pagerIDArea.getText();
+                    String email = emailArea.getText();
                     double startHour = getStartHour();
                     double stopHour = getStopHour();
                     int dayWorking = dayWorkingCombo.getSelectedIndex() + 1;
@@ -473,6 +470,7 @@ public class EmployeePanel extends JPanel {
                         
                     employee.setName(name);
                     employee.setPager(page);
+                    employee.setEmail(email);
                     employee.setStartHour(startHour);
                     employee.setStopHour(stopHour);
                     employee.setDayWorking(dayWorking);

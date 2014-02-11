@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2014-02-11T10:58:51</date>
+  <millis>1392134331589</millis>
+  <sequence>0</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>pagingsystem.PagingSystem</class>
+  <method>dispatch</method>
+  <thread>1</thread>
+  <message>Hai</message>
+</record>
+</log>

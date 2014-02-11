@@ -11,9 +11,11 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JRootPane;
 import javax.swing.JTabbedPane;
 import main.NotificationSystem;
+import util.PageAndVoiceProperties;
 
 /**
  *
@@ -21,6 +23,18 @@ import main.NotificationSystem;
  */
 public class NotificationSystemPanel extends JRootPane {
         
+    public static void main(String[] args) {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        PageAndVoiceProperties props = new PageAndVoiceProperties();
+        NotificationSystem system = new NotificationSystem(props);
+        NotificationSystemPanel panel = new NotificationSystemPanel(system);
+        panel.setGlassVisible(false);
+        frame.add(panel);
+        
+        frame.setVisible(true);
+    }
+    
         private JTabbedPane tabbed;
         private NotificationSystem notificationSystem;
         
@@ -34,6 +48,7 @@ public class NotificationSystemPanel extends JRootPane {
             tabbed = new JTabbedPane();
 
             tabbed.addTab("Paging", notificationSystem.getPagingSystem().getPagingSystemPanel());
+            tabbed.addTab("Email", notificationSystem.getEmailSystem().getEmailSystemPanel());
             tabbed.addTab("Alerts", notificationSystem.getAlertMonitoringSystem().getAlertMonitoringPanel());
             tabbed.addTab("Employees",notificationSystem.getEmployeeHandler().getEmployeePanel());
 
