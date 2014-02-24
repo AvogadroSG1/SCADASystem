@@ -70,7 +70,7 @@ public class ClientConnection
         return false;
     }
     
-    public void printSite(SCADASite site) throws IOException
+    public void printSite(SerializableSite site) throws IOException
     {
         out.writeObject(site);
     }

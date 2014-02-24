@@ -6,3 +6,7 @@
 WashCoScadaServer/build/built-jar.properties
 
 *.properties
+
+*.xml
+/test/nbproject/private/
+/test/build/

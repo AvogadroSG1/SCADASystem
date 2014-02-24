@@ -19,7 +19,7 @@ import net.wimpi.modbus.util.*;
  *
  * @author Avogadro
  */
-public class SCADASite implements Serializable, Comparable
+public class SCADASite implements Comparable
 {
     private String name, statusString, critInfo;
     private double lon, lat;
@@ -40,7 +40,7 @@ public class SCADASite implements Serializable, Comparable
     private boolean justDisconnected = false;
     private Status status = new Status();  
     
-    
+    private final SerializableSite serializable;
     
     public SCADASite(int aId, String aName, String aLat, String aLon, ArrayList<SCADAComponent> scs)
     {
@@ -53,6 +53,8 @@ public class SCADASite implements Serializable, Comparable
         startdis = -1;
         date = new Date();
         alerts = new ArrayList<Alert>();
+        
+        serializable = new SerializableSite(aId, aName, aLat, aLon, scs, status, alerts);
     }
     
     //Returns the SCADAComponents
@@ -225,7 +227,9 @@ public class SCADASite implements Serializable, Comparable
                         //Got through connections
                         date = new Date();
                         justDisconnected = false;
+                        serializable.setJustDisconnected(false);
                         connected = true;
+                        serializable.setConnected(true);
                         startdis = -1;
                         
                         mbm.disconnect();
@@ -238,8 +242,10 @@ public class SCADASite implements Serializable, Comparable
                         
                         if(!justDisconnected) { //if just disconnected
                             justDisconnected = true;
+                            serializable.setJustDisconnected(true);
                         } else {
                             justDisconnected = false;
+                            serializable.setJustDisconnected(false);
                         }
                         
                         status.setStatusCode(Status.WARNING);
@@ -248,6 +254,7 @@ public class SCADASite implements Serializable, Comparable
                                 dateFormat.format(date);
                         
                         connected = false;
+                        serializable.setConnected(false);
                         siteid = components.size();
                     }
                 }
@@ -397,7 +404,7 @@ public class SCADASite implements Serializable, Comparable
         }
     }
     
-    private class CheckThread extends Thread {
+    private class CheckThread extends Thread{
         
         @Override
         public void run() {
@@ -422,5 +429,9 @@ public class SCADASite implements Serializable, Comparable
     
     public void stopChecking() {
         checkThread.interrupt();
+    }
+    
+    public SerializableSite getDataSite() {
+        return serializable;
     }
 }

@@ -5,6 +5,7 @@
 package gui;
 
 import SCADASite.SCADASite;
+import SCADASite.SerializableSite;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -47,7 +48,7 @@ public class SCADAGoogleMapPanel extends JPanel {
     }
     
     
-    public void setSCADASites(ArrayList<SCADASite> sites) {
+    public void setSCADASites(ArrayList<SerializableSite> sites) {
         // remove all previous markers
         Marker[] markers = googleMap.getMarkers();
         for(Marker marker: markers) {
@@ -57,7 +58,7 @@ public class SCADAGoogleMapPanel extends JPanel {
         //then add the new ones
         markers = new Marker[sites.size()];
         for(int i = 0; i < markers.length; i++) {
-            SCADASite site = sites.get(i);
+            SerializableSite site = sites.get(i);
             
             String color;
             

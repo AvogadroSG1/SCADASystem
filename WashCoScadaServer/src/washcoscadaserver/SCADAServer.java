@@ -280,14 +280,14 @@ public class SCADAServer implements SCADAUpdateListener
             {
 
                 log.log(Level.FINE, site.getStatus());
-                oos.printSite(site);
+                oos.printSite(site.getDataSite());
             }catch (IOException ex)
             {
                 log.log(Level.SEVERE, "Printing to client:" + oos.getIP() + " failed.");
                 log.log(Level.SEVERE, ex.toString());
             }
             
-            
+            /*
             try 
             {
                 oos.printString("End Sites");
@@ -299,7 +299,7 @@ public class SCADAServer implements SCADAUpdateListener
                 log.log(Level.SEVERE, se.toString());
                 oos.connectionProblem();
                 log.log(Level.SEVERE, "Printing End Sites didn't work.");
-            }
+            }*/
         }
         
     }
@@ -316,36 +316,6 @@ public class SCADAServer implements SCADAUpdateListener
         }
     }
     
-    /*
-    public synchronized void checkAllAlarms()
-    {
-        long startSec = System.currentTimeMillis()/1000;
-        log.log(Level.INFO, "Started Checking at: {0}", startSec);
-        for(SCADASite ss: sites)
-        {
-            log.log(Level.INFO, "Checking Site:  {0}", ss.getName());
-            ss.checkAlarms();
-            
-            if(pageServ != null && pageServ.isActive() && ss.isNewAlarm() && ss.getAlarm()) { // checks if it is a new alarm and critical
-                log.log(Level.WARNING, "About to page");
-                log.log(Level.WARNING, ss.getCritcialInfo());
-                pageServ.startPage(ss.getID(), ss.getCritcialInfo());
-                log.log(Level.WARNING, "Finished Paging");
-            }
-            
-        }
-        
-        SCADARunner.gui.updateTree(sites);
-        long endSec = System.currentTimeMillis()/1000;
-        
-        log.log(Level.INFO, "Stopped Checking at: {0}", endSec);
-        
-        this.printToClients();
-        log.log(Level.INFO, "Printed to all clients.");
-        this.removeClients();
-        log.log(Level.INFO, "Removed all nonresponsive clients.");
-        
-    }*/
     
     public boolean isChecking()
     {
@@ -407,6 +377,11 @@ public class SCADAServer implements SCADAUpdateListener
                         ClientConnection client = new ClientConnection(serverSocket.accept());
                         clients.add(client);
                         log.log(Level.INFO, "Client at: {0}", client.getIP());
+                        //send all SCADA to client for init
+                        for(SCADASite site: sites) {
+                            client.printSite(site.getDataSite());
+                        }
+                        client.printString("end");
                         connected = true;
                     } 
                     catch (IOException e) 

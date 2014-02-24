@@ -5,6 +5,7 @@
 package gui;
 
 import SCADASite.SCADASite;
+import SCADASite.SerializableSite;
 import java.util.ArrayList;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -70,9 +71,9 @@ public class SCADAJTreePrioritized extends SCADAJTree{
     */
     
     @Override
-    public void updateSCADASites(ArrayList<SCADASite> sites) {
+    public void updateSCADASites(ArrayList<SerializableSite> sites) {
         
-        for(SCADASite site: sites) { 
+        for(SerializableSite site: sites) { 
             SCADANode node = getSCADANode(site);
             if(node != null) {
                 node.removeFromParent();
@@ -92,7 +93,7 @@ public class SCADAJTreePrioritized extends SCADAJTree{
         }
     }
     
-        public SCADASite getSelected(TreeSelectionEvent tse)
+        public SerializableSite getSelected(TreeSelectionEvent tse)
         {
             DefaultMutableTreeNode node = (DefaultMutableTreeNode)
                            getLastSelectedPathComponent();

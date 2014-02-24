@@ -52,7 +52,7 @@ public class WashCoSCADAMonitor extends JFrame implements WashCoSCADAConstants, 
     private SitePanel sp;
     private InfoPanel infop;
     private Thread monitor = null;
-    private ArrayList<SCADASite> sites;
+    private ArrayList<SerializableSite> sites;
     private ArrayList<SitePoint> points;
     private boolean newDataIncomming = true;
     private boolean initSites = false;
@@ -65,7 +65,7 @@ public class WashCoSCADAMonitor extends JFrame implements WashCoSCADAConstants, 
     //private boolean gotSitesOnce = false;
     private Scanner fileIn = null;
     private int atSite;
-    private SCADASite siteToMon = null;
+    private SerializableSite siteToMon = null;
     private int siteToMonitor = -1;
     
     private JTabbedPane jtreeTabbed;
@@ -75,7 +75,7 @@ public class WashCoSCADAMonitor extends JFrame implements WashCoSCADAConstants, 
     
     public WashCoSCADAMonitor()
     {
-        sites = new ArrayList<SCADASite>();
+        sites = new ArrayList<SerializableSite>();
         points = new ArrayList<SitePoint>();
         
         setSize(new Dimension(FRAME_WIDTH,FRAME_HEIGHT));
@@ -203,13 +203,15 @@ public class WashCoSCADAMonitor extends JFrame implements WashCoSCADAConstants, 
                         scadaPrioritizedTree.updateSCADASites(sites);
                         sp.clearText();
                         sp.setText("Monitor Initialized.");
-                        return;
+                        initSites = false;
                     }
                     else
                     {
                         numSites++;
-                        SCADASite tSite = (SCADASite) temp;
+                        SerializableSite tSite = (SerializableSite) temp;
                         sites.add(tSite);
+                        
+                        log.log(Level.INFO, "Received Site: " + tSite.getName());
                         
                         int alarmInt = 0;
                         if(tSite.isCritical())
@@ -232,7 +234,8 @@ public class WashCoSCADAMonitor extends JFrame implements WashCoSCADAConstants, 
     }
     public void monitor()
     {
-                while(monitoring)
+        monitoring = true;
+        while(monitoring)
         {
             try 
             {
@@ -246,9 +249,9 @@ public class WashCoSCADAMonitor extends JFrame implements WashCoSCADAConstants, 
                         atSite = 0;
                         log.log(Level.INFO, "Got data");
                     }
-                    else if(temp instanceof SCADASite)
+                    else if(temp instanceof SerializableSite)
                     {
-                        SCADASite tSite = (SCADASite) temp;
+                        SerializableSite tSite = (SerializableSite) temp;
                         log.log(Level.FINE, "Processing site: {0}", tSite.toString());
                         log.log(Level.FINE, "Alarm status: {0}", tSite.isCritical());
                         log.log(Level.FINE, "Warning status: {0}", tSite.isWarning());
@@ -337,7 +340,7 @@ public class WashCoSCADAMonitor extends JFrame implements WashCoSCADAConstants, 
             
             for(int i = 0; i < sites.size(); i++)
             {
-                SCADASite ss = sites.get(i);
+                SerializableSite ss = sites.get(i);
                 /*
                 System.out.println("Site X: " + ss.getLon());
                 System.out.println("Site Y: " + ss.getLat());
@@ -444,7 +447,7 @@ public class WashCoSCADAMonitor extends JFrame implements WashCoSCADAConstants, 
         @Override
         public void valueChanged(TreeSelectionEvent e) 
         {
-            SCADASite ss = null;
+            SerializableSite ss = null;
             if(e.getSource().equals(scadaTree))
                 ss = scadaTree.getSelected(e);
             

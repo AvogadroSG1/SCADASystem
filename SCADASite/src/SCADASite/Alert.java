@@ -4,34 +4,36 @@
  */
 package SCADASite;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Avogadro
  */
-public class Alert
+public class Alert implements Serializable
 {
-    private final SCADASite ss;
-    private final String site;
+    private final int siteID;
+    private final String siteName;
     private final Discrete discrete;
     private final String time;
     
     
     public Alert(SCADASite aSS,Discrete aDiscrete, String aTime)
     {
-        this.ss = aSS;
-        this.site = ss.getName();
+        this.siteID = aSS.getID();
+        this.siteName = aSS.getName();
         this.discrete = aDiscrete;
         this.time = aTime;
     }
     
-    public SCADASite getSS()
+    public int getSS()
     {
-        return ss;
+        return siteID;
     }
     
     public String getSiteName()
     {
-        return site;
+        return siteName;
     }
     
     public Discrete getDiscrete()

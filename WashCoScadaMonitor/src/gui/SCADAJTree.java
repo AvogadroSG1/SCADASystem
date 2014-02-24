@@ -5,13 +5,13 @@
 package gui;
 
 import SCADASite.SCADASite;
+import SCADASite.SerializableSite;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.*;
 
 /**
@@ -33,9 +33,9 @@ public class SCADAJTree extends JTree
         
     }
     
-    public void updateSCADASites(ArrayList<SCADASite> sites) {
+    public void updateSCADASites(ArrayList<SerializableSite> sites) {
         
-        for(SCADASite site: sites) {
+        for(SerializableSite site: sites) {
             
             boolean found = false;
             
@@ -59,24 +59,24 @@ public class SCADAJTree extends JTree
         
     }
 
-    public void addSite(SCADASite site) {
+    public void addSite(SerializableSite site) {
         root.add(new SCADANode(site));
     }
     
-    public void removeSite(SCADASite site) {
+    public void removeSite(SerializableSite site) {
         SCADANode scadaNode = getSCADANode(site);
         if(scadaNode != null) {
             scadaNode.removeFromParent();
         }
     }
     
-    SCADANode getSCADANode(SCADASite site) {
+    SCADANode getSCADANode(SerializableSite site) {
         // searches the entire tree, leafs and all
         
         return searchParent(root, site);
     }
     
-    protected SCADANode searchParent(DefaultMutableTreeNode node, SCADASite site) { //returns the scadanode belonging to the site or null if not found
+    protected SCADANode searchParent(DefaultMutableTreeNode node, SerializableSite site) { //returns the scadanode belonging to the site or null if not found
         
         if(!node.isLeaf()) { //if is a directory
             DefaultMutableTreeNode[] nodes = new DefaultMutableTreeNode[node.getChildCount()];
@@ -100,13 +100,13 @@ public class SCADAJTree extends JTree
     
     class SCADANode extends DefaultMutableTreeNode {
         
-        private SCADASite site;
+        private SerializableSite site;
         
-        public SCADANode(SCADASite site) {
+        public SCADANode(SerializableSite site) {
             this.site = site;
         }
         
-        public SCADASite getSite() {
+        public SerializableSite getSite() {
             return site;
         }
     }
@@ -119,7 +119,7 @@ public class SCADAJTree extends JTree
             
             if(value instanceof SCADANode) {
                 SCADANode node = (SCADANode) value;
-                SCADASite site = node.getSite();
+                SerializableSite site = node.getSite();
                 label.setText(site.getName());
                 
                 if(site.isCritical()) {
@@ -150,7 +150,7 @@ public class SCADAJTree extends JTree
         
         
     }
-    public SCADASite getSelected(TreeSelectionEvent tse)
+    public SerializableSite getSelected(TreeSelectionEvent tse)
     {
         DefaultMutableTreeNode node = (DefaultMutableTreeNode)
                        getLastSelectedPathComponent();
