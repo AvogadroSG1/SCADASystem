@@ -56,7 +56,6 @@ public final class JLightSwitch extends AbstractButton {
     private static final Color OFF_COLOR = Color.red;
     private static final int pWidth = 125, pHeight = 25;
     private static final int BUFFER = 10;
-    private static final Color DEF_COLOR = Color.DARK_GRAY;
     
     private int titleWidth;
     
@@ -117,8 +116,8 @@ public final class JLightSwitch extends AbstractButton {
         super.paintComponent(g);
         
         Dimension dim = this.getPreferredSize();
-        Color background = DEF_COLOR;
-        Color foreground = DEF_COLOR;
+        Color background = getBackground();
+        Color foreground = Color.gray;
         
         g.setFont(getFont());
         FontMetrics metrics = g.getFontMetrics();
