@@ -9,7 +9,7 @@ import email.EmailSystem;
 import employee.EmployeeHandler;
 import gui.NotificationSystemPanel;
 import pagingsystem.PagingSystem;
-import util.PageAndVoiceProperties;
+import util.ServerProperties;
 
 /**
  *
@@ -17,7 +17,7 @@ import util.PageAndVoiceProperties;
  */
 public class NotificationSystem {
     
-    private PageAndVoiceProperties props;
+    private ServerProperties props;
     
     private PagingSystem pagingSystem;
     private EmailSystem emailSystem;
@@ -26,7 +26,7 @@ public class NotificationSystem {
     
     private NotificationSystemPanel panel;
     
-    public NotificationSystem(PageAndVoiceProperties props) {
+    public NotificationSystem(ServerProperties props) {
         super();
         this.props = props;
         init();

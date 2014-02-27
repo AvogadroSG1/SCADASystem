@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JRootPane;
 import javax.swing.JTabbedPane;
 import main.NotificationSystem;
-import util.PageAndVoiceProperties;
+import util.ServerProperties;
 
 /**
  *
@@ -26,7 +26,7 @@ public class NotificationSystemPanel extends JRootPane {
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        PageAndVoiceProperties props = new PageAndVoiceProperties();
+        ServerProperties props = new ServerProperties();
         NotificationSystem system = new NotificationSystem(props);
         NotificationSystemPanel panel = new NotificationSystemPanel(system);
         panel.setGlassVisible(false);

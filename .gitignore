@@ -25,3 +25,8 @@
 /Notification System/build/
 /JavaApplication4/nbproject/private/
 *.xml
+/NotificationSystem/nbproject/private/
+/NotificationSystem/build/
+/NotificationSystem/dist/
+/Testing/nbproject/private/
+/Testing/build/

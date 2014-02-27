@@ -8,7 +8,6 @@ import alert.Alert;
 import alert.AlertMonitoringSystem;
 import employee.Employee;
 import employee.EmployeeHandler;
-import gui.EmployeePanel;
 import gui.PagingProgressPanel;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -17,13 +16,8 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Stack;
 import java.util.logging.FileHandler;
@@ -33,7 +27,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import util.AlertListener;
 import util.LogListener;
-import util.PageAndVoiceProperties;
+import util.ServerProperties;
 import util.UpdateListener;
 
 
@@ -46,14 +40,15 @@ public final class PagingSystem implements AlertListener {
     private PagingSystemPanel parent;
     private EmployeeHandler employeeHandler;
     private AlertMonitoringSystem ams;
-    private PageAndVoiceProperties props;
+    private ServerProperties props;
     private PagingProgressPanel ppp;
     private PrintWriter pageLog;
     private static Logger log = Logger.getGlobal();
     
     private Stack<LogListener> logListeners = new Stack();
     
-    public PagingSystem(PageAndVoiceProperties props) {
+    
+    public PagingSystem(ServerProperties props) {
         super();
         this.props = props;
         
@@ -96,6 +91,7 @@ public final class PagingSystem implements AlertListener {
         }
     }
     
+    /*
     protected void errorRecovery(Exception ex) {
         final String RETRY = "Retry";
         final String CHANGE_IP = "Change IP";
@@ -125,7 +121,88 @@ public final class PagingSystem implements AlertListener {
             else
                 errorRecovery(ex);
         }
+    }*/
+    
+    protected JDialog errorRecovery(Exception ex) {
+        JButton changeIPButton = new JButton("Change IP");
+        
+        JButton changePortButton = new JButton("Change Port");
+        
+        JButton quitButton = new JButton("Quit");
+        
+        
+        Object[] options = {quitButton, changePortButton, changeIPButton};
+        final JDialog dialog =  new JOptionPane("\"Paging Server Connection Error\n" + ex.getMessage(), JOptionPane.ERROR_MESSAGE, JOptionPane.YES_NO_CANCEL_OPTION, null, options, changeIPButton).createDialog(parent, "Error Recovery");
+        dialog.setModal(false);
+        
+        changeIPButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                props.setPagerIP("");
+                dialog.dispose();
+            }
+        });
+        
+        changePortButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                props.setPagerPort(-1);
+                dialog.dispose();
+            }
+        });
+        
+        quitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int dialogResult = JOptionPane.showConfirmDialog(getPagingSystemPanel(), "Are you sure you want to quit?\n"
+                        + "All active alerts will be deleted.\n"
+                        + "If any errors are sitll active, they will alert again when the program is reopened", "Are you sure?",JOptionPane.YES_NO_OPTION);
+                if(dialogResult == JOptionPane.YES_OPTION)
+                    System.exit(4);
+                else
+                    dialog.dispose();
+            }
+        });
+        
+        return dialog;
+        /*
+        final String CHANGE_IP = "Change IP";
+        final String CHANGE_PORT = "Change Port";
+        final String QUIT = "Quit";
+
+        JButton changeIPButton = new JButton("Change IP");
+        
+        JButton changePortButton = new JButton("Change Port");
+        
+        JButton quitButton = new JButton("Quit");
+        
+        String[] options = {QUIT, CHANGE_PORT, CHANGE_IP, RETRY};
+
+        
+        int choseInt = JOptionPane.CLOSED_OPTION;
+        while(choseInt == JOptionPane.CLOSED_OPTION) {
+            choseInt = JOptionPane.showOptionDialog(parent, "Paging Server Connection Error\n"+ex.getMessage(), "Error Recovery", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, options, RETRY);
+        }
+*/
+        /*
+        String chose = options[choseInt];
+        if(chose.equals(RETRY)) {
+            // do nothing
+        } else if(chose.equals(CHANGE_IP)) {
+            props.setPagerIP("");
+        } else if(chose.equals(CHANGE_PORT)) {
+            props.setPagerPort(-1);
+        } else if(chose.equals(QUIT)) {
+            int dialogResult = JOptionPane.showConfirmDialog(this.getPagingSystemPanel(), "Are you sure you want to quit?\n"
+                    + "All active pages will be deleted.\n"
+                    + "If any errors are sitll active, they will alert again when the program is reopened", "Are you sure?",JOptionPane.YES_NO_OPTION);
+            if(dialogResult == JOptionPane.YES_OPTION)
+                System.exit(4);
+            else
+                errorRecovery(ex);
+        }*/
     }
+    
     
     @Override
     public void alertReceived(Alert alert) {
@@ -153,15 +230,24 @@ public final class PagingSystem implements AlertListener {
         for(Employee employee: pageEmployee) {
             Page page = new Page(this, employee, alert.getMessage(), props);
             boolean worked = false;
+            JDialog errorDialog = null;
             do {
                 try {
                     page.start(); 
                     worked = true;
                 } catch (IOException ex) {
-                    //errorRecovery(ex);
+                    if(errorDialog == null){ // if first time
+                        errorDialog = errorRecovery(ex);
+                    }
+                    if(!errorDialog.isVisible())
+                        errorDialog.setVisible(true);
+                    
                     Logger.getGlobal().log(Level.SEVERE, null, ex);
                 }
             }while(!worked);
+            if(errorDialog != null)
+                errorDialog.setVisible(false);
+            
             pageLog.println("Paged: " + employee.getName() + " with message " + alert.getMessage());
             pageLog.flush();
             notifyAllLogListeners("Paged: " + employee.getName() + " with message " + alert.getMessage());

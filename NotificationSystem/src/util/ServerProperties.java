@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  *l
  * @author Shawn
  */
-public class PageAndVoiceProperties {
+public class ServerProperties {
     
     private static final String PAGER_IP = "Pager IP", 
             PAGER_PORT = "Pager Port", 
@@ -31,7 +31,7 @@ public class PageAndVoiceProperties {
 
     private Properties props;
     
-    public PageAndVoiceProperties() {
+    public ServerProperties() {
         super();
         
         loadProps();
@@ -199,7 +199,7 @@ public class PageAndVoiceProperties {
         }
     }
     
-    private boolean isValidIPv4(String ip) {
+    public static boolean isValidIPv4(String ip) {
         if(ip == null || ip.equals(""))
             return false;
         
@@ -207,12 +207,12 @@ public class PageAndVoiceProperties {
             final InetAddress inet = InetAddress.getByName(ip);
             return inet.getHostAddress().equals(ip) && inet instanceof Inet4Address;
         } catch (final UnknownHostException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE); 
+            //JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE); 
             return false;
         }
     }
     
-    private boolean isValidPort(int port) {
+    public static boolean isValidPort(int port) {
         if(port == -1)
             return false;
         
@@ -221,20 +221,20 @@ public class PageAndVoiceProperties {
                 return true;
             else throw new IllegalArgumentException("Port must be between 0 and 65535");
         } catch(Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE); 
+            //JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE); 
             return false;
         }
  
     }
     
-    private boolean isValidSMTP(String smtp) {
+    public static boolean isValidSMTP(String smtp) {
         if(smtp == null || smtp.equals(""))
             return false;
         
         return true;
     }
     
-    private boolean isValidFromAddress(String from) {
+    public static boolean isValidFromAddress(String from) {
         if(from == null || from.equals(""))
             return false;
         

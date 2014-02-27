@@ -29,7 +29,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import util.AlertListener;
 import util.LogListener;
-import util.PageAndVoiceProperties;
+import util.ServerProperties;
 
 /**
  *
@@ -40,12 +40,12 @@ public class EmailSystem implements AlertListener{
     private static final String DEF_FROM_ADDRESS = "noreply@washco-md.net";
     private static final String DEF_SMTP_SERVER = "smtp.washco-md.net";
     
-    private PageAndVoiceProperties props;
+    private ServerProperties props;
     private EmailSystemPanel parent;
     private EmployeeHandler employeeHandler;
     private AlertMonitoringSystem ams;
     
-    public EmailSystem(PageAndVoiceProperties props) {
+    public EmailSystem(ServerProperties props) {
         super();
         
         this.props = props;

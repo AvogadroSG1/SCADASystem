@@ -8,7 +8,7 @@ package servutil;
  *
  * @author Shawn
  */
-public abstract class Utilities {
+public abstract class ServerUtilities {
     
     public static String getBaseDirectory() {
         return System.getProperty("user.home") + "/.scada/";

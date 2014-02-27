@@ -13,7 +13,16 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
+import shutdown.Pin;
+import shutdown.ShutdownSecurity;
 import washcoscadaserver.SCADAServer;
 
 /**
@@ -104,7 +113,8 @@ public class ServerGUI extends JFrame {
         this.add(toolbar, BorderLayout.NORTH);
         this.add(temp, BorderLayout.CENTER);
         
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new EnterPinWindowAdapter());
         this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
     }
     
@@ -160,6 +170,32 @@ public class ServerGUI extends JFrame {
         notifyConstr.fill = GridBagConstraints.BOTH;
         notifyConstr.weightx = 1;
         notifyConstr.weighty = 0.5;
+        
+    }
+    
+    private class EnterPinWindowAdapter extends WindowAdapter {
+
+        @Override
+        public void windowClosing(WindowEvent e) {
+            super.windowClosing(e);
+            try {
+                String inputPin = JOptionPane.showInputDialog(ServerGUI.this, "Enter pin for shutdown").trim();
+                
+                Pin[] pins = ShutdownSecurity.getPins();
+                if(pins.length == 0) // there are no pins, thus no security. just close
+                    System.exit(1);
+                
+                for(Pin pin: pins) {
+                    if(pin.getPin().equals(inputPin)) {
+                        String date = new SimpleDateFormat("MM-dd-yyyy hh:mm:ss").format(new Date());
+                        Logger.getGlobal().log(Level.SEVERE, pin.getPersonName() + " closed the program on " + date);
+                        System.exit(2);
+                    }
+                }
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(ServerGUI.this, "Error while opening pin file\n" + ex.getMessage());
+            }
+        }
         
     }
 }

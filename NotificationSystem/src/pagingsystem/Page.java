@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import util.PageAndVoiceProperties;
+import util.ServerProperties;
 
 /*
  * To change this template, choose Tools | Templates
@@ -23,7 +23,7 @@ import util.PageAndVoiceProperties;
  *
  * @author Avogadro
  */
-public class Page implements Runnable
+public class Page
 {
     private InputStream is = null;
     private OutputStream os = null;
@@ -44,10 +44,10 @@ public class Page implements Runnable
     private boolean sawp;
     private PagingSystem ps;
     private Employee employee;
-    private PageAndVoiceProperties props;
+    private ServerProperties props;
     private boolean loggedOff;
     
-    public Page(PagingSystem ps, Employee employee, String aMessage, PageAndVoiceProperties props)
+    public Page(PagingSystem ps, Employee employee, String aMessage, ServerProperties props)
     {
         this.ps = ps;
         this.employee = employee;
@@ -60,7 +60,7 @@ public class Page implements Runnable
         numTries = 0;
         setPagingProgressText("Sending page to " + employee.getName());
         setPagingProgress(0);
-        this.run();
+        run();
     }
         
     private void connect() throws UnknownHostException, IOException
@@ -118,7 +118,7 @@ public class Page implements Runnable
         loggedOff = true;
     }
     
-    private void reconnect() throws IOException, InterruptedException
+    private void reconnect() throws IOException
     {
         alertAllLogListeners("Starting reconnection");
         startTime = System.currentTimeMillis();
@@ -141,10 +141,9 @@ public class Page implements Runnable
             sendCR();
     }
     
-    public void run()
+    public void run()  throws UnknownHostException, IOException
     {
         while(!pageSent) {
-            try {
                 setPagingProgress(0);
                 
                 connect();
@@ -221,9 +220,7 @@ public class Page implements Runnable
                 }
                 
                 watchdog.interrupt();
-            } catch(IOException ex) {
-                ps.errorRecovery(ex); // this will only happen if and only if connect throws an exception
-            }
+            
         }
         
         setPagingProgress(100);

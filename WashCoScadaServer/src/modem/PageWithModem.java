@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import main.NotificationSystem;
-import util.PageAndVoiceProperties;
+import util.ServerProperties;
 
 
 /**
@@ -28,7 +28,7 @@ public class PageWithModem implements Runnable, ReadListener {
     private ModemConnector mc;
     private PagingPlug plug;
     
-    private PageAndVoiceProperties props;
+    private ServerProperties props;
     
     private NotificationSystem notificationSystem;
     
@@ -44,7 +44,7 @@ public class PageWithModem implements Runnable, ReadListener {
     public PageWithModem() {
         super();
         log.log(Level.INFO, "-------Making New Page and Voice Properties-------");
-        props = new PageAndVoiceProperties();
+        props = new ServerProperties();
         log.log(Level.INFO, "-------Properties Made-------");
         createNotificationSystem();
     }
