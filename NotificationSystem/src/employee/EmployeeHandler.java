@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -26,7 +29,7 @@ public class EmployeeHandler {
     private final static String[] days = Utilities.getDaysOfWeek();
     private ArrayList<Employee> allEmployees;
     private final EmployeePanel parent;
-    
+    private ScheduledExecutorService executor;
     
     
     public EmployeeHandler() {
@@ -160,8 +163,8 @@ public class EmployeeHandler {
                     String name = employee.getName();
                     String pager = employee.getPager();
                     String email = employee.getEmail();
-                    String startHour = "" + employee.getStartHour();
-                    String stopHour = "" + employee.getStopHour();
+                    String startHour = "" + employee.getStartTime().getTimeAsDecimal();
+                    String stopHour = "" + employee.getStopTime().getTimeAsDecimal();
                     String priority = "" + employee.getPriority();
                     if(email == null)
                         email = "null";
@@ -178,5 +181,6 @@ public class EmployeeHandler {
             
         }
     }
+    
 }
 

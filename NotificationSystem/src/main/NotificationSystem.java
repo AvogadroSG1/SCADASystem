@@ -4,9 +4,12 @@
  */
 package main;
 
+import alert.Alert;
 import alert.AlertMonitoringSystem;
 import email.EmailSystem;
+import employee.Employee;
 import employee.EmployeeHandler;
+import employee.OnDutyNotifier;
 import gui.NotificationSystemPanel;
 import pagingsystem.PagingSystem;
 import util.ServerProperties;
@@ -23,6 +26,7 @@ public class NotificationSystem {
     private EmailSystem emailSystem;
     private AlertMonitoringSystem alertSystem;
     private EmployeeHandler employeeHandler;
+    private OnDutyNotifier onDuty;
     
     private NotificationSystemPanel panel;
     
@@ -47,6 +51,8 @@ public class NotificationSystem {
         
         emailSystem.setAlertMonitoringSystem(alertSystem);
         emailSystem.setEmployeeHandler(employeeHandler);
+        
+        onDuty = new OnDutyNotifier(this, employeeHandler);
     }
     
     public PagingSystem getPagingSystem() {
@@ -67,5 +73,14 @@ public class NotificationSystem {
     
     public NotificationSystemPanel getNotificationSystemPanel() {
         return panel;
+    }
+    
+    public void notify(Employee employee, Alert alert) {
+        if(employee.hasEmail())
+            emailSystem.sendEmail(alert, employee);
+        
+        if(employee.hasPager())
+            pagingSystem.page(alert, employee);
+        
     }
 }

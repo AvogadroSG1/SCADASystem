@@ -206,11 +206,6 @@ public final class PagingSystem implements AlertListener {
     
     @Override
     public void alertReceived(Alert alert) {
-        page(alert);
-    }
-    
-    public void page(Alert alert) {
-        
         Employee[] employees = employeeHandler.getCurrentPrioritizedEmployees();
         
         int length = Math.min(employees.length, alert.getTimesPaged());
@@ -228,6 +223,12 @@ public final class PagingSystem implements AlertListener {
 
 
         for(Employee employee: pageEmployee) {
+            page(alert, employee);
+            try { Thread.sleep(5000); } catch (InterruptedException ex) {}
+        }
+    }
+    
+    public void page(Alert alert, Employee employee) {
             Page page = new Page(this, employee, alert.getMessage(), props);
             boolean worked = false;
             JDialog errorDialog = null;
@@ -251,8 +252,7 @@ public final class PagingSystem implements AlertListener {
             pageLog.println("Paged: " + employee.getName() + " with message " + alert.getMessage());
             pageLog.flush();
             notifyAllLogListeners("Paged: " + employee.getName() + " with message " + alert.getMessage());
-            try { Thread.sleep(5000); } catch (InterruptedException ex) {}
-        }
+            
     }
             
     

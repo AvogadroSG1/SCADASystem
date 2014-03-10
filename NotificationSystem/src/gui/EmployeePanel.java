@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import util.Time;
 import util.Utilities;
 
 /**
@@ -328,8 +329,8 @@ public class EmployeePanel extends JPanel {
                         Employee employee = (Employee) o;
                         nameLabel.setText("Name: " + employee.getName());
                         pagerLabel.setText("Pager:" + employee.getPager());
-                        startLabel.setText("Shift Start: " + Utilities.timeFormat(employee.getStartHour()));
-                        stopLabel.setText("Shift Stop:" + Utilities.timeFormat(employee.getStopHour()));
+                        startLabel.setText("Shift Start: " + employee.getStartTime().toString());
+                        stopLabel.setText("Shift Stop:" + employee.getStopTime().toString());
                         emailLabel.setText("Email: " + employee.getEmail());
                         
                         setBackground(background);
@@ -373,8 +374,8 @@ public class EmployeePanel extends JPanel {
                     
                     DateFormat format = new SimpleDateFormat("HH:mm");
                     try {
-                        Date start = format.parse(Utilities.timeFormat(employee.getStartHour()));
-                        Date stop = format.parse(Utilities.timeFormat(employee.getStopHour()));
+                        Date start = format.parse(employee.getStartTime().toString());
+                        Date stop = format.parse(employee.getStopTime().toString());
 
                         Date minDate = format.parse("00:00");
                         Date maxDate = format.parse("23:59");
@@ -471,8 +472,8 @@ public class EmployeePanel extends JPanel {
                     employee.setName(name);
                     employee.setPager(page);
                     employee.setEmail(email);
-                    employee.setStartHour(startHour);
-                    employee.setStopHour(stopHour);
+                    employee.setStartTime(new Time(startHour));
+                    employee.setStopTime(new Time(stopHour));
                     employee.setDayWorking(dayWorking);
                     handler.save();
                     this.dispose();

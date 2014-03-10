@@ -18,7 +18,7 @@ public abstract class Utilities {
     }
     
     public static String getMainDirPath() {
-        return System.getProperty("user.home") + "/.scada";
+        return System.getProperty("user.home") + "/.scada/";
     }
     
     public static String[] getDaysOfWeek() {

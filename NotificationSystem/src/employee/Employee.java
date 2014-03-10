@@ -4,9 +4,8 @@
  */
 package employee;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.Calendar;
+import util.Time;
 
 /**
  *
@@ -22,7 +21,7 @@ public final class Employee implements Comparable<Employee>{
      * Expressed in 24 hour format.
      * 8:30PM would be expressed as 19.50. 19th hour of the day; halfway through the hour.
      */
-    private double startHour, stopHour;
+    private Time startTime, stopTime;
     private int priority;
     private int dayWorking; // all should equal one of Calendar.SUNDAY, etc.
 
@@ -35,8 +34,8 @@ public final class Employee implements Comparable<Employee>{
         this.name = name;
         this.email = email;
         this.pager = pager;
-        this.startHour = startHour;
-        this.stopHour = stopHour;
+        this.startTime = new Time(startHour);
+        this.stopTime = new Time(stopHour);
         this.dayWorking = dayWorking;
         this.priority = priority;
     }
@@ -51,7 +50,7 @@ public final class Employee implements Comparable<Employee>{
         double minuteInDec = (double)minute / 60.0; // convert minutes to decimal. 30 minutes converts to 0.5
         double adjustedHour = (double)hour + minuteInDec;
         
-        if(adjustedHour >= startHour && adjustedHour <= stopHour) { //if the adjusted time is in between their hours
+        if(adjustedHour >= startTime.getTimeAsDecimal() && adjustedHour <= stopTime.getTimeAsDecimal()) { //if the adjusted time is in between their hours
             if(dayWorking == dayOfWeek)
                 return true;
         }
@@ -85,20 +84,20 @@ public final class Employee implements Comparable<Employee>{
         this.priority = priority;
     }
 
-    public double getStartHour() {
-        return startHour;
+    public Time getStartTime() {
+        return startTime;
     }
 
-    public void setStartHour(double startHour) {
-        this.startHour = startHour;
+    public void setStartTime(Time startTime) {
+        this.startTime = startTime;
     }
 
-    public double getStopHour() {
-        return stopHour;
+    public Time getStopTime() {
+        return stopTime;
     }
 
-    public void setStopHour(double stopHour) {
-        this.stopHour = stopHour;
+    public void setStopTime(Time stopTime) {
+        this.stopTime = stopTime;
     }
     
     public int getDayWorking() {

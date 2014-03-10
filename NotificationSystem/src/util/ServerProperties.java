@@ -43,7 +43,7 @@ public class ServerProperties {
             props = new Properties();
         
         if(!configFile.exists()) {
-            String makePath = configFile.getPath().replace("modemProps.cfg", "");
+            String makePath = configFile.getParentFile().getPath();
             new File(makePath).mkdirs();
             try {
                 configFile.createNewFile();

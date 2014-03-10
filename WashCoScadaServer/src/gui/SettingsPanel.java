@@ -183,6 +183,7 @@ public class SettingsPanel extends JPanel  {
         pagingConfigPanel.saveProperties();
         voiceConfigPanel.saveProperties();
         emailConfigPanel.saveProperties();
+        
     }
     
     private class SettingsTreeListener implements TreeSelectionListener {
@@ -272,6 +273,7 @@ public class SettingsPanel extends JPanel  {
         public void saveProperties() {
             props.setPagerIP(ipField.getText().trim());
             props.setPagerPort(Integer.parseInt(portField.getText().trim()));
+            System.out.println("Saved paging properties");
         }
     }
     
@@ -338,6 +340,7 @@ public class SettingsPanel extends JPanel  {
         public void saveProperties() {
             props.setSMTPServer(smtpField.getText().trim());
             props.setFromAddress(fromField.getText().trim());
+            System.out.println("Saved email properties");
         }
     }
     
@@ -356,8 +359,8 @@ public class SettingsPanel extends JPanel  {
         private void init() {
             JPanel temp1 = new JPanel(new BorderLayout());
             JPanel temp2= new JPanel(new BorderLayout());
-            ipField = new JTextField(props.getPagerIP());
-            portField = new JTextField("" + props.getPagerPort());
+            ipField = new JTextField(props.getModemIP());
+            portField = new JTextField("" + props.getModemPort());
             temp1.add(new JLabel("Voice Modem IP       "), BorderLayout.WEST);
             temp1.add(ipField, BorderLayout.CENTER);
             
@@ -409,6 +412,7 @@ public class SettingsPanel extends JPanel  {
         public void saveProperties() {
             props.setModemIP(ipField.getText().trim());
             props.setModemPort(Integer.parseInt(portField.getText().trim()));
+            System.out.println("Saved voice properties");
         }
     }
 }
