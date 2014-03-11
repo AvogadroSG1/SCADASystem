@@ -9,7 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,18 +63,38 @@ public class PageWithModem implements Runnable, ReadListener {
    
     
     private void initModem() {
-        try {
-            String ip = props.getModemIP();
-            String port = ""+props.getModemPort();
-            mc = new ModemConnector(ip, port);
-            log.log(Level.INFO, "New Modem Connector created");
-            mc.addReadListener(this);
-            log.log(Level.INFO, "Made new Read Listener");
-            mc.start();
-            log.log(Level.INFO, "Started MC");
-        } catch (IOException ex) {
-            Logger.getLogger(PageWithModem.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Voice Modem ip and port incorrect");
+        boolean completed = false;
+        while(!completed)
+        {
+            try {
+                String ip = props.getModemIP();
+                String port = ""+props.getModemPort();
+                mc = new ModemConnector(ip, port);
+                log.log(Level.INFO, "New Modem Connector created");
+                mc.addReadListener(this);
+                log.log(Level.INFO, "Made new Read Listener");
+                mc.start();
+                log.log(Level.INFO, "Started MC");
+                completed = true;
+            } catch (IOException ex) 
+            {
+                Logger.getLogger(PageWithModem.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getGlobal().log(Level.SEVERE, "Voice Modem Error");
+                File pageProbs = new File("pageProbs.txt");
+                
+                try 
+                {
+                    PrintWriter pw = new PrintWriter(pageProbs);
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    Date date = new Date();
+                    pw.append("Voice Modem Error at " + dateFormat.format(date));
+                    pw.close();
+                } catch (FileNotFoundException other) {
+                    Logger.getGlobal().log(Level.SEVERE, "Page Problem Log Couldn't be created.");
+                }
+                
+                //JOptionPane.showMessageDialog(null, "Voice Modem ip and port incorrect");
+            }
         }
     }
     
